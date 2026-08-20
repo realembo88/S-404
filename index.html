@@ -169,6 +169,15 @@
   const mmss = m => { const t=Math.max(0,Math.round((+m||0)*60));
     return String(Math.floor(t/60)).padStart(2,'0')+':'+String(t%60).padStart(2,'0'); };
 
+
+  const MAPS = {
+    Baltic_Main:'Erangel', Erangel_Main:'Erangel (alt)', Desert_Main:'Miramar',
+    Savage_Main:'Sanhok', DihorOtok_Main:'Vikendi', Tiger_Main:'Taego',
+    Kiki_Main:'Deston', Neon_Main:'Rondo', Summerland_Main:'Karakin',
+    Chimera_Main:'Paramo', Heaven_Main:'Haven', Range_Main:'Camp Jackal'
+  };
+  const mapName = raw => MAPS[raw] || (raw||'—').replace(/_Main$/,'');
+
   let ROWS = [], F = {mode:'all', persp:'all', player:'all', range:'all'};
 
   function parseCSV(text){
@@ -188,7 +197,7 @@
   function normalise(r){
     return {
       id:r.match_id, ts:new Date(r.zeitpunkt), player:r.spieler,
-      mode:(r.modus||'').toLowerCase(), persp:r.perspektive||'TPP', map:r.map||'—',
+      mode:(r.modus||'').toLowerCase(), persp:r.perspektive||'TPP', map:mapName(r.map),
       place:N(r.platz), field:N(r.teams_im_match)||25,
       kills:N(r.kills), assists:N(r.assists), knocks:N(r.knocks), hs:N(r.kopfschuesse),
       dmg:N(r.schaden), longest:N(r.weitester_kill_m), surv:N(r.ueberlebt_min),
