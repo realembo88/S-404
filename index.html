@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Clan-Statistik</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#15180F; --panel:#1E2216; --panel2:#262B1C;
+    --line:#3A412C; --line-soft:#2C3222;
+    --sand:#D8CBAE; --sand-dim:#A8A084; --muted:#7E8468;
+    --gold:#E8A33D; --cyan:#56C7D6; --red:#B94A34;
+    --disp:"Oswald","Arial Narrow","Helvetica Neue",sans-serif;
+    --mono:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;background:var(--bg)}
+  body{
+    color:var(--sand);font-family:var(--mono);font-size:13px;line-height:1.5;
+    background-image:
+      repeating-linear-gradient(90deg,rgba(255,255,255,.012) 0 1px,transparent 1px 64px),
+      repeating-linear-gradient(0deg,rgba(255,255,255,.012) 0 1px,transparent 1px 64px);
+  }
+  .wrap{max-width:1100px;margin:0 auto;padding:0 0 46px}
+  h1,h2,h3{font-family:var(--disp);font-weight:600;text-transform:uppercase;letter-spacing:.12em;margin:0}
+
+  .hdr{border-bottom:1px solid var(--line);padding:24px 20px 18px;display:flex;flex-wrap:wrap;gap:16px;align-items:flex-end;justify-content:space-between}
+  .eyebrow{font-size:10px;letter-spacing:.34em;color:var(--muted);text-transform:uppercase;margin-bottom:7px}
+  .hdr h1{font-size:32px;font-weight:700;letter-spacing:.1em;line-height:1}
+  .hdr .rt{text-align:right;font-size:10px;color:var(--muted);letter-spacing:.13em;text-transform:uppercase}
+  .hdr .rt b{display:block;font-family:var(--disp);font-size:26px;color:var(--gold);letter-spacing:.05em;line-height:1.1}
+
+  .bar{display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding:16px 20px 10px}
+  .grp{display:flex;gap:4px;flex-wrap:wrap}
+  .tab{font-family:var(--disp);font-size:11px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;
+       background:var(--panel);border:1px solid var(--line-soft);color:var(--sand-dim);padding:6px 13px;cursor:pointer}
+  .tab:hover{border-color:var(--line);color:var(--sand)}
+  .tab[aria-pressed="true"]{background:var(--gold);border-color:var(--gold);color:#15180F;font-weight:700}
+  .tab.alt[aria-pressed="true"]{background:var(--cyan);border-color:var(--cyan)}
+  .tab:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+  .sep{width:1px;height:22px;background:var(--line-soft);margin:0 5px}
+
+  .grid{display:grid;grid-template-columns:repeat(6,1fr);gap:1px;background:var(--line-soft);border:1px solid var(--line-soft);margin:8px 20px 0}
+  .cell{background:var(--panel);padding:13px 12px 12px}
+  .cell .k{font-size:9px;letter-spacing:.2em;color:var(--muted);text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .cell .v{font-family:var(--disp);font-size:26px;font-weight:600;line-height:1.15;margin-top:3px}
+  .cell .v small{font-size:12px;color:var(--muted);margin-left:2px}
+  .cell.g .v{color:var(--gold)} .cell.c .v{color:var(--cyan)}
+
+  .sec{margin:34px 20px 0}
+  .sec-h{display:flex;align-items:baseline;gap:12px;margin-bottom:11px}
+  .sec-h h2{font-size:13px}
+  .sec-h .rule{flex:1;height:1px;background:var(--line-soft)}
+  .sec-h .hint{font-size:10px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase}
+
+  table{width:100%;border-collapse:collapse;font-size:12px}
+  th{font-size:9px;letter-spacing:.17em;text-transform:uppercase;color:var(--muted);text-align:right;padding:7px 8px;border-bottom:1px solid var(--line);font-weight:400}
+  th:first-child{text-align:left}
+  td{padding:9px 8px;border-bottom:1px solid var(--line-soft);text-align:right;font-variant-numeric:tabular-nums}
+  td:first-child{text-align:left;font-family:var(--disp);letter-spacing:.08em;text-transform:uppercase;font-size:13px}
+  tbody tr:hover td{background:var(--panel)}
+  .gold{color:var(--gold)} .cyan{color:var(--cyan)} .dim{color:var(--muted)}
+  .tblwrap{overflow-x:auto}
+
+  .feed{display:flex;flex-direction:column;gap:3px}
+  .row{background:var(--panel);border-left:3px solid var(--line);display:grid;
+       grid-template-columns:52px 1fr auto;gap:12px;align-items:center;padding:9px 12px 9px 10px}
+  .row.win{border-left-color:var(--gold);background:linear-gradient(90deg,rgba(232,163,61,.10),var(--panel) 55%)}
+  .plc{font-family:var(--disp);font-size:20px;font-weight:700;text-align:center;color:var(--sand-dim);line-height:1}
+  .plc span{display:block;font-family:var(--mono);font-size:8px;letter-spacing:.13em;color:var(--muted);margin-top:2px}
+  .row.win .plc{color:var(--gold)}
+  .who{font-family:var(--disp);font-size:14px;letter-spacing:.09em;text-transform:uppercase}
+  .who em{font-style:normal;color:var(--muted);font-size:10px;font-family:var(--mono);letter-spacing:.12em;margin-left:8px}
+  .zone{height:4px;background:var(--line-soft);margin-top:6px;overflow:hidden}
+  .zone i{display:block;height:100%;background:linear-gradient(90deg,var(--cyan),#3A8FA8)}
+  .row.win .zone i{background:linear-gradient(90deg,var(--gold),#B87A22)}
+  .nums{display:flex;gap:16px}
+  .num{text-align:right}
+  .num b{display:block;font-family:var(--disp);font-size:16px;font-weight:600;line-height:1.1}
+  .num span{font-size:8px;letter-spacing:.15em;color:var(--muted);text-transform:uppercase}
+  .kill b{color:var(--red)}
+
+  .msg{margin:40px 20px;border:1px dashed var(--line);padding:26px 20px;text-align:center;color:var(--muted);font-size:12px}
+  .msg b{display:block;font-family:var(--disp);font-size:15px;letter-spacing:.15em;color:var(--sand-dim);margin-bottom:6px;text-transform:uppercase}
+  .foot{margin:34px 20px 0;padding-top:14px;border-top:1px solid var(--line-soft);font-size:10px;color:var(--muted);letter-spacing:.06em;line-height:1.7}
+
+  @media (max-width:900px){
+    .grid{grid-template-columns:repeat(3,1fr)}
+    .tblwrap table{min-width:640px}
+  }
+  @media (max-width:560px){
+    .grid{grid-template-columns:repeat(2,1fr)}
+    .hdr h1{font-size:24px}
+    .row{grid-template-columns:44px 1fr;row-gap:8px}
+    .nums{grid-column:1/-1;justify-content:space-between;gap:8px}
+  }
+  @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hdr">
+    <div>
+      <div class="eyebrow" id="stamp">Lade Daten …</div>
+      <h1>Clan-Statistik</h1>
+    </div>
+    <div class="rt"><b id="hM">–</b> erfasste Matches</div>
+  </div>
+
+  <div class="bar" id="filters" hidden>
+    <div class="grp" id="fMode"></div>
+    <div class="sep"></div>
+    <div class="grp" id="fPersp"></div>
+    <div class="sep"></div>
+    <div class="grp" id="fPlayer"></div>
+    <div class="sep"></div>
+    <div class="grp" id="fRange"></div>
+  </div>
+
+  <div id="content" hidden>
+    <div class="grid" id="grid"></div>
+
+    <div class="sec">
+      <div class="sec-h"><h2>Rangliste</h2><span class="rule"></span><span class="hint">nach Kills</span></div>
+      <div class="tblwrap"><table id="board"><thead><tr>
+        <th>Spieler</th><th>Matches</th><th>Platz 1</th><th>Top 10</th><th>Kills</th><th>K/D</th>
+        <th>Kills/Match</th><th>Ø Schaden</th><th>Kopfschuss %</th><th>Knocks</th><th>Revives</th>
+        <th>Weitester Kill</th><th>Ø Platz</th></tr></thead><tbody></tbody></table></div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-h"><h2>Aufstellungen</h2><span class="rule"></span><span class="hint">ab 3 gemeinsamen Matches</span></div>
+      <div class="tblwrap"><table id="lineups"><thead><tr>
+        <th>Team</th><th>Matches</th><th>Platz 1</th><th>Top 10</th><th>Top-10-Quote</th>
+        <th>Kills gesamt</th><th>Ø Platz</th></tr></thead><tbody></tbody></table></div>
+      <p class="dim" style="font-size:10px;margin:9px 0 0;letter-spacing:.05em">
+        Zeigt, welche Zusammensetzung am weitesten kommt. Nur Matches, in denen mindestens zwei aus dem Clan im selben Team waren.</p>
+    </div>
+
+    <div class="sec">
+      <div class="sec-h"><h2>Maps</h2><span class="rule"></span></div>
+      <div class="tblwrap"><table id="maps"><thead><tr>
+        <th>Map</th><th>Matches</th><th>Platz 1</th><th>Top-10-Quote</th><th>Kills/Match</th><th>Ø Schaden</th><th>Ø Platz</th>
+      </tr></thead><tbody></tbody></table></div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-h"><h2>Letzte Matches</h2><span class="rule"></span><span class="hint" id="feedN"></span></div>
+      <div class="feed" id="feed"></div>
+    </div>
+  </div>
+
+  <div class="msg" id="msg" hidden></div>
+
+  <div class="foot">
+    Daten aus der offiziellen PUBG-API, automatisch aktualisiert. K/D ist als Kills geteilt durch Niederlagen gerechnet.
+    Die API hält Matches nur 14 Tage vor – alles Ältere stammt aus früheren Abholungen.
+  </div>
+</div>
+
+<script>
+(function(){
+  const $ = id => document.getElementById(id);
+  const f = (v,d=0)=>(isFinite(v)?v:0).toLocaleString('de-DE',{minimumFractionDigits:d,maximumFractionDigits:d});
+  const pct = v => (isFinite(v)?v:0).toLocaleString('de-DE',{minimumFractionDigits:1,maximumFractionDigits:1})+' %';
+  const mmss = m => { const t=Math.max(0,Math.round((+m||0)*60));
+    return String(Math.floor(t/60)).padStart(2,'0')+':'+String(t%60).padStart(2,'0'); };
+
+  let ROWS = [], F = {mode:'all', persp:'all', player:'all', range:'all'};
+
+  function parseCSV(text){
+    text = text.replace(/^\uFEFF/,'').trim();
+    const lines = text.split(/\r?\n/);
+    if (lines.length < 2) return [];
+    const head = lines[0].split(';');
+    return lines.slice(1).map(l=>{
+      const c = l.split(';'), o = {};
+      head.forEach((h,i)=>{ o[h] = c[i] !== undefined ? c[i] : ''; });
+      return o;
+    }).filter(o=>o.match_id);
+  }
+
+  const N = v => { const x = parseFloat(String(v).replace(',','.')); return isFinite(x)?x:0; };
+
+  function normalise(r){
+    return {
+      id:r.match_id, ts:new Date(r.zeitpunkt), player:r.spieler,
+      mode:(r.modus||'').toLowerCase(), persp:r.perspektive||'TPP', map:r.map||'—',
+      place:N(r.platz), field:N(r.teams_im_match)||25,
+      kills:N(r.kills), assists:N(r.assists), knocks:N(r.knocks), hs:N(r.kopfschuesse),
+      dmg:N(r.schaden), longest:N(r.weitester_kill_m), surv:N(r.ueberlebt_min),
+      rev:N(r.revives), heals:N(r.heilitems), walk:N(r.zu_fuss_m), ride:N(r.gefahren_m),
+      mates:(r.mitspieler||'').split('|').filter(Boolean)
+    };
+  }
+
+  function filtered(){
+    const now = Date.now();
+    const cut = F.range==='7' ? now-7*864e5 : F.range==='30' ? now-30*864e5 : 0;
+    return ROWS.filter(r=>
+      (F.mode==='all'   || r.mode===F.mode) &&
+      (F.persp==='all'  || r.persp===F.persp) &&
+      (F.player==='all' || r.player===F.player) &&
+      (!cut || r.ts.getTime() >= cut));
+  }
+
+  function agg(list){
+    const a={m:list.length,w:0,t10:0,k:0,hs:0,as:0,kn:0,dmg:0,surv:0,rev:0,heals:0,
+             walk:0,ride:0,longest:0,best:0,placeSum:0};
+    list.forEach(r=>{
+      if(r.place===1)a.w++; if(r.place<=10&&r.place>0)a.t10++;
+      a.k+=r.kills; a.hs+=r.hs; a.as+=r.assists; a.kn+=r.knocks; a.dmg+=r.dmg;
+      a.surv+=r.surv; a.rev+=r.rev; a.heals+=r.heals; a.walk+=r.walk; a.ride+=r.ride;
+      a.longest=Math.max(a.longest,r.longest); a.best=Math.max(a.best,r.kills);
+      a.placeSum+=r.place;
+    });
+    const d=Math.max(0,a.m-a.w);
+    a.kd=d?a.k/d:a.k; a.kpm=a.m?a.k/a.m:0; a.adr=a.m?a.dmg/a.m:0;
+    a.winR=a.m?a.w/a.m*100:0; a.t10R=a.m?a.t10/a.m*100:0;
+    a.hsR=a.k?a.hs/a.k*100:0; a.avgSurv=a.m?a.surv/a.m:0; a.avgPlace=a.m?a.placeSum/a.m:0;
+    return a;
+  }
+
+  function chips(box, opts, key, alt){
+    $(box).innerHTML = opts.map(([v,l])=>
+      `<button class="tab${alt?' alt':''}" data-v="${v}" aria-pressed="${F[key]===v}">${l}</button>`).join('');
+    $(box).querySelectorAll('button').forEach(b=>b.onclick=()=>{
+      F[key]=b.dataset.v; buildChips(); render();
+    });
+  }
+
+  function buildChips(){
+    const players = [...new Set(ROWS.map(r=>r.player))].sort();
+    chips('fMode',[['all','Alle Modi'],['solo','Solo'],['duo','Duo'],['squad','Squad']],'mode');
+    chips('fPersp',[['all','TPP+FPP'],['TPP','TPP'],['FPP','FPP']],'persp',true);
+    chips('fPlayer',[['all','Clan'],...players.map(p=>[p,p])],'player');
+    chips('fRange',[['all','Gesamt'],['30','30 Tage'],['7','7 Tage']],'range',true);
+  }
+
+  function render(){
+    const L = filtered(), a = agg(L);
+    $('hM').textContent = f(ROWS.length);
+
+    const tiles=[
+      ['Matches',f(a.m),''],['Platz 1',f(a.w),'g'],['Siegquote',pct(a.winR),'g'],
+      ['Top 10',f(a.t10),''],['Top-10-Quote',pct(a.t10R),''],['Ø Platzierung',f(a.avgPlace,1),''],
+      ['Kills',f(a.k),'c'],['K/D',f(a.kd,2),'c'],['Kills pro Match',f(a.kpm,2),''],
+      ['Bestes Match',f(a.best)+'<small>Kills</small>',''],['Kopfschussquote',pct(a.hsR),''],
+      ['Weitester Kill',f(a.longest,0)+'<small>m</small>','g'],
+      ['Schaden gesamt',f(a.dmg,0),''],['Ø Schaden',f(a.adr,1),'c'],
+      ['Knocks',f(a.kn),''],['Assists',f(a.as),''],['Revives',f(a.rev),''],
+      ['Ø Überlebenszeit',mmss(a.avgSurv),''],
+      ['Zeit im Spiel',f(a.surv/60,1)+'<small>Std</small>',''],['Heilitems',f(a.heals),''],
+      ['Strecke zu Fuß',f(a.walk/1000,1)+'<small>km</small>',''],
+      ['Strecke gefahren',f(a.ride/1000,1)+'<small>km</small>',''],
+      ['Kills pro Stunde',f(a.surv?a.k/(a.surv/60):0,1),''],
+      ['Schaden je Kill',f(a.k?a.dmg/a.k:0,0),'']
+    ];
+    $('grid').innerHTML = tiles.map(([k,v,c])=>
+      `<div class="cell ${c}"><div class="k">${k}</div><div class="v">${v}</div></div>`).join('');
+
+    // Rangliste
+    const byP = {};
+    L.forEach(r=>(byP[r.player]=byP[r.player]||[]).push(r));
+    const rows = Object.entries(byP).map(([p,l])=>({p,a:agg(l)})).sort((x,y)=>y.a.k-x.a.k);
+    $('board').querySelector('tbody').innerHTML = rows.length ? rows.map(({p,a})=>`<tr>
+      <td>${p}</td><td>${f(a.m)}</td><td class="gold">${f(a.w)}</td><td>${f(a.t10)}</td>
+      <td class="cyan">${f(a.k)}</td><td>${f(a.kd,2)}</td><td>${f(a.kpm,2)}</td>
+      <td>${f(a.adr,1)}</td><td>${pct(a.hsR)}</td><td>${f(a.kn)}</td><td>${f(a.rev)}</td>
+      <td>${f(a.longest,0)} m</td><td>${f(a.avgPlace,1)}</td></tr>`).join('')
+      : '<tr><td colspan="13" class="dim">Keine Matches im gewählten Zeitraum.</td></tr>';
+
+    // Aufstellungen: pro Match+Team die Clan-Besetzung
+    const teams = {};
+    L.forEach(r=>{
+      if(!r.mates.length) return;
+      const key = [r.player,...r.mates].sort().join(' + ');
+      const t = teams[key] = teams[key] || {ids:new Set(), m:0,w:0,t10:0,kills:0,ps:0};
+      if(!t.ids.has(r.id)){ t.ids.add(r.id); t.m++; if(r.place===1)t.w++;
+        if(r.place<=10&&r.place>0)t.t10++; t.ps+=r.place; }
+      t.kills+=r.kills;
+    });
+    const tl = Object.entries(teams).filter(([,t])=>t.m>=3)
+      .map(([name,t])=>({name,...t,t10R:t.t10/t.m*100,avg:t.ps/t.m}))
+      .sort((a,b)=>b.t10R-a.t10R || b.m-a.m);
+    $('lineups').querySelector('tbody').innerHTML = tl.length ? tl.map(t=>`<tr>
+      <td style="font-size:11px">${t.name}</td><td>${f(t.m)}</td><td class="gold">${f(t.w)}</td>
+      <td>${f(t.t10)}</td><td>${pct(t.t10R)}</td><td>${f(t.kills)}</td>
+      <td>${f(t.avg,1)}</td></tr>`).join('')
+      : '<tr><td colspan="7" class="dim">Noch zu wenig gemeinsame Matches.</td></tr>';
+
+    // Maps
+    const byMap = {};
+    L.forEach(r=>(byMap[r.map]=byMap[r.map]||[]).push(r));
+    const ml = Object.entries(byMap).map(([m,l])=>({m,a:agg(l)})).sort((x,y)=>y.a.m-x.a.m);
+    $('maps').querySelector('tbody').innerHTML = ml.length ? ml.map(({m,a})=>`<tr>
+      <td style="font-size:12px">${m}</td><td>${f(a.m)}</td><td class="gold">${f(a.w)}</td>
+      <td>${pct(a.t10R)}</td><td>${f(a.kpm,2)}</td><td>${f(a.adr,1)}</td>
+      <td>${f(a.avgPlace,1)}</td></tr>`).join('')
+      : '<tr><td colspan="7" class="dim">Keine Daten.</td></tr>';
+
+    // Feed
+    const recent = L.slice().sort((x,y)=>y.ts-x.ts).slice(0,60);
+    $('feedN').textContent = recent.length ? 'neueste '+recent.length : '';
+    $('feed').innerHTML = recent.map(r=>{
+      const win = r.place===1;
+      const share = Math.max(0,Math.min(1,(r.field-r.place)/Math.max(1,r.field-1)));
+      return `<div class="row ${win?'win':''}">
+        <div class="plc">${win?'🍗':'#'+r.place}<span>${win?'PLATZ 1':'VON '+r.field}</span></div>
+        <div>
+          <div class="who">${r.player}<em>${r.mode?r.mode[0].toUpperCase()+r.mode.slice(1):''} ${r.persp} · ${r.map} · ${r.ts.toLocaleDateString('de-DE')}</em></div>
+          <div class="zone"><i style="width:${(share*100).toFixed(1)}%"></i></div>
+        </div>
+        <div class="nums">
+          <div class="num kill"><b>${f(r.kills)}</b><span>Kills</span></div>
+          <div class="num"><b>${f(r.dmg,0)}</b><span>Schaden</span></div>
+          <div class="num"><b>${mmss(r.surv)}</b><span>Überlebt</span></div>
+        </div></div>`;
+    }).join('');
+  }
+
+  function fail(title, detail){
+    $('msg').hidden = false;
+    $('msg').innerHTML = `<b>${title}</b>${detail}`;
+    $('stamp').textContent = 'Keine Daten';
+  }
+
+  fetch('pubg_matches.csv?v='+Date.now())
+    .then(r=>{ if(!r.ok) throw new Error(r.status); return r.text(); })
+    .then(t=>{
+      const raw = parseCSV(t);
+      if(!raw.length) return fail('Die CSV ist noch leer','Sobald der erste Sync gelaufen ist, erscheinen hier die Auswertungen.');
+      ROWS = raw.map(normalise).filter(r=>r.place>0 && !isNaN(r.ts));
+      const newest = ROWS.reduce((a,b)=>a.ts>b.ts?a:b).ts;
+      $('stamp').textContent = 'Letztes Match: '+newest.toLocaleString('de-DE',{dateStyle:'medium',timeStyle:'short'});
+      $('filters').hidden = false; $('content').hidden = false;
+      buildChips(); render();
+    })
+    .catch(e=>fail('pubg_matches.csv nicht gefunden',
+      'Die Datei muss im selben Ordner liegen wie diese Seite. Beim lokalen Öffnen per Doppelklick blockieren Browser das Laden – dafür einen kleinen Webserver nutzen oder die Seite über GitHub Pages aufrufen.'));
+})();
+</script>
+</body>
+</html>
