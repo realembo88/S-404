@@ -88,6 +88,21 @@
   .foot{margin:34px 20px 0;padding-top:14px;border-top:1px solid var(--line-soft);font-size:10px;color:var(--muted);letter-spacing:.06em;line-height:1.7}
 
 
+
+  /* Rollen */
+  .roles{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+  .role{background:var(--panel);border:1px solid var(--line-soft);border-top:3px solid var(--gold);padding:13px 14px 15px}
+  .role.sup{border-top-color:var(--cyan)}
+  .role.anc{border-top-color:var(--sand-dim)}
+  .role .rr{font-family:var(--disp);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+  .role .rp{font-family:var(--disp);font-size:20px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;margin:1px 0 7px}
+  .role .rt{font-size:12px;line-height:1.55;margin-bottom:9px}
+  .role .rt b{color:var(--gold);font-weight:500}
+  .role.sup .rt b{color:var(--cyan)}
+  .role .rj{font-size:11px;color:var(--sand-dim);line-height:1.5;border-top:1px solid var(--line-soft);padding-top:8px}
+  .role .rj em{font-style:normal;color:var(--cyan);font-variant-numeric:tabular-nums}
+  .role .rw{font-size:10px;color:var(--muted);margin-top:7px;line-height:1.45}
+
   /* Titel */
   .titles{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
   .title{background:var(--panel);border:1px solid var(--line-soft);border-left:3px solid var(--gold);padding:11px 13px 12px}
@@ -121,6 +136,7 @@
   @media (max-width:900px){
     .grid{grid-template-columns:repeat(3,1fr)}
     .titles{grid-template-columns:repeat(2,1fr)}
+    .roles{grid-template-columns:1fr}
     .tblwrap table{min-width:640px}
   }
   @media (max-width:560px){
@@ -177,6 +193,12 @@
     </div>
 
 
+
+    <div class="sec">
+      <div class="sec-h"><h2>Rollenvorschlag</h2><span class="rule"></span><span class="hint" id="roleBase"></span></div>
+      <div class="roles" id="roles"></div>
+      <div class="note" id="roleNote"></div>
+    </div>
     <div class="sec">
       <div class="sec-h"><h2>Titel des Hauses</h2><span class="rule"></span><span class="hint">gesamter Datenbestand, ab 5 Matches</span></div>
       <div class="titles" id="titles"></div>
@@ -256,7 +278,7 @@
       place:N(r.platz), field:N(r.teams_im_match)||25,
       kills:N(r.kills), assists:N(r.assists), knocks:N(r.knocks), hs:N(r.kopfschuesse),
       dmg:N(r.schaden), longest:N(r.weitester_kill_m), surv:N(r.ueberlebt_min),
-      rev:N(r.revives), heals:N(r.heilitems), walk:N(r.zu_fuss_m), ride:N(r.gefahren_m),
+      rev:N(r.revives), heals:N(r.heilitems), boosts:N(r.boosts), walk:N(r.zu_fuss_m), ride:N(r.gefahren_m),
       mates:(r.mitspieler||'').split('|').filter(Boolean)
     };
   }
@@ -386,6 +408,149 @@
     }).join('');
   }
 
+
+
+  // -------------------------------------------------------- Rollenzuordnung
+  // Bewusst NUR individuelle Kennzahlen. Platzierung, Top 10 und Ueberlebenszeit
+  // sind im Squad fuer alle Mitspieler identisch und taugen nicht zum Vergleich.
+  const ROLLEN = {
+    entry: {r:'Entry', k:'', t:'Macht den Kampf auf. Geht als Erster um die Ecke, sucht den ersten Knock und nimmt in Kauf, dabei selbst zuerst zu fallen.',
+      a:'Bricht Ecken erst nach gelegter Utility. Fordert Smokes und Stuns aktiv an, statt blind zu pushen. Ruft an, wen er anschlägt, damit die anderen finishen können.'},
+    entry2:{r:'Zweiter Entry', k:'', t:'Klebt am Entry. Betritt den Kampf ein bis zwei Sekunden später und räumt ab, was der Erste angeschlagen hat.',
+      a:'Teilt sich mit dem Entry dieselbe Ecke, nie eine zweite Front. Finisht Angeschlagene, bevor sie wieder hochgeholt werden. Zieht den Entry raus, wenn der fällt.'},
+    support:{r:'Support / Utility', k:'sup', t:'Hält den Laden am Laufen. Trägt Verbrauchsgüter, holt die anderen hoch und bringt das Team in die Zone.',
+      a:'Führt Extra-Heals und Wurfgeschosse mit. Geht als Zweiter oder Dritter rein, deckt die Flanke, legt Rückzugs-Smokes. Fährt und sucht das Fahrzeug.'},
+    anchor:{r:'Anchor', k:'anc', t:'Hält die Position. Geht nicht mit rein, sondern sichert, was hinter dem Team liegt.',
+      a:'Bleibt beim Push zurück und hält den Rückweg offen. Spottet Gegner und ruft Positionen. Behält die Zone im Blick. Hält im Endgame die letzte Ecke.'}
+  };
+
+  function rollenDaten(){
+    // Nur Matches mit mindestens einem Mitspieler aus dem Clan
+    const team = ROWS.filter(r=>r.mates.length>0);
+    const proMatch = {};
+    team.forEach(r=>(proMatch[r.id]=proMatch[r.id]||[]).push(r));
+
+    const st = {};
+    team.forEach(r=>{
+      const t = st[r.player] = st[r.player] || {m:0,k:0,dmg:0,kn:0,as:0,rev:0,util:0,ride:0,zero:0,share:0,hs:0};
+      t.m++; t.k+=r.kills; t.dmg+=r.dmg; t.kn+=r.knocks; t.as+=r.assists;
+      t.rev+=r.rev; t.util+=r.heals+r.boosts; t.ride+=r.ride; t.hs+=r.hs;
+      if(r.kills===0) t.zero++;
+      const teamDmg = proMatch[r.id].reduce((a,x)=>a+x.dmg,0);
+      t.share += teamDmg>0 ? r.dmg/teamDmg : 0;
+    });
+
+    Object.values(st).forEach(t=>{
+      t.dmgPM=t.dmg/t.m; t.knPM=t.kn/t.m; t.revPM=t.rev/t.m; t.utilPM=t.util/t.m;
+      t.ridePM=t.ride/t.m; t.asPM=t.as/t.m; t.sharePM=t.share/t.m; t.zeroR=t.zero/t.m;
+      t.kPM=t.k/t.m;
+    });
+    return {st, teamMatches:Object.keys(proMatch).length};
+  }
+
+  function zScores(st, key){
+    const vals = Object.values(st).map(t=>t[key]);
+    const mw = vals.reduce((a,b)=>a+b,0)/vals.length;
+    const sd = Math.sqrt(vals.reduce((a,b)=>a+(b-mw)**2,0)/vals.length) || 1;
+    const o={}; Object.entries(st).forEach(([p,t])=>o[p]=(t[key]-mw)/sd);
+    return o;
+  }
+
+  function renderRoles(){
+    const {st, teamMatches} = rollenDaten();
+    const namen = Object.keys(st).filter(p=>st[p].m>=8);
+    $('roleBase').textContent = teamMatches ? f(teamMatches)+' Teammatches' : '';
+
+    if(namen.length < 3){
+      $('roles').innerHTML = '<p class="dim" style="grid-column:1/-1">Noch zu wenig gemeinsame Matches für einen Rollenvorschlag.</p>';
+      $('roleNote').innerHTML = 'Ab acht Teammatches je Spieler wird hier ein Vorschlag berechnet.';
+      return;
+    }
+
+    const sub = {}; namen.forEach(p=>sub[p]=st[p]);
+    const Z = k=>zScores(sub,k);
+    const zShare=Z('sharePM'), zKn=Z('knPM'), zZero=Z('zeroR'), zDmg=Z('dmgPM'),
+          zRev=Z('revPM'), zUtil=Z('utilPM'), zRide=Z('ridePM'), zAs=Z('asPM');
+
+    const entryS={}, supS={};
+    namen.forEach(p=>{
+      entryS[p] = 1.2*zShare[p] + 1.0*zKn[p] + 0.8*zDmg[p] - 0.8*zZero[p];
+      supS[p]   = 1.2*zRev[p] + 1.0*zUtil[p] + 0.6*zRide[p] + 0.5*zAs[p];
+    });
+
+    // Zuteilung: staerkster Entry, dann staerkster Support aus dem Rest,
+    // vom Rest der bessere Kaempfer als zweiter Entry, der letzte als Anchor.
+    const frei = [...namen];
+    const nimm = (score, liste) => liste.reduce((a,b)=> score[b]>score[a]?b:a);
+    const entry = nimm(entryS, frei);           frei.splice(frei.indexOf(entry),1);
+    const support = nimm(supS, frei);           frei.splice(frei.indexOf(support),1);
+    let entry2=null, anchor=null;
+    if(frei.length===2){ entry2 = nimm(entryS, frei); frei.splice(frei.indexOf(entry2),1); anchor = frei[0]; }
+    else if(frei.length===1){ anchor = frei[0]; }
+
+    const zuteilung = [[entry,'entry'],[entry2,'entry2'],[support,'support'],[anchor,'anchor']]
+      .filter(([p])=>p);
+
+    const beleg = (p, rolle) => {
+      const t = st[p];
+      const bits = [];
+      if(rolle==='entry'||rolle==='entry2'){
+        bits.push(`<em>${pct(t.sharePM*100)}</em> des Teamschadens`);
+        bits.push(`<em>${f(t.knPM,2)}</em> Knocks pro Match`);
+        bits.push(`<em>${pct(t.zeroR*100)}</em> Runden ohne Kill`);
+      } else if(rolle==='support'){
+        bits.push(`<em>${f(t.revPM,2)}</em> Revives pro Match`);
+        bits.push(`<em>${f(t.utilPM,1)}</em> Heilitems und Boosts pro Match`);
+        bits.push(`<em>${f(t.ridePM/1000,2)} km</em> gefahren pro Match`);
+      } else {
+        bits.push(`<em>${pct(t.sharePM*100)}</em> des Teamschadens`);
+        bits.push(`<em>${f(t.kPM,2)}</em> Kills pro Match`);
+        bits.push(`<em>${pct(t.zeroR*100)}</em> Runden ohne Kill`);
+      }
+      return bits.join(' · ') + ` <span class="dim">(${f(t.m)} Teammatches)</span>`;
+    };
+
+    const warnung = (p, rolle) => {
+      if(rolle==='anchor') return 'Diese Rolle ist kein Ergebnis starker Zahlen, sondern die Position mit dem geringsten Druck und den klarsten Aufgaben. Ein guter Startpunkt, kein Urteil.';
+      if(st[p].m < 20) return 'Basis noch dünn – bei mehr Matches kann sich das verschieben.';
+      return '';
+    };
+
+    $('roles').innerHTML = zuteilung.map(([p,rolle])=>{
+      const R = ROLLEN[rolle];
+      const w = warnung(p, rolle);
+      return `<div class="role ${R.k}">
+        <div class="rr">${R.r}</div>
+        <div class="rp">${p}</div>
+        <div class="rt">${R.t}</div>
+        <div class="rt" style="color:var(--sand-dim)">${R.a}</div>
+        <div class="rj">${beleg(p, rolle)}</div>
+        ${w?`<div class="rw">${w}</div>`:''}</div>`;
+    }).join('');
+
+    // Vergleich Vollbesetzung gegen kleinere Gruppen
+    const proMatchGroesse = {};
+    ROWS.filter(r=>r.mates.length>0).forEach(r=>{
+      const g = r.mates.length+1;
+      const key = r.id;
+      proMatchGroesse[key] = proMatchGroesse[key] || {g, dmg:0, kills:0};
+      proMatchGroesse[key].dmg += r.dmg; proMatchGroesse[key].kills += r.kills;
+    });
+    const gr = {};
+    Object.values(proMatchGroesse).forEach(m=>{
+      const b = gr[m.g] = gr[m.g] || {n:0, dmg:0, kills:0};
+      b.n++; b.dmg+=m.dmg; b.kills+=m.kills;
+    });
+    const zeilen = Object.entries(gr).sort((a,b)=>a[0]-b[0])
+      .map(([g,b])=>`zu ${['','','zweit','dritt','viert'][g]||g}: <b>${f(b.dmg/b.n/g,0)}</b> Schaden pro Spieler und Match (${f(b.n)} Matches)`);
+
+    $('roleNote').innerHTML =
+      `Berechnet aus Schadensanteil, Knocks, Nullrunden, Revives, Verbrauchsgütern und Fahrstrecke – alles Werte,
+       die jeder Spieler selbst beeinflusst. Platzierung, Top 10 und Überlebenszeit fließen bewusst <b>nicht</b> ein:
+       Im Squad hat jeder Mitspieler denselben Platz, damit lässt sich niemand vergleichen.<br><br>
+       Nach Gruppengröße: ${zeilen.join(' · ')}.<br>
+       Verschiebt sich das Bild, verschiebt sich der Vorschlag – er wird bei jedem Sync neu gerechnet.`;
+  }
 
   // ---------------------------------------------------------- Titel des Hauses
   const MIN_MATCHES = 5;
@@ -577,7 +742,7 @@
       $('stamp').textContent = 'Letztes Match: '+newest.toLocaleString('de-DE',{dateStyle:'medium',timeStyle:'short'});
       $('filters').hidden = false; $('content').hidden = false;
       buildChips(); render();
-      renderTitles(); renderSessions(); renderHours();
+      renderRoles(); renderTitles(); renderSessions(); renderHours();
     })
     .catch(e=>fail('pubg_matches.csv nicht gefunden',
       'Die Datei muss im selben Ordner liegen wie diese Seite. Beim lokalen Öffnen per Doppelklick blockieren Browser das Laden – dafür einen kleinen Webserver nutzen oder die Seite über GitHub Pages aufrufen.'));
