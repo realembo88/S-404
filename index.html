@@ -87,12 +87,48 @@
   .msg b{display:block;font-family:var(--disp);font-size:15px;letter-spacing:.15em;color:var(--sand-dim);margin-bottom:6px;text-transform:uppercase}
   .foot{margin:34px 20px 0;padding-top:14px;border-top:1px solid var(--line-soft);font-size:10px;color:var(--muted);letter-spacing:.06em;line-height:1.7}
 
+
+  /* Titel */
+  .titles{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+  .title{background:var(--panel);border:1px solid var(--line-soft);border-left:3px solid var(--gold);padding:11px 13px 12px}
+  .title .tn{font-family:var(--disp);font-size:14px;letter-spacing:.09em;text-transform:uppercase;color:var(--gold)}
+  .title .tw{font-family:var(--disp);font-size:17px;letter-spacing:.08em;text-transform:uppercase;margin:3px 0 1px}
+  .title .tv{font-size:11px;color:var(--cyan);font-variant-numeric:tabular-nums}
+  .title .td{font-size:11px;color:var(--muted);margin-top:5px;line-height:1.45}
+
+  /* Sessions */
+  .sess{background:var(--panel);border-left:3px solid var(--line);padding:10px 13px 11px;margin-bottom:3px;
+        display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center}
+  .sess.good{border-left-color:var(--gold)}
+  .sess .sd{font-family:var(--disp);font-size:14px;letter-spacing:.09em;text-transform:uppercase}
+  .sess .sm{font-size:10px;color:var(--muted);letter-spacing:.06em;margin-top:2px}
+  .sess .sn{display:flex;gap:15px}
+  .sess .sn div{text-align:right}
+  .sess .sn b{display:block;font-family:var(--disp);font-size:16px;line-height:1.1}
+  .sess .sn span{font-size:8px;letter-spacing:.14em;color:var(--muted);text-transform:uppercase}
+
+  /* Tageszeit */
+  .hrs{display:flex;flex-direction:column;gap:6px}
+  .hr{display:grid;grid-template-columns:82px 1fr 118px;gap:11px;align-items:center}
+  .hr .hl{font-family:var(--mono);font-size:11px;color:var(--sand-dim);font-variant-numeric:tabular-nums}
+  .hr .ht{height:15px;background:var(--panel2);overflow:hidden}
+  .hr .ht i{display:block;height:100%;background:linear-gradient(90deg,var(--gold),#B87A22)}
+  .hr .hv{font-size:11px;text-align:right;color:var(--muted);font-variant-numeric:tabular-nums}
+  .hr .hv b{color:var(--sand)}
+  .note{background:var(--panel);border:1px solid var(--line-soft);padding:12px 14px;font-size:12px;line-height:1.6;margin-top:10px}
+  .note b{color:var(--gold);font-weight:500}
+
   @media (max-width:900px){
     .grid{grid-template-columns:repeat(3,1fr)}
+    .titles{grid-template-columns:repeat(2,1fr)}
     .tblwrap table{min-width:640px}
   }
   @media (max-width:560px){
     .grid{grid-template-columns:repeat(2,1fr)}
+    .titles{grid-template-columns:1fr}
+    .sess{grid-template-columns:1fr}
+    .sess .sn{justify-content:space-between}
+    .hr{grid-template-columns:70px 1fr 96px;gap:8px}
     .hdr h1{font-size:24px}
     .row{grid-template-columns:44px 1fr;row-gap:8px}
     .nums{grid-column:1/-1;justify-content:space-between;gap:8px}
@@ -140,6 +176,25 @@
         Zeigt, welche Zusammensetzung am weitesten kommt. Nur Matches, in denen mindestens zwei aus dem Clan im selben Team waren.</p>
     </div>
 
+
+    <div class="sec">
+      <div class="sec-h"><h2>Titel des Hauses</h2><span class="rule"></span><span class="hint">gesamter Datenbestand, ab 5 Matches</span></div>
+      <div class="titles" id="titles"></div>
+      <p class="dim" style="font-size:10px;margin:9px 0 0;letter-spacing:.05em">
+        Wird bei jedem Sync neu vergeben. Wer einen Titel loswerden will, muss ihn wegspielen.</p>
+    </div>
+
+    <div class="sec">
+      <div class="sec-h"><h2>Sessions</h2><span class="rule"></span><span class="hint">Pause über 45 Min. trennt den Abend</span></div>
+      <div id="sessions"></div>
+      <div class="note" id="sessNote"></div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-h"><h2>Nach Uhrzeit</h2><span class="rule"></span><span class="hint">Top-10-Quote je Zweistundenblock</span></div>
+      <div class="hrs" id="hours"></div>
+      <div class="note" id="hourNote"></div>
+    </div>
     <div class="sec">
       <div class="sec-h"><h2>Maps</h2><span class="rule"></span></div>
       <div class="tblwrap"><table id="maps"><thead><tr>
@@ -331,6 +386,181 @@
     }).join('');
   }
 
+
+  // ---------------------------------------------------------- Titel des Hauses
+  const MIN_MATCHES = 5;
+
+  function playerStats(){
+    const o = {};
+    ROWS.forEach(r=>{
+      const t = o[r.player] = o[r.player] || {m:0,k:0,dmg:0,ride:0,walk:0,heals:0,rev:0,
+        surv:0,hs:0,zero:0,zeroPlace:0,placeSum:0,longest:0,teamMatches:0};
+      t.m++; t.k+=r.kills; t.dmg+=r.dmg; t.ride+=r.ride; t.walk+=r.walk;
+      t.heals+=r.heals; t.rev+=r.rev; t.surv+=r.surv; t.hs+=r.hs;
+      t.placeSum+=r.place; t.longest=Math.max(t.longest,r.longest);
+      if(r.mates.length) t.teamMatches++;
+      if(r.kills===0){ t.zero++; t.zeroPlace+=r.place; }
+    });
+    return o;
+  }
+
+  const TITEL = [
+    {n:'Der Chauffeur', d:'Fährt mehr Meter, als die anderen laufen. Irgendwer muss das Auto ja kaputt machen.',
+     v:t=>t.ride/t.m, fmt:v=>f(v/1000,2)+' km pro Match'},
+    {n:'Der Wanderer', d:'Kennt jeden Grashalm der Insel persönlich. Fahrzeuge sind was für Angeber.',
+     v:t=>t.walk/t.m, fmt:v=>f(v/1000,2)+' km pro Match'},
+    {n:'Der Sanitäter', d:'Holt die anderen wieder hoch, statt selbst Kills zu machen. Undankbarer Job.',
+     v:t=>t.teamMatches? t.rev/t.teamMatches : 0, fmt:v=>f(v,2)+' Revives pro Teammatch'},
+    {n:'Die wandelnde Apotheke', d:'Verbraucht Verbandszeug, als gäbe es eine Flatrate. Vielleicht mal nicht getroffen werden?',
+     v:t=>t.heals/t.m, fmt:v=>f(v,2)+' Heilitems pro Match'},
+    {n:'Blaue-Zone-Abo', d:'Der höchste Anteil an Matches ganz ohne Kill. Dabeisein ist alles.',
+     v:t=>t.zero/t.m*100, fmt:v=>pct(v)+' der Matches ohne Kill'},
+    {n:'Der Kartenleser', d:'Kommt weit, ohne jemanden zu treffen. Nennt man auch: gut versteckt.',
+     v:t=>t.zero>=3 ? 100-(t.zeroPlace/t.zero) : -1, fmt:v=>'Ø Platz '+f(100-v,1)+' ohne einen Kill'},
+    {n:'Sofa-Camper', d:'Lebt lange, richtet wenig an. Der Busch ist ein sicherer Ort.',
+     v:t=>t.surv? -(t.dmg/t.surv) : -1e9, fmt:v=>f(-v,1)+' Schaden pro Minute'},
+    {n:'Die Abrissbirne', d:'Macht in der kürzesten Zeit den meisten Schaden. Subtilität war noch nie das Ding.',
+     v:t=>t.surv? t.dmg/t.surv : 0, fmt:v=>f(v,1)+' Schaden pro Minute'},
+    {n:'Der Aufräumer', d:'Meiste Kills pro Match. Zahlt dafür meistens mit einer frühen Rückkehr in die Lobby.',
+     v:t=>t.k/t.m, fmt:v=>f(v,2)+' Kills pro Match'},
+    {n:'Der Scharfschütze', d:'Der weiteste Treffer im ganzen Clan. Einmal Glück ist auch Können.',
+     v:t=>t.longest, fmt:v=>f(v,0)+' m'},
+    {n:'Der Kopfjäger', d:'Zielt konsequent nach oben. Helme sind bei ihm eine Empfehlung, keine Garantie.',
+     v:t=>t.k? t.hs/t.k*100 : 0, fmt:v=>pct(v)+' Kopfschussquote'},
+    {n:'Der Dauergast', d:'Die meisten Matches. Schlafen wird überbewertet.',
+     v:t=>t.m, fmt:v=>f(v)+' Matches'}
+  ];
+
+  function renderTitles(){
+    const st = playerStats();
+    const eligible = Object.entries(st).filter(([,t])=>t.m>=MIN_MATCHES);
+    if(!eligible.length){ $('titles').innerHTML =
+      '<p class="dim" style="grid-column:1/-1">Noch zu wenig Matches für die Titelvergabe.</p>'; return; }
+    $('titles').innerHTML = TITEL.map(T=>{
+      let best=null;
+      eligible.forEach(([p,t])=>{ const v=T.v(t); if(v>-1e8 && v!==-1 && (best===null||v>best.v)) best={p,v}; });
+      if(!best) return '';
+      return `<div class="title"><div class="tn">${T.n}</div>
+        <div class="tw">${best.p}</div><div class="tv">${T.fmt(best.v)}</div>
+        <div class="td">${T.d}</div></div>`;
+    }).join('');
+  }
+
+  // ------------------------------------------------------------------ Sessions
+  const LUECKE = 45*60*1000;
+
+  function buildSessions(){
+    const byMatch = {};
+    ROWS.forEach(r=>{
+      const m = byMatch[r.id] = byMatch[r.id] || {ts:r.ts, place:r.place, kills:0, dmg:0, who:new Set(), mode:r.mode};
+      m.kills += r.kills; m.dmg += r.dmg; m.who.add(r.player);
+      if(r.ts < m.ts) m.ts = r.ts;
+    });
+    const list = Object.values(byMatch).sort((a,b)=>a.ts-b.ts);
+    const out = [];
+    list.forEach(m=>{
+      const last = out[out.length-1];
+      if(last && m.ts - last.ende <= LUECKE){
+        last.ende = m.ts; last.matches.push(m);
+      } else {
+        out.push({start:m.ts, ende:m.ts, matches:[m]});
+      }
+    });
+    return out.map(s=>{
+      const ms = s.matches;
+      const who = new Set(); ms.forEach(m=>m.who.forEach(w=>who.add(w)));
+      return {
+        start:s.start, ende:s.ende, n:ms.length,
+        wins:ms.filter(m=>m.place===1).length,
+        top10:ms.filter(m=>m.place<=10).length,
+        kills:ms.reduce((a,m)=>a+m.kills,0),
+        avg:ms.reduce((a,m)=>a+m.place,0)/ms.length,
+        who:[...who].sort(), matches:ms
+      };
+    });
+  }
+
+  function renderSessions(){
+    const S = buildSessions().filter(s=>s.n>=2).sort((a,b)=>b.start-a.start);
+    if(!S.length){ $('sessions').innerHTML='<p class="dim">Noch keine Session mit mehr als einem Match.</p>';
+      $('sessNote').innerHTML='Sobald mehr Abende erfasst sind, steht hier die Auswertung.'; return; }
+
+    $('sessions').innerHTML = S.slice(0,12).map(s=>{
+      const dauer = Math.round((s.ende-s.start)/60000);
+      return `<div class="sess ${s.wins?'good':''}">
+        <div>
+          <div class="sd">${s.start.toLocaleDateString('de-DE',{weekday:'long', day:'2-digit', month:'2-digit'})}</div>
+          <div class="sm">${s.start.toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'})}–${s.ende.toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'})}
+            · ${dauer>60?f(dauer/60,1)+' Std':dauer+' Min'} · ${s.who.join(', ')}</div>
+        </div>
+        <div class="sn">
+          <div><b>${f(s.n)}</b><span>Matches</span></div>
+          <div><b class="${s.wins?'gold':''}">${f(s.wins)}</b><span>Platz 1</span></div>
+          <div><b>${f(s.top10)}</b><span>Top 10</span></div>
+          <div><b>${f(s.kills)}</b><span>Kills</span></div>
+          <div><b>${f(s.avg,1)}</b><span>Ø Platz</span></div>
+        </div></div>`;
+    }).join('');
+
+    // Formverlauf innerhalb der Abende
+    let frueh=[], spaet=[];
+    S.filter(s=>s.n>=4).forEach(s=>{
+      const h = Math.floor(s.matches.length/2);
+      s.matches.slice(0,h).forEach(m=>frueh.push(m.place));
+      s.matches.slice(-h).forEach(m=>spaet.push(m.place));
+    });
+    const mw = a => a.length ? a.reduce((x,y)=>x+y,0)/a.length : 0;
+    if(frueh.length && spaet.length){
+      const a=mw(frueh), b=mw(spaet), diff=b-a;
+      const lang = S.reduce((x,y)=>y.n>x.n?y:x);
+      $('sessNote').innerHTML =
+        `In der ersten Hälfte eines Abends landet ihr im Schnitt auf <b>Platz ${f(a,1)}</b>, in der zweiten auf
+         <b>Platz ${f(b,1)}</b> – ${Math.abs(diff)<0.8 ? 'praktisch unverändert, die Ausdauer stimmt also.' :
+         diff>0 ? 'es geht im Lauf des Abends also messbar bergab.' : 'ihr werdet im Lauf des Abends sogar besser.'}
+         Längste Session bisher: <b>${lang.n} Matches</b> am ${lang.start.toLocaleDateString('de-DE')}.
+         Ausgewertet über ${S.filter(s=>s.n>=4).length} Abende mit mindestens vier Matches.`;
+    } else {
+      $('sessNote').innerHTML = `${S.length} Abende erfasst. Für den Formverlauf braucht es Sessions mit mindestens vier Matches.`;
+    }
+  }
+
+  // ----------------------------------------------------------------- Uhrzeiten
+  function renderHours(){
+    const B = Array.from({length:12},(_,i)=>({von:i*2, m:0, t10:0, w:0, k:0, dmg:0}));
+    const seen = new Set();
+    ROWS.forEach(r=>{
+      if(seen.has(r.id)) return; seen.add(r.id);
+      const b = B[Math.floor(r.ts.getHours()/2)];
+      b.m++; if(r.place<=10) b.t10++; if(r.place===1) b.w++;
+    });
+    ROWS.forEach(r=>{ const b=B[Math.floor(r.ts.getHours()/2)]; b.k+=r.kills; b.dmg+=r.dmg; });
+
+    const aktiv = B.filter(b=>b.m>0);
+    if(!aktiv.length){ $('hours').innerHTML='<p class="dim">Keine Daten.</p>'; $('hourNote').textContent=''; return; }
+    const maxQ = Math.max(...aktiv.map(b=>b.t10/b.m*100), 1);
+
+    $('hours').innerHTML = aktiv.map(b=>{
+      const q = b.t10/b.m*100;
+      return `<div class="hr">
+        <span class="hl">${String(b.von).padStart(2,'0')}–${String(b.von+2).padStart(2,'0')} Uhr</span>
+        <span class="ht"><i style="width:${(q/maxQ*100).toFixed(1)}%"></i></span>
+        <span class="hv"><b>${pct(q)}</b> · ${f(b.m)} M.</span></div>`;
+    }).join('');
+
+    const rele = aktiv.filter(b=>b.m>=5);
+    if(rele.length>=2){
+      const best = rele.reduce((x,y)=> (y.t10/y.m)>(x.t10/x.m)?y:x);
+      const worst= rele.reduce((x,y)=> (y.t10/y.m)<(x.t10/x.m)?y:x);
+      $('hourNote').innerHTML = `Am stärksten seid ihr zwischen <b>${String(best.von).padStart(2,'0')} und ${String(best.von+2).padStart(2,'0')} Uhr</b>
+        (${pct(best.t10/best.m*100)} Top 10 aus ${f(best.m)} Matches), am schwächsten zwischen
+        <b>${String(worst.von).padStart(2,'0')} und ${String(worst.von+2).padStart(2,'0')} Uhr</b>
+        (${pct(worst.t10/worst.m*100)} aus ${f(worst.m)} Matches).
+        Berücksichtigt sind nur Zeitblöcke mit mindestens fünf Matches – bei weniger ist der Zufall grösser als der Effekt.`;
+    } else {
+      $('hourNote').innerHTML = 'Für einen belastbaren Vergleich braucht es mindestens zwei Zeitblöcke mit je fünf Matches.';
+    }
+  }
+
   function fail(title, detail){
     $('msg').hidden = false;
     $('msg').innerHTML = `<b>${title}</b>${detail}`;
@@ -347,6 +577,7 @@
       $('stamp').textContent = 'Letztes Match: '+newest.toLocaleString('de-DE',{dateStyle:'medium',timeStyle:'short'});
       $('filters').hidden = false; $('content').hidden = false;
       buildChips(); render();
+      renderTitles(); renderSessions(); renderHours();
     })
     .catch(e=>fail('pubg_matches.csv nicht gefunden',
       'Die Datei muss im selben Ordner liegen wie diese Seite. Beim lokalen Öffnen per Doppelklick blockieren Browser das Laden – dafür einen kleinen Webserver nutzen oder die Seite über GitHub Pages aufrufen.'));
