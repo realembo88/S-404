@@ -3,7 +3,7 @@ name: PUBG Sync
 on:
   schedule:
     - cron: '*/15 15-23 * * *'   # alle 15 Min., 17–02 Uhr deutscher Zeit
-    - cron: '0 2,8,13 * * *'     # Nachzügler tagsüber
+    - cron: '0 2,6,11,13 * * *'     # Nachzügler tagsüber
   workflow_dispatch:
 
 permissions:
