@@ -2,8 +2,10 @@ name: PUBG Sync
 
 on:
   schedule:
-    - cron: '*/15 15-23 * * *'   # alle 15 Min., 17–02 Uhr deutscher Zeit
-    - cron: '0 2,6,11,13 * * *'     # Nachzügler tagsüber
+    # Stuendlich starten. Der Lauf selbst synchronisiert dann viermal
+    # im Abstand von 15 Minuten - das ist verlaesslicher als */15,
+    # weil GitHub geplante Laeufe unter Last verzoegert oder ausfallen laesst.
+    - cron: '0 * * * *'
   workflow_dispatch:
 
 permissions:
@@ -16,6 +18,7 @@ concurrency:
 jobs:
   sync:
     runs-on: ubuntu-latest
+    timeout-minutes: 55
     steps:
       - name: Repository auschecken
         uses: actions/checkout@v4
@@ -28,19 +31,34 @@ jobs:
       - name: Abhaengigkeiten installieren
         run: pip install --quiet requests
 
-      - name: Matches abholen
+      - name: Viermal synchronisieren, alle 15 Minuten
         env:
           PUBG_API_KEY: ${{ secrets.PUBG_API_KEY }}
-        run: python pubg_clan_sync.py
-
-      - name: Aenderungen committen
         run: |
-          if [ -z "$(git status --porcelain pubg_matches.csv)" ]; then
-            echo "Keine neuen Matches - nichts zu committen."
-            exit 0
-          fi
           git config user.name  "PUBG Sync Bot"
           git config user.email "actions@github.com"
-          git add pubg_matches.csv
-          git commit -m "Sync: $(date -u '+%Y-%m-%d %H:%M') UTC"
-          git push
+
+          for i in 1 2 3 4; do
+            echo "::group::Lauf $i von 4"
+
+            if python pubg_clan_sync.py; then
+              if [ -n "$(git status --porcelain pubg_matches.csv)" ]; then
+                git add pubg_matches.csv
+                git commit -m "Sync: $(date -u '+%Y-%m-%d %H:%M') UTC"
+                # Falls parallel ein anderer Lauf gepusht hat: erst nachziehen
+                git pull --rebase --autostash origin "${GITHUB_REF_NAME}" || true
+                git push || echo "Push fehlgeschlagen - naechster Lauf versucht es erneut."
+              else
+                echo "Keine neuen Matches."
+              fi
+            else
+              echo "Abholung fehlgeschlagen - naechster Lauf versucht es erneut."
+            fi
+
+            echo "::endgroup::"
+
+            if [ "$i" -lt 4 ]; then
+              echo "Warte 15 Minuten ..."
+              sleep 900
+            fi
+          done
