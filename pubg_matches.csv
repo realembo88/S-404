@@ -492,3 +492,6 @@ c4374fb3-279e-4cef-b600-66b528c2e971;2026-08-29T20:05:41Z;real_embo;Squad;TPP;Di
 5ef32ef6-a3a2-46a1-85ea-d5cc548be5e2;2026-08-29T20:30:54Z;Lacan123;Squad;TPP;Baltic_Main;24.3;17;29;16;0;0;1;0;172.5;0;9.0;0;3;3;8;1383;0;0;0;0;0;Baerli162|Thalanthyr|real_embo
 5ef32ef6-a3a2-46a1-85ea-d5cc548be5e2;2026-08-29T20:30:54Z;Baerli162;Squad;TPP;Baltic_Main;24.3;17;29;16;2;0;1;0;90.1;88.41;7.2;0;1;0;4;1026;0;0;0;0;0;Lacan123|Thalanthyr|real_embo
 5ef32ef6-a3a2-46a1-85ea-d5cc548be5e2;2026-08-29T20:30:54Z;Thalanthyr;Squad;TPP;Baltic_Main;24.3;17;29;16;0;1;0;0;0;0;7.7;0;0;0;4;813;0;0;0;0;0;Baerli162|Lacan123|real_embo
+905e9b0b-ee9a-4e8a-bf75-44650e92454b;2026-08-29T20:42:45Z;real_embo;Squad;TPP;Baltic_Main;24.9;16;26;25;0;0;0;0;0;0;4.7;0;0;0;0;58;0;0;0;0;0;Lacan123|Thalanthyr
+905e9b0b-ee9a-4e8a-bf75-44650e92454b;2026-08-29T20:42:45Z;Lacan123;Squad;TPP;Baltic_Main;24.9;16;26;25;0;0;0;0;0;0;9.5;0;0;0;6;977;4816;0;0;1;0;Thalanthyr|real_embo
+905e9b0b-ee9a-4e8a-bf75-44650e92454b;2026-08-29T20:42:45Z;Thalanthyr;Squad;TPP;Baltic_Main;24.9;16;26;25;0;0;0;0;0;0;9.5;0;0;0;7;893;3996;0;0;0;0;Lacan123|real_embo
