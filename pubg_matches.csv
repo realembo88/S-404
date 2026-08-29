@@ -477,3 +477,6 @@ c360e8e6-bddb-45bb-b831-b9dad27ea5a1;2026-08-29T18:18:39Z;real_embo;Duo;TPP;Diho
 09643572-7554-4ac7-ac38-9fec938bca9c;2026-08-29T19:01:35Z;real_embo;Duo;TPP;Chimera_Main;21.9;29;33;27;0;0;0;0;23.9;0;2.1;0;0;0;2;100;0;0;0;0;0;Lacan123
 f033895f-8eed-41d4-901d-029644cea622;2026-08-29T19:05:39Z;Lacan123;Duo;TPP;DihorOtok_Main;25.8;6;49;33;3;1;1;0;242.2;10.13;21.6;0;10;4;10;1957;9010;0;0;0;0;real_embo
 f033895f-8eed-41d4-901d-029644cea622;2026-08-29T19:05:39Z;real_embo;Duo;TPP;DihorOtok_Main;25.8;6;49;33;1;2;1;0;305.6;20.0;15.5;0;7;1;21;1853;2474;0;0;0;0;Lacan123
+e2eb1c89-7a55-4ecd-9fbb-b37edb2723f6;2026-08-29T19:33:02Z;real_embo;Squad;TPP;DihorOtok_Main;26.1;11;28;16;3;0;3;0;294.2;26.23;16.0;0;2;2;8;1795;2172;0;0;0;0;Lacan123|Thalanthyr
+e2eb1c89-7a55-4ecd-9fbb-b37edb2723f6;2026-08-29T19:33:02Z;Thalanthyr;Squad;TPP;DihorOtok_Main;26.1;11;28;16;0;1;0;0;73.8;0;15.9;1;2;3;8;1557;3041;0;0;0;0;Lacan123|real_embo
+e2eb1c89-7a55-4ecd-9fbb-b37edb2723f6;2026-08-29T19:33:02Z;Lacan123;Squad;TPP;DihorOtok_Main;26.1;11;28;16;1;0;1;0;154.6;18.04;16.0;2;1;1;7;1651;3284;0;0;0;0;Thalanthyr|real_embo
