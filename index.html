@@ -89,6 +89,23 @@
 
 
 
+
+  /* Clan-Banner */
+  .clanbox{display:flex;gap:18px;align-items:center;flex-wrap:wrap;margin-top:9px}
+  .clantag{font-family:var(--disp);font-size:13px;font-weight:700;letter-spacing:.16em;
+           background:var(--gold);color:#15180F;padding:3px 9px}
+  .clanmeta{font-size:11px;color:var(--muted);letter-spacing:.08em}
+  .clanmeta b{color:var(--sand);font-weight:400}
+
+  /* Waffen */
+  .wtop{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+  .wcard{background:var(--panel);border-left:3px solid var(--gold);padding:11px 13px 12px}
+  .wcard .wr{font-size:9px;letter-spacing:.2em;color:var(--muted);text-transform:uppercase}
+  .wcard .wn{font-family:var(--disp);font-size:19px;font-weight:600;letter-spacing:.07em;margin:2px 0 3px}
+  .wcard .ws{font-size:11px;color:var(--sand-dim);font-variant-numeric:tabular-nums}
+  .wbar{height:12px;background:var(--panel2);overflow:hidden;min-width:60px}
+  .wbar i{display:block;height:100%;background:linear-gradient(90deg,var(--cyan),#3A8FA8)}
+
   /* Rollen */
   .roles{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
   .role{background:var(--panel);border:1px solid var(--line-soft);border-top:3px solid var(--gold);padding:13px 14px 15px}
@@ -137,6 +154,7 @@
     .grid{grid-template-columns:repeat(3,1fr)}
     .titles{grid-template-columns:repeat(2,1fr)}
     .roles{grid-template-columns:1fr}
+    .wtop{grid-template-columns:1fr}
     .tblwrap table{min-width:640px}
   }
   @media (max-width:560px){
@@ -157,7 +175,8 @@
   <div class="hdr">
     <div>
       <div class="eyebrow" id="stamp">Lade Daten …</div>
-      <h1>Clan-Statistik</h1>
+      <h1 id="clanTitel">Clan-Statistik</h1>
+      <div class="clanbox" id="clanBox" hidden></div>
     </div>
     <div class="rt"><b id="hM">–</b> erfasste Matches</div>
   </div>
@@ -217,6 +236,19 @@
       <div class="hrs" id="hours"></div>
       <div class="note" id="hourNote"></div>
     </div>
+
+    <div class="sec" id="wSec" hidden>
+      <div class="sec-h"><h2>Waffen</h2><span class="rule"></span><span class="hint">Weapon Mastery, gesamte Laufbahn</span></div>
+      <div class="plegend" id="wPick"></div>
+      <div class="wtop" id="wTop"></div>
+      <div class="tblwrap"><table id="wTable"><thead><tr>
+        <th>Waffe</th><th>Kills</th><th>Schaden</th><th>Ø Schaden/Kill</th><th>Kopfschuss %</th>
+        <th>Knocks</th><th>Weitester Knock</th><th>Beste Runde</th><th>Level</th>
+      </tr></thead><tbody></tbody></table></div>
+      <p class="dim" style="font-size:10px;margin:9px 0 0;letter-spacing:.05em">
+        Diese Zahlen kommen aus der Waffenmeisterschaft und umfassen die gesamte Laufbahn – sie hängen
+        nicht an den Filtern oben und nicht am 14-Tage-Fenster. Werte von vor Patch 18.2 sind eingefroren.</p>
+    </div>
     <div class="sec">
       <div class="sec-h"><h2>Maps</h2><span class="rule"></span></div>
       <div class="tblwrap"><table id="maps"><thead><tr>
@@ -264,9 +296,9 @@
     const head = lines[0].split(';');
     return lines.slice(1).map(l=>{
       const c = l.split(';'), o = {};
-      head.forEach((h,i)=>{ o[h] = c[i] !== undefined ? c[i] : ''; });
+      head.forEach((h,i)=>{ o[h] = (c[i] !== undefined ? c[i] : '').trim(); });
       return o;
-    }).filter(o=>o.match_id);
+    }).filter(o=>Object.values(o).some(v=>v !== ''));
   }
 
   const N = v => { const x = parseFloat(String(v).replace(',','.')); return isFinite(x)?x:0; };
@@ -726,6 +758,77 @@
     }
   }
 
+
+  // ------------------------------------------------------------------- Waffen
+  let WAFFEN = [], wPlayer = 'all';
+
+  function renderWeapons(){
+    if(!WAFFEN.length) return;
+    $('wSec').hidden = false;
+    const namen = [...new Set(WAFFEN.map(w=>w.spieler))].sort();
+    $('wPick').innerHTML = [['all','Ganzer Clan'],...namen.map(n=>[n,n])]
+      .map(([v,l])=>`<button data-w="${v}" aria-pressed="${wPlayer===v}">${l}</button>`).join('');
+    $('wPick').querySelectorAll('button').forEach(b=>b.onclick=()=>{ wPlayer=b.dataset.w; renderWeapons(); });
+
+    const roh = WAFFEN.filter(w=> wPlayer==='all' || w.spieler===wPlayer);
+    const agg = {};
+    roh.forEach(w=>{
+      const a = agg[w.waffe] = agg[w.waffe] || {kills:0,dmg:0,hs:0,kn:0,longest:0,best:0,lvl:0};
+      a.kills+=w.kills; a.dmg+=w.dmg; a.hs+=w.hs; a.kn+=w.kn;
+      a.longest=Math.max(a.longest,w.longest); a.best=Math.max(a.best,w.best);
+      a.lvl=Math.max(a.lvl,w.lvl);
+    });
+    const list = Object.entries(agg).map(([n,a])=>({n,...a})).sort((x,y)=>y.kills-x.kills);
+    if(!list.length){ $('wTop').innerHTML=''; $('wTable').querySelector('tbody').innerHTML=
+      '<tr><td colspan="9" class="dim">Keine Waffendaten.</td></tr>'; return; }
+
+    $('wTop').innerHTML = list.slice(0,3).map((w,i)=>`<div class="wcard">
+      <div class="wr">Platz ${i+1}</div><div class="wn">${w.n}</div>
+      <div class="ws">${f(w.kills)} Kills · ${f(w.dmg,0)} Schaden · ${pct(w.kills?w.hs/w.kills*100:0)} Kopfschuss</div>
+    </div>`).join('');
+
+    const max = list[0].kills || 1;
+    $('wTable').querySelector('tbody').innerHTML = list.slice(0,20).map(w=>`<tr>
+      <td style="font-size:12px">${w.n}</td>
+      <td class="cyan">${f(w.kills)}</td>
+      <td>${f(w.dmg,0)}</td>
+      <td>${f(w.kills?w.dmg/w.kills:0,0)}</td>
+      <td>${pct(w.kills?w.hs/w.kills*100:0)}</td>
+      <td>${f(w.kn)}</td>
+      <td>${f(w.longest,0)} m</td>
+      <td>${f(w.best)}</td>
+      <td>${f(w.lvl)}</td></tr>`).join('');
+  }
+
+  function ladeWaffen(){
+    return fetch('weapons.csv?v='+Date.now())
+      .then(r=> r.ok ? r.text() : null)
+      .then(t=>{
+        if(!t) return;
+        WAFFEN = parseCSV(t).map(r=>({
+          spieler:r.spieler, waffe:r.waffe, kills:N(r.kills), dmg:N(r.schaden),
+          hs:N(r.kopfschuesse), kn:N(r.knocks), longest:N(r.weitester_knock_m),
+          best:N(r.meiste_knocks_match), lvl:N(r.level)
+        })).filter(w=>w.waffe);
+        renderWeapons();
+      }).catch(()=>{});
+  }
+
+  function ladeClan(){
+    return fetch('clan.json?v='+Date.now())
+      .then(r=> r.ok ? r.json() : null)
+      .then(c=>{
+        if(!c || !c.clanName) return;
+        $('clanTitel').textContent = c.clanName;
+        $('clanBox').hidden = false;
+        $('clanBox').innerHTML =
+          (c.clanTag?`<span class="clantag">${c.clanTag}</span>`:'') +
+          `<span class="clanmeta">Clan-Level <b>${f(c.clanLevel)}</b></span>` +
+          `<span class="clanmeta"><b>${f(c.clanMemberCount)}</b> Mitglieder im Clan</span>` +
+          `<span class="clanmeta"><b>${(c.erfassteMitglieder||[]).length}</b> davon hier ausgewertet</span>`;
+      }).catch(()=>{});
+  }
+
   function fail(title, detail){
     $('msg').hidden = false;
     $('msg').innerHTML = `<b>${title}</b>${detail}`;
@@ -735,7 +838,7 @@
   fetch('pubg_matches.csv?v='+Date.now())
     .then(r=>{ if(!r.ok) throw new Error(r.status); return r.text(); })
     .then(t=>{
-      const raw = parseCSV(t);
+      const raw = parseCSV(t).filter(o=>o.match_id);
       if(!raw.length) return fail('Die CSV ist noch leer','Sobald der erste Sync gelaufen ist, erscheinen hier die Auswertungen.');
       ROWS = raw.map(normalise).filter(r=>r.place>0 && !isNaN(r.ts));
       const newest = ROWS.reduce((a,b)=>a.ts>b.ts?a:b).ts;
@@ -743,6 +846,7 @@
       $('filters').hidden = false; $('content').hidden = false;
       buildChips(); render();
       renderRoles(); renderTitles(); renderSessions(); renderHours();
+      ladeClan(); ladeWaffen();
     })
     .catch(e=>fail('pubg_matches.csv nicht gefunden',
       'Die Datei muss im selben Ordner liegen wie diese Seite. Beim lokalen Öffnen per Doppelklick blockieren Browser das Laden – dafür einen kleinen Webserver nutzen oder die Seite über GitHub Pages aufrufen.'));
