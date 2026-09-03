@@ -40,9 +40,12 @@ SPIELER = ["real_embo", "Baerli162", "Lacan123", "Thalanthyr"]
 SHARD = "steam"                      # PC ueber Steam
 HIER = Path(__file__).resolve().parent
 CSV_PFAD = HIER / "pubg_matches.csv"
+WAFFEN_PFAD = HIER / "weapons.csv"
+CLAN_PFAD = HIER / "clan.json"
 KEY_PFAD = HIER / "api_key.txt"
 
 BASIS = f"https://api.pubg.com/shards/{SHARD}"
+CLAN_IDS: dict = {}
 
 
 def api_key() -> str:
@@ -84,6 +87,89 @@ def hole(url: str, versuche: int = 4) -> dict:
     sys.exit("Rate-Limit dauerhaft erreicht. Spaeter erneut versuchen.")
 
 
+WAFFEN = {
+    "HK416":"M416","AK47":"AKM","BerylM762":"Beryl M762","SCAR-L":"SCAR-L","G36C":"G36C",
+    "QBZ95":"QBZ95","AUG":"AUG A3","Groza":"Groza","M16A4":"M16A4","Mk47Mutant":"Mk47 Mutant",
+    "ACE32":"ACE32","FAMAS":"FAMAS","K2":"K2","Mini14":"Mini 14","SKS":"SKS","SLR":"SLR",
+    "QBU88":"QBU","Mk14":"Mk14","Mk12":"Mk12","VSS":"VSS","Kar98k":"Kar98k","M24":"M24",
+    "AWM":"AWM","Win94":"Win94","LynxAMR":"Lynx AMR","Mosin":"Mosin Nagant","UZI":"Micro UZI",
+    "UMP":"UMP45","Vector":"Vector","Thompson":"Tommy Gun","BizonPP19":"PP-19 Bizon",
+    "MP5K":"MP5K","P90":"P90","JS9":"JS9","DP12":"DBS","Saiga12":"S12K","Winchester":"S1897",
+    "Berreta686":"S686","Sawnoff":"Sawed-off","M249":"M249","DP28":"DP-28","MG3":"MG3",
+    "Crossbow":"Armbrust","M9":"P92","G18":"P18C","M1911":"P1911","NagantM1895":"R1895",
+    "Rhino":"R45","DesertEagle":"Deagle","Pan":"Bratpfanne","Machete":"Machete",
+    "Crowbar":"Brecheisen","Sickle":"Sichel","Grenade":"Granate","Molotov":"Molotow",
+    "FlareGun":"Leuchtpistole","MortarProjectile":"Mörser","PanzerFaust100M":"Panzerfaust",
+}
+
+
+def waffenname(code: str) -> str:
+    """Item_Weapon_HK416_C -> M416"""
+    kern = code.replace("Item_Weapon_", "").replace("Item_Back_", "")
+    kern = kern[:-2] if kern.endswith("_C") else kern
+    return WAFFEN.get(kern, kern.replace("_", " "))
+
+
+WAFFEN_FELDER = ["spieler", "waffe", "kills", "schaden", "kopfschuesse", "knocks",
+                 "weitester_knock_m", "meiste_knocks_match", "level", "tier"]
+
+
+def waffen_holen(konten: dict) -> list[dict]:
+    """Weapon-Mastery je Spieler. Lebenslange Summen, kein 14-Tage-Fenster."""
+    zeilen = []
+    for konto_id, name in konten.items():
+        daten = hole(f"{BASIS}/players/{konto_id}/weapon_mastery")
+        if not daten:
+            print(f"   Keine Waffendaten fuer {name}.")
+            continue
+        summaries = daten.get("data", {}).get("attributes", {}) \
+                         .get("weaponSummaries", {})
+        for code, w in summaries.items():
+            # Seit Patch 18.2 getrennt; die alten StatsTotal werden nicht mehr gepflegt.
+            st = w.get("OfficialStatsTotal") or w.get("StatsTotal") or {}
+            kills = st.get("Kills", 0)
+            if not kills and not st.get("DamagePlayer", 0):
+                continue
+            zeilen.append({
+                "spieler": name,
+                "waffe": waffenname(code),
+                "kills": kills,
+                "schaden": round(st.get("DamagePlayer", 0), 1),
+                "kopfschuesse": st.get("HeadShots", 0),
+                "knocks": st.get("Groggies", 0),
+                "weitester_knock_m": round(st.get("LongestDefeat", 0), 2),
+                "meiste_knocks_match": st.get("MostDefeatsInAGame", 0),
+                "level": w.get("LevelCurrent", 0),
+                "tier": w.get("TierCurrent", 0),
+            })
+        print(f"   {name}: {sum(1 for z in zeilen if z['spieler']==name)} Waffen")
+    return zeilen
+
+
+def clan_holen(clan_ids: dict) -> dict | None:
+    """Clan-Infos. Der Endpunkt liefert nur Name, Tag, Level und Mitgliederzahl."""
+    ids = [c for c in clan_ids.values() if c]
+    if not ids:
+        print("   Kein Clan bei den Spielern hinterlegt.")
+        return None
+    haeufigste = max(set(ids), key=ids.count)
+    daten = hole(f"{BASIS}/clans/{haeufigste}")
+    if not daten or not daten.get("data"):
+        print("   Clan-Abfrage lieferte nichts.")
+        return None
+    a = daten["data"]["attributes"]
+    im_clan = sorted(n for n, c in clan_ids.items() if c == haeufigste)
+    return {
+        "clanId": haeufigste,
+        "clanName": a.get("clanName", ""),
+        "clanTag": a.get("clanTag", ""),
+        "clanLevel": a.get("clanLevel", 0),
+        "clanMemberCount": a.get("clanMemberCount", 0),
+        "erfassteMitglieder": im_clan,
+        "stand": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+    }
+
+
 def spieler_und_matches() -> tuple[dict, dict]:
     """Ein Aufruf fuer alle Spieler. Liefert (accountId -> Name, matchId -> set(Namen))."""
     namen = ",".join(SPIELER)
@@ -96,9 +182,12 @@ def spieler_und_matches() -> tuple[dict, dict]:
 
     konten, matches = {}, {}
     gefunden = set()
+    global CLAN_IDS
+    CLAN_IDS = {}
     for p in daten["data"]:
         name = p["attributes"]["name"]
         konten[p["id"]] = name
+        CLAN_IDS[name] = p["attributes"].get("clanId") or ""
         gefunden.add(name)
         for m in p["relationships"]["matches"]["data"]:
             matches.setdefault(m["id"], set()).add(name)
@@ -197,6 +286,23 @@ def main():
     print(f"Spieler gefunden: {', '.join(sorted(konten.values()))}")
     print(f"Matches im 14-Tage-Fenster: {len(matches)}")
 
+    print("\nClan:")
+    clan = clan_holen(CLAN_IDS)
+    if clan:
+        CLAN_PFAD.write_text(json.dumps(clan, ensure_ascii=False, indent=2), encoding="utf-8")
+        print(f"   {clan['clanName']} [{clan['clanTag']}] - Level {clan['clanLevel']}, "
+              f"{clan['clanMemberCount']} Mitglieder")
+
+    print("\nWaffen:")
+    waffen = waffen_holen(konten)
+    if waffen:
+        with WAFFEN_PFAD.open("w", encoding="utf-8-sig", newline="") as fh:
+            w = csv.DictWriter(fh, fieldnames=WAFFEN_FELDER, delimiter=";")
+            w.writeheader()
+            w.writerows(sorted(waffen, key=lambda z: (z["spieler"], -z["kills"])))
+        print(f"   {len(waffen)} Zeilen -> {WAFFEN_PFAD.name}")
+
+    print("\nMatches:")
     alt = bereits_erfasst()
     neu = []
     for i, (mid, wer) in enumerate(matches.items(), 1):
