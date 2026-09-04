@@ -18,15 +18,15 @@ Baerli162;Kar98k;22;4424;21;23;0;0;33;0
 Baerli162;SCAR-L;22;3158;13;18;0;0;30;0
 Baerli162;S12K;19;1978;7;12;0;0;17;0
 Baerli162;Tommy Gun;19;2811;13;20;0;0;19;0
-Baerli162;Mini 14;18;4392;25;23;0;0;27;0
+Baerli162;Mini 14;18;4529;25;23;0;0;27;0
 Baerli162;Beryl M762;17;2747;9;15;0;0;24;0
 Baerli162;DBS;17;1614;6;11;0;0;16;0
-Baerli162;Granate;15;2090;0;15;0;0;21;0
+Baerli162;Granate;16;2165;0;16;0;0;21;0
+Baerli162;Micro UZI;16;2245;23;11;0;0;19;0
 Baerli162;Groza;15;1842;6;11;0;0;15;0
 Baerli162;Mk14;15;1543;4;10;0;0;16;0
 Baerli162;Dragunov;14;3310;5;13;0;0;20;0
 Baerli162;M249;14;1378;9;13;0;0;16;0
-Baerli162;Micro UZI;14;1990;18;10;0;0;17;0
 Baerli162;Mk12;11;3206;21;15;0;0;27;0
 Baerli162;L6;9;1273;5;10;0;0;13;0
 Baerli162;AWM;8;1694;6;9;0;0;15;0
@@ -102,10 +102,10 @@ Lacan123;C4;1;100;0;0;0;0;2;0
 Lacan123;Deagle;1;100;0;1;0;0;2;0
 Lacan123;R1895;1;164;0;1;0;0;2;0
 Lacan123;OriginS12;1;288;0;2;0;0;2;0
+Lacan123;RPD;1;501;1;2;0;0;5;0
 Lacan123;vz61Skorpion;1;425;4;1;0;0;7;0
 Lacan123;Armbrust;0;97;0;0;0;0;1;0
 Lacan123;DP-28;0;80;1;1;0;0;2;0
-Lacan123;RPD;0;401;1;1;0;0;4;0
 Lacan123;R45;0;123;0;0;0;0;1;0
 Thalanthyr;M16A4;22;3077;21;15;0;0;21;0
 Thalanthyr;M249;22;1985;6;17;0;0;20;0
@@ -120,11 +120,11 @@ Thalanthyr;L6;8;953;3;7;0;0;11;0
 Thalanthyr;FNFal;7;1376;4;6;0;0;12;0
 Thalanthyr;AKM;6;1118;3;5;0;0;10;0
 Thalanthyr;M416;6;1514;7;4;0;0;11;0
-Thalanthyr;MP5K;6;976;8;10;0;0;10;0
+Thalanthyr;MP5K;6;996;8;10;0;0;10;0
 Thalanthyr;Vector;6;778;2;8;0;0;8;0
 Thalanthyr;Granate;5;489;0;4;0;0;9;0
 Thalanthyr;Tommy Gun;5;687;2;5;0;0;7;0
-Thalanthyr;Beryl M762;4;424;4;3;0;0;7;0
+Thalanthyr;Beryl M762;4;512;5;3;0;0;7;0
 Thalanthyr;SCAR-L;4;601;3;4;0;0;6;0
 Thalanthyr;UMP45;4;570;2;1;0;0;6;0
 Thalanthyr;S1897;4;484;2;4;0;0;5;0
@@ -169,7 +169,7 @@ real_embo;Tommy Gun;69;8932;33;35;0;0;42;0
 real_embo;SCAR-L;62;7490;27;18;0;0;81;0
 real_embo;Mk47 Mutant;57;9240;38;30;0;0;47;0
 real_embo;P92;55;10593;69;7;0;0;79;0
-real_embo;ACE32;53;9381;30;30;0;0;40;0
+real_embo;ACE32;53;9424;30;30;0;0;40;0
 real_embo;FNFal;51;9357;37;22;0;0;70;0
 real_embo;SKS;51;10772;39;18;0;0;80;0
 real_embo;Vector;49;7751;24;18;0;0;54;0
