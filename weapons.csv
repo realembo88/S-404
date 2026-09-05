@@ -113,9 +113,9 @@ Thalanthyr;Dragunov;18;3217;16;18;0;0;23;0
 Thalanthyr;Kar98k;16;2950;10;12;0;0;21;0
 Thalanthyr;VSS;15;2202;10;8;0;0;19;0
 Thalanthyr;SKS;14;1843;12;6;0;0;17;0
-Thalanthyr;ACE32;11;1502;9;5;0;0;12;0
+Thalanthyr;ACE32;12;1602;9;5;0;0;13;0
+Thalanthyr;RPD;11;1667;9;9;0;0;17;0
 Thalanthyr;AUG A3;10;1542;5;7;0;0;12;0
-Thalanthyr;RPD;9;1467;9;9;0;0;16;0
 Thalanthyr;L6;8;953;3;7;0;0;11;0
 Thalanthyr;FNFal;7;1376;4;6;0;0;12;0
 Thalanthyr;AKM;6;1118;3;5;0;0;10;0
@@ -151,13 +151,13 @@ Thalanthyr;Mortar;0;30;0;0;0;0;1;0
 Thalanthyr;Sawed-off;0;212;0;2;0;0;2;0
 real_embo;UMP45;418;53727;186;191;0;0;92;1
 real_embo;VSS;330;58127;204;192;0;0;88;1
-real_embo;M249;291;42539;191;181;0;0;79;1
+real_embo;M249;291;42580;191;181;0;0;79;1
 real_embo;MP5K;235;31530;143;120;0;0;25;1
 real_embo;M24;190;36805;159;110;0;0;59;1
-real_embo;Kar98k;167;34627;171;118;0;0;53;1
+real_embo;Kar98k;167;34770;171;118;0;0;53;1
 real_embo;M416;164;24472;87;72;0;0;46;1
 real_embo;AUG A3;160;20929;99;71;0;0;72;0
-real_embo;Mk12;103;22878;99;54;0;0;83;0
+real_embo;Mk12;103;22968;100;54;0;0;83;0
 real_embo;Granate;102;19126;0;79;0;0;80;0
 real_embo;Dragunov;95;18346;82;44;0;0;68;0
 real_embo;JS9;90;11262;63;40;0;0;48;0
@@ -173,8 +173,8 @@ real_embo;ACE32;53;9424;30;30;0;0;40;0
 real_embo;FNFal;51;9357;37;22;0;0;70;0
 real_embo;SKS;51;10772;39;18;0;0;80;0
 real_embo;Vector;49;7751;24;18;0;0;54;0
-real_embo;RPD;48;6325;26;35;0;0;39;0
-real_embo;S1897;47;5624;11;25;0;0;35;0
+real_embo;RPD;48;6422;26;35;0;0;39;0
+real_embo;S1897;48;5822;11;26;0;0;36;0
 real_embo;DBS;41;4856;9;12;0;0;36;0
 real_embo;Beryl M762;40;6014;26;21;0;0;48;0
 real_embo;G36C;40;4642;24;21;0;0;37;0
