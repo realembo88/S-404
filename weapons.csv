@@ -1,6 +1,6 @@
 ﻿spieler;waffe;kills;schaden;kopfschuesse;knocks;weitester_knock_m;meiste_knocks_match;level;tier
 Baerli162;Vector;112;13433;76;75;0;0;62;0
-Baerli162;M416;104;15328;77;86;0;0;61;0
+Baerli162;M416;104;15368;77;86;0;0;61;0
 Baerli162;M16A4;82;15788;71;64;0;0;61;0
 Baerli162;SKS;60;14388;69;64;0;0;66;0
 Baerli162;AUG A3;53;7560;43;36;0;0;37;0
@@ -8,7 +8,7 @@ Baerli162;AKM;37;5460;25;30;0;0;28;0
 Baerli162;MP5K;37;4536;20;26;0;0;25;0
 Baerli162;ACE32;34;5052;25;30;0;0;26;0
 Baerli162;Mk47 Mutant;34;7583;38;33;0;0;49;0
-Baerli162;M24;29;6618;33;34;0;0;41;0
+Baerli162;M24;29;6672;33;34;0;0;41;0
 Baerli162;S1897;28;3279;8;23;0;0;25;0
 Baerli162;S686;25;3261;7;23;0;0;21;0
 Baerli162;UMP45;25;3703;11;18;0;0;21;0
@@ -19,15 +19,15 @@ Baerli162;SCAR-L;22;3158;13;18;0;0;30;0
 Baerli162;S12K;19;1978;7;12;0;0;17;0
 Baerli162;Tommy Gun;19;2811;13;20;0;0;19;0
 Baerli162;Mini 14;18;4529;25;23;0;0;27;0
-Baerli162;Beryl M762;17;2747;9;15;0;0;24;0
+Baerli162;Beryl M762;17;2809;10;15;0;0;24;0
 Baerli162;DBS;17;1614;6;11;0;0;16;0
-Baerli162;Granate;16;2165;0;16;0;0;21;0
+Baerli162;Granate;16;2281;0;16;0;0;22;0
 Baerli162;Micro UZI;16;2245;23;11;0;0;19;0
 Baerli162;Groza;15;1842;6;11;0;0;15;0
 Baerli162;Mk14;15;1543;4;10;0;0;16;0
 Baerli162;Dragunov;14;3310;5;13;0;0;20;0
 Baerli162;M249;14;1378;9;13;0;0;16;0
-Baerli162;Mk12;11;3206;21;15;0;0;27;0
+Baerli162;Mk12;11;3265;22;15;0;0;27;0
 Baerli162;L6;9;1273;5;10;0;0;13;0
 Baerli162;AWM;8;1694;6;9;0;0;15;0
 Baerli162;FAMASG2;8;1015;7;6;0;0;11;0
@@ -53,7 +53,7 @@ Baerli162;Win1894;0;132;0;0;0;0;1;0
 Baerli162;vz61Skorpion;0;97;0;0;0;0;2;0
 Lacan123;UMP45;145;17303;64;109;0;0;62;0
 Lacan123;Tommy Gun;121;14361;63;92;0;0;56;0
-Lacan123;M24;117;22750;86;115;0;0;78;0
+Lacan123;M24;117;22884;87;116;0;0;78;0
 Lacan123;M416;103;15071;72;82;0;0;53;0
 Lacan123;AUG A3;71;9649;57;43;0;0;42;0
 Lacan123;VSS;65;11614;50;49;0;0;51;0
@@ -73,7 +73,7 @@ Lacan123;ACE32;23;4152;16;18;0;0;21;0
 Lacan123;M249;21;2552;11;11;0;0;23;0
 Lacan123;Mk47 Mutant;17;3002;11;13;0;0;18;0
 Lacan123;FNFal;16;2481;6;11;0;0;18;0
-Lacan123;Mini 14;15;4503;21;21;0;0;25;0
+Lacan123;Mini 14;15;4544;22;22;0;0;25;0
 Lacan123;Mk12;15;2507;5;11;0;0;18;0
 Lacan123;SKS;15;4090;11;14;0;0;23;0
 Lacan123;Beryl M762;14;1995;9;12;0;0;14;0
@@ -110,7 +110,7 @@ Lacan123;R45;0;123;0;0;0;0;1;0
 Thalanthyr;M16A4;22;3077;21;15;0;0;21;0
 Thalanthyr;M249;22;1985;6;17;0;0;20;0
 Thalanthyr;Dragunov;18;3217;16;18;0;0;23;0
-Thalanthyr;Kar98k;16;2950;10;12;0;0;21;0
+Thalanthyr;Kar98k;16;2995;10;12;0;0;21;0
 Thalanthyr;VSS;15;2213;10;8;0;0;19;0
 Thalanthyr;SKS;14;1843;12;6;0;0;17;0
 Thalanthyr;ACE32;12;1602;9;5;0;0;13;0
@@ -126,7 +126,7 @@ Thalanthyr;Granate;5;489;0;4;0;0;9;0
 Thalanthyr;Tommy Gun;5;687;2;5;0;0;7;0
 Thalanthyr;Beryl M762;4;512;5;3;0;0;7;0
 Thalanthyr;SCAR-L;4;601;3;4;0;0;6;0
-Thalanthyr;UMP45;4;570;2;1;0;0;6;0
+Thalanthyr;UMP45;4;722;5;2;0;0;8;0
 Thalanthyr;S1897;4;484;2;4;0;0;5;0
 Thalanthyr;Mini 14;3;331;0;1;0;0;4;0
 Thalanthyr;Micro UZI;3;467;1;3;0;0;4;0
@@ -145,7 +145,7 @@ Thalanthyr;DBS;0;139;0;1;0;0;1;0
 Thalanthyr;G36C;0;45;0;0;0;0;1;0
 Thalanthyr;Groza;0;25;0;0;0;0;1;0
 Thalanthyr;K2;0;73;0;0;0;0;1;0
-Thalanthyr;Mk12;0;400;3;0;0;0;5;0
+Thalanthyr;Mk12;0;484;3;0;0;0;5;0
 Thalanthyr;Molotow;0;60;0;0;0;0;1;0
 Thalanthyr;Mortar;0;30;0;0;0;0;1;0
 Thalanthyr;Sawed-off;0;212;0;2;0;0;2;0
