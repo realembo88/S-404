@@ -637,3 +637,7 @@ cd28260e-85b1-439a-8a31-38760f38fd9a;2026-09-05T20:05:15Z;Baerli162;Squad;TPP;Ba
 456bb29e-75ea-4d54-b9cb-64e9dae7090f;2026-09-05T20:55:28Z;Lacan123;Squad;TPP;Kiki_Main;27.1;24;27;19;0;0;1;0;41.2;0;4.0;0;0;0;2;282;0;0;0;0;0;Baerli162|Thalanthyr
 456bb29e-75ea-4d54-b9cb-64e9dae7090f;2026-09-05T20:55:28Z;Thalanthyr;Squad;TPP;Kiki_Main;27.1;24;27;19;0;0;0;0;0;0;4.3;0;0;0;1;360;0;0;0;0;0;Baerli162|Lacan123
 456bb29e-75ea-4d54-b9cb-64e9dae7090f;2026-09-05T20:55:28Z;Baerli162;Squad;TPP;Kiki_Main;27.1;24;27;19;0;0;0;0;58.8;0;4.0;0;0;0;5;310;0;0;0;0;0;Lacan123|Thalanthyr
+fe98e420-3bea-40cf-b2c4-fb8b3ef5d8d9;2026-09-07T17:33:00Z;real_embo;Duo;TPP;Savage_Main;22.6;6;51;17;1;0;1;1;111.4;14.97;19.6;0;0;2;9;3997;0;0;0;0;0;Lacan123
+fe98e420-3bea-40cf-b2c4-fb8b3ef5d8d9;2026-09-07T17:33:00Z;Lacan123;Duo;TPP;Savage_Main;22.6;6;51;17;1;0;0;0;123.2;10.25;19.6;0;0;2;4;3574;0;0;0;0;0;real_embo
+b0fe4dc2-252d-42f3-a2be-001ba1eced83;2026-09-07T17:55:12Z;Lacan123;Duo;TPP;Kiki_Main;25.9;35;51;33;0;0;0;0;0;0;8.3;0;0;0;4;1136;0;0;0;0;0;real_embo
+b0fe4dc2-252d-42f3-a2be-001ba1eced83;2026-09-07T17:55:12Z;real_embo;Duo;TPP;Kiki_Main;25.9;35;51;33;0;0;0;0;0;0;8.3;0;1;3;7;1333;0;0;0;0;0;Lacan123
