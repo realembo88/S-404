@@ -108,10 +108,10 @@ Lacan123;Armbrust;0;97;0;0;0;0;1;0
 Lacan123;DP-28;0;80;1;1;0;0;2;0
 Lacan123;R45;0;123;0;0;0;0;1;0
 Thalanthyr;M16A4;22;3158;22;15;0;0;21;0
-Thalanthyr;M249;22;2133;6;18;0;0;21;0
+Thalanthyr;M249;22;2177;6;18;0;0;21;0
 Thalanthyr;RPD;19;2452;11;14;0;0;22;0
 Thalanthyr;Dragunov;18;3285;16;18;0;0;23;0
-Thalanthyr;Kar98k;16;3040;10;12;0;0;22;0
+Thalanthyr;Kar98k;17;3204;11;12;0;0;22;0
 Thalanthyr;VSS;15;2213;10;8;0;0;19;0
 Thalanthyr;SKS;14;1865;12;6;0;0;17;0
 Thalanthyr;ACE32;12;1602;9;5;0;0;13;0
@@ -149,12 +149,12 @@ Thalanthyr;K2;0;73;0;0;0;0;1;0
 Thalanthyr;Mk12;0;484;3;0;0;0;5;0
 Thalanthyr;Mortar;0;30;0;0;0;0;1;0
 Thalanthyr;Sawed-off;0;212;0;2;0;0;2;0
-real_embo;UMP45;427;54771;189;196;0;0;94;1
+real_embo;UMP45;428;54945;190;196;0;0;94;1
 real_embo;VSS;331;58552;205;193;0;0;89;1
 real_embo;M249;293;43044;195;183;0;0;80;1
 real_embo;MP5K;236;31730;143;121;0;0;26;1
 real_embo;M24;190;36805;159;110;0;0;59;1
-real_embo;Kar98k;171;35368;175;120;0;0;55;1
+real_embo;Kar98k;172;35468;175;121;0;0;55;1
 real_embo;M416;168;24927;90;74;0;0;47;1
 real_embo;AUG A3;165;21696;99;74;0;0;73;0
 real_embo;Mk12;105;23591;102;56;0;0;84;0
@@ -168,10 +168,10 @@ real_embo;AKM;75;10530;41;48;0;0;55;0
 real_embo;Tommy Gun;69;8932;33;35;0;0;42;0
 real_embo;SCAR-L;62;7547;27;18;0;0;81;0
 real_embo;Mk47 Mutant;57;9240;38;30;0;0;47;0
+real_embo;RPD;56;7522;29;38;0;0;43;0
 real_embo;ACE32;55;9593;32;30;0;0;41;0
 real_embo;P92;55;10593;69;7;0;0;79;0
-real_embo;RPD;55;7389;29;38;0;0;42;0
-real_embo;FNFal;51;9357;37;22;0;0;70;0
+real_embo;FNFal;54;9837;40;24;0;0;71;0
 real_embo;SKS;51;10870;39;18;0;0;81;0
 real_embo;Vector;50;7995;25;18;0;0;54;0
 real_embo;S1897;48;5822;11;26;0;0;36;0
