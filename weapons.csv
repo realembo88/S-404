@@ -155,7 +155,7 @@ real_embo;M249;299;44034;201;189;0;0;83;1
 real_embo;MP5K;246;32827;146;129;0;0;30;1
 real_embo;M24;193;37828;165;112;0;0;62;1
 real_embo;Kar98k;174;35762;175;123;0;0;56;1
-real_embo;M416;168;24927;90;74;0;0;47;1
+real_embo;M416;168;24992;90;75;0;0;47;1
 real_embo;AUG A3;165;21696;99;74;0;0;73;0
 real_embo;Granate;108;20081;0;84;0;0;83;0
 real_embo;Mk12;107;23947;104;56;0;0;85;0
@@ -163,7 +163,7 @@ real_embo;Dragunov;96;18620;83;44;0;0;69;0
 real_embo;JS9;90;11331;63;40;0;0;48;0
 real_embo;S12K;84;9757;21;51;0;0;47;0
 real_embo;M16A4;80;13429;61;31;0;0;72;0
-real_embo;AKM;76;10650;41;48;0;0;56;0
+real_embo;AKM;77;10750;41;49;0;0;56;0
 real_embo;Mini 14;76;18180;75;26;0;0;88;0
 real_embo;Tommy Gun;69;9092;34;37;0;0;42;0
 real_embo;SCAR-L;62;7547;27;18;0;0;81;0
@@ -172,7 +172,7 @@ real_embo;Mk47 Mutant;57;9240;38;30;0;0;47;0
 real_embo;ACE32;56;9737;32;32;0;0;41;0
 real_embo;P92;55;10593;69;7;0;0;79;0
 real_embo;FNFal;54;9837;40;24;0;0;71;0
-real_embo;SKS;51;10870;39;18;0;0;81;0
+real_embo;SKS;53;11034;40;18;0;0;81;0
 real_embo;Vector;51;8115;27;19;0;0;55;0
 real_embo;S1897;48;5822;11;26;0;0;36;0
 real_embo;Beryl M762;45;6719;32;22;0;0;50;0
@@ -182,7 +182,7 @@ real_embo;Mosin Nagant;38;7727;35;15;0;0;46;0
 real_embo;PP-19 Bizon;36;3981;8;15;0;0;37;0
 real_embo;MP9;33;4349;12;6;0;0;24;0
 real_embo;AWM;31;5719;21;23;0;0;41;0
-real_embo;Micro UZI;28;3552;24;14;0;0;32;0
+real_embo;Micro UZI;28;3603;25;14;0;0;32;0
 real_embo;S686;25;3341;7;11;0;0;24;0
 real_embo;MG3;20;2472;10;7;0;0;31;0
 real_embo;Mk14;19;2795;11;6;0;0;30;0
@@ -200,7 +200,7 @@ real_embo;P90;7;1708;8;7;0;0;20;0
 real_embo;Sawed-off;7;1176;1;6;0;0;11;0
 real_embo;OriginS12;6;1146;3;5;0;0;10;0
 real_embo;BluezoneGrenade;5;1140;0;4;0;0;13;0
-real_embo;C4;3;493;0;2;0;0;8;0
+real_embo;C4;3;510;0;2;0;0;8;0
 real_embo;DP-28;3;417;1;1;0;0;23;0
 real_embo;StickyGrenade;3;210;0;3;0;0;4;0
 real_embo;Panzerfaust;2;250;0;1;0;0;4;0
