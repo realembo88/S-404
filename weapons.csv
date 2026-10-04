@@ -1,8 +1,8 @@
 ﻿spieler;waffe;kills;schaden;kopfschuesse;knocks;weitester_knock_m;meiste_knocks_match;level;tier
-Baerli162;Vector;117;13958;77;78;0;0;63;0
+Baerli162;Vector;122;14430;85;80;0;0;65;0
 Baerli162;M416;104;15390;77;86;0;0;61;0
 Baerli162;M16A4;83;16148;73;65;0;0;61;0
-Baerli162;SKS;61;15250;73;68;0;0;68;0
+Baerli162;SKS;61;15404;73;68;0;0;68;0
 Baerli162;AUG A3;56;7990;45;39;0;0;38;0
 Baerli162;AKM;39;5653;26;31;0;0;29;0
 Baerli162;MP5K;39;4793;20;26;0;0;26;0
@@ -21,8 +21,8 @@ Baerli162;M249;20;2119;12;18;0;0;21;0
 Baerli162;S12K;20;2078;7;12;0;0;17;0
 Baerli162;Beryl M762;19;3130;12;15;0;0;25;0
 Baerli162;Tommy Gun;19;2811;13;20;0;0;19;0
+Baerli162;Micro UZI;19;2549;24;13;0;0;20;0
 Baerli162;Granate;18;2703;0;19;0;0;24;0
-Baerli162;Micro UZI;18;2449;24;12;0;0;20;0
 Baerli162;DBS;17;1614;6;11;0;0;16;0
 Baerli162;Dragunov;15;3375;5;13;0;0;20;0
 Baerli162;Groza;15;1842;6;11;0;0;15;0
@@ -32,9 +32,9 @@ Baerli162;L6;10;1389;5;10;0;0;14;0
 Baerli162;AWM;8;1694;6;9;0;0;15;0
 Baerli162;FAMASG2;8;1015;7;6;0;0;11;0
 Baerli162;P90;7;1453;8;7;0;0;16;0
+Baerli162;RPD;6;1026;6;7;0;0;12;0
 Baerli162;G36C;4;740;3;4;0;0;10;0
 Baerli162;MP9;4;450;1;3;0;0;4;0
-Baerli162;RPD;4;788;5;6;0;0;10;0
 Baerli162;JS9;3;421;2;3;0;0;4;0
 Baerli162;MG3;3;598;6;2;0;0;11;0
 Baerli162;PP-19 Bizon;2;119;1;1;0;0;3;0
@@ -55,11 +55,11 @@ Lacan123;UMP45;157;18357;70;119;0;0;64;0
 Lacan123;Tommy Gun;123;14667;64;94;0;0;57;0
 Lacan123;M24;119;23062;87;117;0;0;79;0
 Lacan123;M416;105;15696;73;84;0;0;54;0
-Lacan123;AUG A3;82;11037;64;51;0;0;46;0
+Lacan123;AUG A3;82;11168;64;52;0;0;46;0
+Lacan123;Kar98k;68;13343;51;72;0;0;54;0
 Lacan123;M16A4;68;10003;40;43;0;0;40;0
-Lacan123;Kar98k;66;13128;51;70;0;0;54;0
 Lacan123;VSS;66;11764;52;50;0;0;52;0
-Lacan123;AKM;60;8514;34;47;0;0;35;0
+Lacan123;AKM;60;8588;34;47;0;0;35;0
 Lacan123;S1897;55;7166;13;48;0;0;31;0
 Lacan123;Vector;51;6572;29;41;0;0;31;0
 Lacan123;Dragunov;50;11023;39;44;0;0;47;0
@@ -69,14 +69,14 @@ Lacan123;Micro UZI;34;3858;15;24;0;0;22;0
 Lacan123;MP5K;33;3818;16;25;0;0;22;0
 Lacan123;S12K;32;3482;9;24;0;0;21;0
 Lacan123;Granate;27;4706;0;31;0;0;31;0
-Lacan123;ACE32;23;4171;16;18;0;0;21;0
+Lacan123;ACE32;23;4197;16;18;0;0;21;0
 Lacan123;M249;21;2662;11;11;0;0;23;0
 Lacan123;Mini 14;18;4901;26;23;0;0;27;0
 Lacan123;Mk12;18;3023;5;13;0;0;20;0
 Lacan123;Mk47 Mutant;18;3390;11;16;0;0;19;0
 Lacan123;FNFal;16;2481;6;11;0;0;18;0
 Lacan123;Beryl M762;15;2084;9;12;0;0;15;0
-Lacan123;SKS;15;4090;11;14;0;0;23;0
+Lacan123;SKS;15;4114;11;14;0;0;23;0
 Lacan123;SCAR-L;13;1943;6;16;0;0;13;0
 Lacan123;PP-19 Bizon;12;1367;3;6;0;0;12;0
 Lacan123;JS9;10;1045;7;7;0;0;11;0
@@ -113,14 +113,15 @@ Thalanthyr;M249;24;2355;6;19;0;0;22;0
 Thalanthyr;Dragunov;23;4063;18;21;0;0;26;0
 Thalanthyr;VSS;18;2730;10;10;0;0;21;0
 Thalanthyr;Kar98k;17;3586;11;13;0;0;23;0
-Thalanthyr;SKS;14;1931;12;6;0;0;17;0
+Thalanthyr;SKS;15;2144;14;7;0;0;18;0
 Thalanthyr;ACE32;13;1666;9;6;0;0;13;0
-Thalanthyr;AUG A3;10;1607;5;7;0;0;13;0
+Thalanthyr;AUG A3;10;1679;5;7;0;0;13;0
+Thalanthyr;MP5K;10;1526;12;14;0;0;13;0
 Thalanthyr;FNFal;8;1376;4;6;0;0;12;0
 Thalanthyr;L6;8;953;3;7;0;0;11;0
 Thalanthyr;AKM;7;1271;3;6;0;0;10;0
 Thalanthyr;Granate;7;614;0;6;0;0;11;0
-Thalanthyr;MP5K;7;1132;9;10;0;0;11;0
+Thalanthyr;Micro UZI;7;914;4;8;0;0;9;0
 Thalanthyr;M416;6;1538;7;4;0;0;11;0
 Thalanthyr;Vector;6;778;2;8;0;0;8;0
 Thalanthyr;Beryl M762;5;698;5;4;0;0;9;0
@@ -128,8 +129,7 @@ Thalanthyr;Tommy Gun;5;861;2;6;0;0;8;0
 Thalanthyr;UMP45;5;923;5;3;0;0;9;0
 Thalanthyr;S1897;5;584;2;5;0;0;6;0
 Thalanthyr;SCAR-L;4;601;3;4;0;0;6;0
-Thalanthyr;Micro UZI;4;717;3;6;0;0;6;0
-Thalanthyr;M24;3;1470;4;7;0;0;12;0
+Thalanthyr;M24;3;1505;4;7;0;0;12;0
 Thalanthyr;Mini 14;3;331;0;1;0;0;4;0
 Thalanthyr;Mk47 Mutant;2;165;1;1;0;0;3;0
 Thalanthyr;S12K;2;162;0;2;0;0;2;0
@@ -152,25 +152,25 @@ Thalanthyr;Mortar;0;30;0;0;0;0;1;0
 Thalanthyr;Panzerfaust;0;16;0;0;0;0;1;0
 Thalanthyr;Sawed-off;0;212;0;2;0;0;2;0
 real_embo;UMP45;437;56082;193;202;0;0;96;1
-real_embo;VSS;349;61532;218;202;0;0;95;1
-real_embo;M249;302;44158;202;191;0;0;84;1
-real_embo;MP5K;247;32991;146;129;0;0;30;1
+real_embo;VSS;350;61581;218;202;0;0;95;1
+real_embo;M249;304;44402;203;194;0;0;84;1
+real_embo;MP5K;250;33210;146;130;0;0;31;1
 real_embo;M24;197;38270;168;114;0;0;63;1
-real_embo;Kar98k;175;36191;176;126;0;0;57;1
+real_embo;Kar98k;175;36237;176;126;0;0;57;1
 real_embo;M416;168;24992;90;75;0;0;47;1
 real_embo;AUG A3;166;21886;99;75;0;0;73;0
-real_embo;Granate;108;20373;0;85;0;0;83;0
+real_embo;Granate;109;20512;0;85;0;0;84;0
 real_embo;Mk12;107;24049;104;57;0;0;85;0
-real_embo;Dragunov;96;18699;83;44;0;0;69;0
+real_embo;Dragunov;98;18917;83;44;0;0;69;0
 real_embo;JS9;90;11331;63;40;0;0;48;0
-real_embo;S12K;84;9757;21;51;0;0;47;0
+real_embo;S12K;85;9857;21;52;0;0;48;0
 real_embo;M16A4;81;13707;62;32;0;0;72;0
 real_embo;AKM;78;11058;44;51;0;0;56;0
 real_embo;Mini 14;77;18306;75;26;0;0;88;0
 real_embo;Tommy Gun;69;9092;34;37;0;0;42;0
 real_embo;SCAR-L;62;7547;27;18;0;0;81;0
-real_embo;RPD;61;8378;37;42;0;0;47;0
-real_embo;ACE32;57;9839;32;33;0;0;41;0
+real_embo;RPD;61;8397;37;42;0;0;47;0
+real_embo;ACE32;57;9878;32;33;0;0;41;0
 real_embo;Mk47 Mutant;57;9240;38;30;0;0;47;0
 real_embo;P92;55;10593;69;7;0;0;79;0
 real_embo;FNFal;54;9837;40;24;0;0;71;0
@@ -190,7 +190,7 @@ real_embo;MG3;20;2472;10;7;0;0;31;0
 real_embo;Mk14;19;2795;11;6;0;0;30;0
 real_embo;QBZ95;18;2320;5;11;0;0;24;0
 real_embo;L6;16;3281;12;17;0;0;24;0
-real_embo;Molotow;14;2902;0;8;0;0;23;0
+real_embo;Molotow;14;2950;0;8;0;0;23;0
 real_embo;FAMASG2;13;1344;13;6;0;0;15;0
 real_embo;Groza;13;1911;8;4;0;0;24;0
 real_embo;vz61Skorpion;13;2117;14;2;0;0;41;0
@@ -202,11 +202,11 @@ real_embo;P90;7;1808;8;8;0;0;20;0
 real_embo;Sawed-off;7;1176;1;6;0;0;11;0
 real_embo;OriginS12;6;1146;3;5;0;0;10;0
 real_embo;BluezoneGrenade;5;1140;0;4;0;0;13;0
+real_embo;Win1894;4;1074;5;2;0;0;22;0
 real_embo;C4;3;510;0;2;0;0;8;0
 real_embo;DP-28;3;417;1;1;0;0;23;0
 real_embo;StickyGrenade;3;210;0;3;0;0;4;0
 real_embo;Panzerfaust;2;250;0;1;0;0;4;0
-real_embo;Win1894;2;810;4;1;0;0;21;0
 real_embo;Armbrust;1;515;1;0;0;0;7;0
 real_embo;Deagle;1;258;0;0;0;0;10;0
 real_embo;R45;1;239;0;1;0;0;3;0
