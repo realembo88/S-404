@@ -958,3 +958,15 @@ d0bd8073-6989-48a0-a928-dbc12011a4a2;2026-10-04T18:57:58Z;Thalanthyr;Squad;TPP;S
 d0bd8073-6989-48a0-a928-dbc12011a4a2;2026-10-04T18:57:58Z;real_embo;Squad;TPP;Summerland_Main;17.0;1;18;14;4;3;3;1;406.2;143.27;17.0;1;4;5;7;2872;0;0;0;0;0;Baerli162|Lacan123|Thalanthyr
 d0bd8073-6989-48a0-a928-dbc12011a4a2;2026-10-04T18:57:58Z;Lacan123;Squad;TPP;Summerland_Main;17.0;1;18;14;1;4;2;0;166.1;112.65;17.0;1;1;1;8;3065;0;0;0;0;0;Baerli162|Thalanthyr|real_embo
 d0bd8073-6989-48a0-a928-dbc12011a4a2;2026-10-04T18:57:58Z;Baerli162;Squad;TPP;Summerland_Main;17.0;1;18;14;4;2;1;1;395.1;23.88;17.0;0;4;7;9;2904;548;0;0;0;0;Lacan123|Thalanthyr|real_embo
+d72536aa-2931-4ae7-a541-daee4298c292;2026-10-04T19:17:51Z;Baerli162;Squad;TPP;DihorOtok_Main;28.1;17;27;25;2;0;2;0;280.3;3.46;10.6;0;0;1;5;910;5945;0;0;1;0;Lacan123|Thalanthyr|real_embo
+d72536aa-2931-4ae7-a541-daee4298c292;2026-10-04T19:17:51Z;Lacan123;Squad;TPP;DihorOtok_Main;28.1;17;27;25;0;0;0;0;0;0;10.6;0;0;1;6;758;5944;0;0;0;0;Baerli162|Thalanthyr|real_embo
+d72536aa-2931-4ae7-a541-daee4298c292;2026-10-04T19:17:51Z;Thalanthyr;Squad;TPP;DihorOtok_Main;28.1;17;27;25;1;0;2;0;194.7;11.87;10.6;0;1;1;6;821;5865;0;0;0;0;Baerli162|Lacan123|real_embo
+d72536aa-2931-4ae7-a541-daee4298c292;2026-10-04T19:17:51Z;real_embo;Squad;TPP;DihorOtok_Main;28.1;17;27;25;1;0;1;0;100.0;3.75;9.9;0;0;1;8;779;5859;0;0;0;0;Baerli162|Lacan123|Thalanthyr
+aaa8d6bb-d561-492b-9f3d-d2e11e3f8339;2026-10-04T19:30:26Z;Baerli162;Squad;TPP;DihorOtok_Main;22.9;26;26;20;0;0;0;0;0;0;2.2;0;0;0;1;142;0;0;0;0;0;Lacan123|Thalanthyr|real_embo
+aaa8d6bb-d561-492b-9f3d-d2e11e3f8339;2026-10-04T19:30:26Z;Lacan123;Squad;TPP;DihorOtok_Main;22.9;26;26;20;0;0;0;0;74.4;0;2.0;0;0;0;2;114;0;0;0;0;0;Baerli162|Thalanthyr|real_embo
+aaa8d6bb-d561-492b-9f3d-d2e11e3f8339;2026-10-04T19:30:26Z;Thalanthyr;Squad;TPP;DihorOtok_Main;22.9;26;26;20;0;0;0;0;0;0;2.2;0;0;0;1;124;0;0;0;0;0;Baerli162|Lacan123|real_embo
+aaa8d6bb-d561-492b-9f3d-d2e11e3f8339;2026-10-04T19:30:26Z;real_embo;Squad;TPP;DihorOtok_Main;22.9;26;26;20;0;0;0;0;0;0;2.2;0;0;0;2;117;0;0;0;0;0;Baerli162|Lacan123|Thalanthyr
+f7b35076-44f6-4304-8e23-7398f513ed95;2026-10-04T19:35:10Z;real_embo;Squad;TPP;Baltic_Main;26.4;6;27;13;0;1;2;0;224.4;0;15.5;0;0;0;8;2240;3343;0;0;0;0;Baerli162|Lacan123|Thalanthyr
+f7b35076-44f6-4304-8e23-7398f513ed95;2026-10-04T19:35:10Z;Lacan123;Squad;TPP;Baltic_Main;26.4;6;27;13;0;0;0;0;61.0;0;15.5;0;5;2;4;2426;3342;0;0;0;0;Baerli162|Thalanthyr|real_embo
+f7b35076-44f6-4304-8e23-7398f513ed95;2026-10-04T19:35:10Z;Baerli162;Squad;TPP;Baltic_Main;26.4;6;27;13;4;0;3;0;511.6;61.1;23.3;0;3;4;6;3878;3158;0;0;0;0;Lacan123|Thalanthyr|real_embo
+f7b35076-44f6-4304-8e23-7398f513ed95;2026-10-04T19:35:10Z;Thalanthyr;Squad;TPP;Baltic_Main;26.4;6;27;13;0;0;0;0;0;0;13.7;0;2;0;5;1943;3223;0;0;0;0;Baerli162|Lacan123|real_embo
