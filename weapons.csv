@@ -53,15 +53,15 @@ Baerli162;Win1894;0;132;0;0;0;0;1;0
 Baerli162;vz61Skorpion;0;150;0;0;0;0;2;0
 Lacan123;UMP45;158;18434;70;119;0;0;64;0
 Lacan123;Tommy Gun;124;14859;65;96;0;0;57;0
-Lacan123;M24;120;23219;88;118;0;0;79;0
+Lacan123;M24;120;23378;88;119;0;0;80;0
 Lacan123;M416;105;15752;74;84;0;0;54;0
-Lacan123;AUG A3;83;11348;66;53;0;0;47;0
+Lacan123;AUG A3;84;11386;67;53;0;0;47;0
 Lacan123;Kar98k;69;13466;52;73;0;0;55;0
 Lacan123;M16A4;68;10003;40;43;0;0;40;0
-Lacan123;VSS;66;11812;52;50;0;0;52;0
+Lacan123;VSS;67;11968;52;51;0;0;52;0
 Lacan123;AKM;60;8588;34;47;0;0;35;0
 Lacan123;S1897;56;7266;13;48;0;0;31;0
-Lacan123;Vector;54;6738;29;42;0;0;32;0
+Lacan123;Vector;55;6838;29;43;0;0;32;0
 Lacan123;Dragunov;50;11070;39;44;0;0;47;0
 Lacan123;Sawed-off;39;3960;5;22;0;0;25;0
 Lacan123;S686;36;3996;8;24;0;0;23;0
@@ -90,7 +90,7 @@ Lacan123;QBZ95;7;1304;8;8;0;0;11;0
 Lacan123;Molotow;6;633;0;4;0;0;10;0
 Lacan123;DBS;5;619;0;3;0;0;6;0
 Lacan123;L6;5;928;1;6;0;0;10;0
-Lacan123;RPD;5;1039;3;7;0;0;11;0
+Lacan123;RPD;5;1139;4;8;0;0;11;0
 Lacan123;Groza;4;564;3;2;0;0;7;0
 Lacan123;MG3;4;241;0;2;0;0;5;0
 Lacan123;AWM;3;620;0;2;0;0;7;0
@@ -122,19 +122,19 @@ Thalanthyr;L6;8;953;3;7;0;0;11;0
 Thalanthyr;AKM;7;1271;3;6;0;0;10;0
 Thalanthyr;Granate;7;614;0;6;0;0;11;0
 Thalanthyr;UMP45;7;1073;7;4;0;0;11;0
-Thalanthyr;Micro UZI;7;914;4;8;0;0;9;0
+Thalanthyr;Micro UZI;7;951;4;8;0;0;9;0
 Thalanthyr;M416;6;1538;7;4;0;0;11;0
 Thalanthyr;Vector;6;836;2;8;0;0;8;0
 Thalanthyr;Beryl M762;5;698;5;4;0;0;9;0
 Thalanthyr;Tommy Gun;5;861;2;6;0;0;8;0
 Thalanthyr;S1897;5;584;2;5;0;0;6;0
+Thalanthyr;M24;4;1605;5;8;0;0;13;0
 Thalanthyr;SCAR-L;4;601;3;4;0;0;6;0
-Thalanthyr;M24;3;1505;4;7;0;0;12;0
-Thalanthyr;Mini 14;3;331;0;1;0;0;4;0
+Thalanthyr;Mini 14;3;464;0;1;0;0;5;0
 Thalanthyr;Mk47 Mutant;2;165;1;1;0;0;3;0
 Thalanthyr;S12K;2;162;0;2;0;0;2;0
 Thalanthyr;Armbrust;1;100;0;0;0;0;2;0
-Thalanthyr;MG3;1;170;2;0;0;0;3;0
+Thalanthyr;MG3;1;189;2;0;0;0;4;0
 Thalanthyr;Mk14;1;151;1;0;0;0;2;0
 Thalanthyr;Molotow;1;213;0;0;0;0;3;0
 Thalanthyr;QBZ95;1;148;0;0;0;0;2;0
@@ -152,24 +152,24 @@ Thalanthyr;Mortar;0;30;0;0;0;0;1;0
 Thalanthyr;Panzerfaust;0;16;0;0;0;0;1;0
 Thalanthyr;Sawed-off;0;212;0;2;0;0;2;0
 real_embo;UMP45;440;56768;194;206;0;0;97;1
-real_embo;VSS;350;62249;221;205;0;0;96;1
-real_embo;M249;307;44686;205;195;0;0;85;1
+real_embo;VSS;350;62360;222;205;0;0;96;1
+real_embo;M249;309;44900;205;197;0;0;86;1
 real_embo;MP5K;251;33353;147;130;0;0;31;1
 real_embo;M24;197;38270;168;114;0;0;63;1
-real_embo;Kar98k;177;36810;178;128;0;0;59;1
-real_embo;M416;168;24992;90;75;0;0;47;1
+real_embo;Kar98k;179;37300;181;130;0;0;60;1
+real_embo;M416;168;25010;90;75;0;0;47;1
 real_embo;AUG A3;166;21886;99;75;0;0;73;0
-real_embo;Granate;111;20652;0;87;0;0;84;0
+real_embo;Granate;111;20685;0;87;0;0;84;0
 real_embo;Mk12;107;24195;106;58;0;0;86;0
 real_embo;Dragunov;102;19364;86;44;0;0;71;0
-real_embo;JS9;90;11331;63;40;0;0;48;0
+real_embo;JS9;91;11451;64;40;0;0;48;0
 real_embo;S12K;86;10055;21;53;0;0;48;0
 real_embo;M16A4;81;13707;62;32;0;0;72;0
 real_embo;AKM;80;11254;44;53;0;0;57;0
-real_embo;Mini 14;77;18439;76;26;0;0;89;0
+real_embo;Mini 14;79;18534;77;27;0;0;89;0
 real_embo;Tommy Gun;69;9120;34;37;0;0;42;0
+real_embo;RPD;63;8613;38;44;0;0;48;0
 real_embo;SCAR-L;63;7631;28;19;0;0;81;0
-real_embo;RPD;61;8397;37;42;0;0;47;0
 real_embo;ACE32;57;9878;32;33;0;0;41;0
 real_embo;Mk47 Mutant;57;9340;38;31;0;0;47;0
 real_embo;P92;55;10593;69;7;0;0;79;0
@@ -184,7 +184,7 @@ real_embo;Mosin Nagant;38;7727;35;15;0;0;46;0
 real_embo;PP-19 Bizon;36;3981;8;15;0;0;37;0
 real_embo;MP9;33;4349;12;6;0;0;24;0
 real_embo;AWM;31;5719;21;23;0;0;41;0
-real_embo;Micro UZI;28;3603;25;14;0;0;32;0
+real_embo;Micro UZI;30;3891;27;17;0;0;33;0
 real_embo;S686;25;3366;7;11;0;0;24;0
 real_embo;MG3;20;2472;10;7;0;0;31;0
 real_embo;Mk14;19;2795;11;6;0;0;30;0
