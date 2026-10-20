@@ -152,7 +152,7 @@ Thalanthyr;Mortar;0;30;0;0;0;0;1;0
 Thalanthyr;Panzerfaust;0;16;0;0;0;0;1;0
 Thalanthyr;Sawed-off;0;212;0;2;0;0;2;0
 real_embo;UMP45;440;56801;194;206;0;0;97;1
-real_embo;VSS;350;62360;222;205;0;0;96;1
+real_embo;VSS;353;62680;222;205;0;0;97;1
 real_embo;M249;309;44940;205;197;0;0;86;1
 real_embo;MP5K;251;33353;147;130;0;0;31;1
 real_embo;M24;197;38270;168;114;0;0;63;1
@@ -168,8 +168,8 @@ real_embo;M16A4;82;13782;62;32;0;0;73;0
 real_embo;AKM;80;11254;44;53;0;0;57;0
 real_embo;Mini 14;79;18534;77;27;0;0;89;0
 real_embo;Tommy Gun;69;9120;34;37;0;0;42;0
+real_embo;SCAR-L;65;7831;30;19;0;0;82;0
 real_embo;RPD;63;8613;38;44;0;0;48;0
-real_embo;SCAR-L;63;7631;28;19;0;0;81;0
 real_embo;ACE32;57;9878;32;33;0;0;41;0
 real_embo;Mk47 Mutant;57;9340;38;31;0;0;47;0
 real_embo;P92;55;10593;69;7;0;0;79;0
