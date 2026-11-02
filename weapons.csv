@@ -108,16 +108,17 @@ Lacan123;vz61Skorpion;1;425;4;1;0;0;7;0
 Lacan123;Armbrust;0;97;0;0;0;0;1;0
 Lacan123;DP-28;0;80;1;1;0;0;2;0
 Lacan123;R45;0;123;0;0;0;0;1;0
+Thalanthyr;Dragunov;30;4759;21;21;0;0;30;0
+Thalanthyr;RPD;29;3483;16;21;0;0;27;0
 Thalanthyr;M16A4;25;3409;23;16;0;0;22;0
 Thalanthyr;M249;25;2505;6;19;0;0;22;0
-Thalanthyr;RPD;25;3060;14;21;0;0;25;0
-Thalanthyr;Dragunov;23;4089;18;21;0;0;26;0
 Thalanthyr;VSS;18;2730;10;10;0;0;21;0
 Thalanthyr;Kar98k;17;3643;11;13;0;0;23;0
 Thalanthyr;SKS;15;2144;14;7;0;0;18;0
 Thalanthyr;ACE32;13;1760;9;6;0;0;13;0
+Thalanthyr;AUG A3;11;1712;5;7;0;0;13;0
 Thalanthyr;MP5K;11;1850;12;15;0;0;14;0
-Thalanthyr;AUG A3;10;1679;5;7;0;0;13;0
+Thalanthyr;Tommy Gun;11;1425;5;6;0;0;12;0
 Thalanthyr;FNFal;8;1376;4;6;0;0;12;0
 Thalanthyr;L6;8;953;3;7;0;0;11;0
 Thalanthyr;AKM;7;1299;3;6;0;0;10;0
@@ -128,10 +129,10 @@ Thalanthyr;M416;6;1538;7;4;0;0;11;0
 Thalanthyr;Vector;6;836;2;8;0;0;8;0
 Thalanthyr;Beryl M762;5;698;5;4;0;0;9;0
 Thalanthyr;M24;5;1805;5;10;0;0;14;0
-Thalanthyr;Tommy Gun;5;861;2;6;0;0;8;0
 Thalanthyr;S1897;5;584;2;5;0;0;6;0
 Thalanthyr;SCAR-L;4;601;3;4;0;0;6;0
 Thalanthyr;Mini 14;3;464;0;1;0;0;5;0
+Thalanthyr;Mk12;2;737;5;0;0;0;9;0
 Thalanthyr;Mk47 Mutant;2;165;1;1;0;0;3;0
 Thalanthyr;S12K;2;162;0;2;0;0;2;0
 Thalanthyr;Armbrust;1;100;0;0;0;0;2;0
@@ -148,7 +149,6 @@ Thalanthyr;FAMASG2;0;251;0;0;0;0;2;0
 Thalanthyr;G36C;0;45;0;0;0;0;1;0
 Thalanthyr;Groza;0;25;0;0;0;0;1;0
 Thalanthyr;K2;0;73;0;0;0;0;1;0
-Thalanthyr;Mk12;0;535;4;0;0;0;6;0
 Thalanthyr;Mortar;0;30;0;0;0;0;1;0
 Thalanthyr;Panzerfaust;0;16;0;0;0;0;1;0
 Thalanthyr;Sawed-off;0;212;0;2;0;0;2;0
