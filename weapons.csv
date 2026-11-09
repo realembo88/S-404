@@ -152,17 +152,17 @@ Thalanthyr;K2;0;73;0;0;0;0;1;0
 Thalanthyr;Mortar;0;30;0;0;0;0;1;0
 Thalanthyr;Panzerfaust;0;16;0;0;0;0;1;0
 Thalanthyr;Sawed-off;0;212;0;2;0;0;2;0
-real_embo;UMP45;446;57574;196;210;0;0;98;1
-real_embo;VSS;358;64413;229;210;0;0;5;2
+real_embo;UMP45;446;57661;196;210;0;0;98;1
+real_embo;VSS;358;64470;229;210;0;0;5;2
 real_embo;M249;313;45629;206;202;0;0;87;1
-real_embo;MP5K;255;33765;148;131;0;0;33;1
+real_embo;MP5K;260;34297;151;131;0;0;35;1
 real_embo;M24;197;38433;168;114;0;0;63;1
-real_embo;Kar98k;181;38178;185;134;0;0;62;1
+real_embo;Kar98k;182;38466;186;135;0;0;63;1
 real_embo;M416;169;25176;91;75;0;0;47;1
 real_embo;AUG A3;166;21977;99;75;0;0;73;0
-real_embo;Granate;115;21628;0;91;0;0;87;0
+real_embo;Granate;116;21712;0;91;0;0;87;0
 real_embo;Mk12;110;24548;109;60;0;0;87;0
-real_embo;Dragunov;102;19388;86;44;0;0;71;0
+real_embo;Dragunov;103;19542;86;44;0;0;71;0
 real_embo;JS9;91;11451;64;40;0;0;48;0
 real_embo;S12K;86;10055;21;53;0;0;48;0
 real_embo;M16A4;84;14083;62;34;0;0;73;0
