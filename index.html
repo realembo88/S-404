@@ -90,6 +90,10 @@
 
 
 
+
+  .neuhint{display:block;margin-top:6px;font-family:var(--mono);font-size:10px;letter-spacing:.1em;
+           text-transform:uppercase;color:#15180F;background:var(--gold);padding:3px 8px}
+
   /* Clan-Banner */
   .clanbox{display:flex;gap:18px;align-items:center;flex-wrap:wrap;margin-top:9px}
   .clantag{font-family:var(--disp);font-size:13px;font-weight:700;letter-spacing:.16em;
@@ -178,7 +182,9 @@
       <h1 id="clanTitel">Clan-Statistik</h1>
       <div class="clanbox" id="clanBox" hidden></div>
     </div>
-    <div class="rt"><b id="hM">–</b> erfasste Matches</div>
+    <div class="rt"><b id="hM">–</b> erfasste Matches
+      <span id="neuHinweis" class="neuhint" hidden></span>
+    </div>
   </div>
 
   <div class="bar" id="filters" hidden>
@@ -835,18 +841,62 @@
     $('stamp').textContent = 'Keine Daten';
   }
 
-  fetch('pubg_matches.csv?v='+Date.now())
+  // --------------------------------------------------- Laden und Selbstaktualisierung
+  let letzterStand = '';          // Fingerabdruck der zuletzt verarbeiteten CSV
+  const PRUEFTAKT = 120000;       // alle 2 Minuten nachsehen
+
+  function verarbeite(t, erstesMal){
+    const raw = parseCSV(t).filter(o=>o.match_id);
+    if(!raw.length){
+      if(erstesMal) fail('Die CSV ist noch leer','Sobald der erste Sync gelaufen ist, erscheinen hier die Auswertungen.');
+      return false;
+    }
+    ROWS = raw.map(normalise).filter(r=>r.place>0 && !isNaN(r.ts));
+    const newest = ROWS.reduce((a,b)=>a.ts>b.ts?a:b).ts;
+    $('stamp').textContent = 'Letztes Match: '+newest.toLocaleString('de-DE',{dateStyle:'medium',timeStyle:'short'});
+    $('filters').hidden = false; $('content').hidden = false;
+    $('msg').hidden = true;
+    if(erstesMal) buildChips();
+    render(); renderRoles(); renderTitles(); renderSessions(); renderHours();
+    return true;
+  }
+
+  function hinweisNeu(anzahl){
+    const el = $('neuHinweis');
+    el.hidden = false;
+    el.textContent = anzahl === 1 ? '1 neues Match geladen' : anzahl+' neue Matches geladen';
+    clearTimeout(el._t);
+    el._t = setTimeout(()=>{ el.hidden = true; }, 8000);
+  }
+
+  function pruefeAufNeues(){
+    if(document.hidden) return;   // im Hintergrund nicht pollen
+    fetch('pubg_matches.csv?v='+Date.now(), {cache:'no-store'})
+      .then(r=> r.ok ? r.text() : null)
+      .then(t=>{
+        if(t === null) return;
+        const stand = t.length + '|' + t.slice(-400);
+        if(stand === letzterStand) return;
+        const vorher = new Set(ROWS.map(r=>r.id)).size;
+        letzterStand = stand;
+        if(verarbeite(t, false)){
+          const dazu = new Set(ROWS.map(r=>r.id)).size - vorher;
+          if(dazu > 0) hinweisNeu(dazu);
+          ladeClan(); ladeWaffen();
+        }
+      })
+      .catch(()=>{});
+  }
+
+  fetch('pubg_matches.csv?v='+Date.now(), {cache:'no-store'})
     .then(r=>{ if(!r.ok) throw new Error(r.status); return r.text(); })
     .then(t=>{
-      const raw = parseCSV(t).filter(o=>o.match_id);
-      if(!raw.length) return fail('Die CSV ist noch leer','Sobald der erste Sync gelaufen ist, erscheinen hier die Auswertungen.');
-      ROWS = raw.map(normalise).filter(r=>r.place>0 && !isNaN(r.ts));
-      const newest = ROWS.reduce((a,b)=>a.ts>b.ts?a:b).ts;
-      $('stamp').textContent = 'Letztes Match: '+newest.toLocaleString('de-DE',{dateStyle:'medium',timeStyle:'short'});
-      $('filters').hidden = false; $('content').hidden = false;
-      buildChips(); render();
-      renderRoles(); renderTitles(); renderSessions(); renderHours();
+      letzterStand = t.length + '|' + t.slice(-400);
+      if(!verarbeite(t, true)) return;
       ladeClan(); ladeWaffen();
+      setInterval(pruefeAufNeues, PRUEFTAKT);
+      // Beim Zurueckwechseln auf den Tab sofort nachsehen
+      document.addEventListener('visibilitychange', ()=>{ if(!document.hidden) pruefeAufNeues(); });
     })
     .catch(e=>fail('pubg_matches.csv nicht gefunden',
       'Die Datei muss im selben Ordner liegen wie diese Seite. Beim lokalen Öffnen per Doppelklick blockieren Browser das Laden – dafür einen kleinen Webserver nutzen oder die Seite über GitHub Pages aufrufen.'));
