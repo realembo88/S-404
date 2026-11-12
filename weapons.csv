@@ -1,8 +1,8 @@
 ﻿spieler;waffe;kills;schaden;kopfschuesse;knocks;weitester_knock_m;meiste_knocks_match;level;tier
-Baerli162;Vector;125;14661;86;83;0;0;66;0
-Baerli162;M416;104;15390;77;86;0;0;61;0
+Baerli162;Vector;127;14923;89;85;0;0;66;0
+Baerli162;M416;105;15427;78;87;0;0;61;0
 Baerli162;M16A4;84;16191;73;65;0;0;61;0
-Baerli162;SKS;61;15982;76;69;0;0;70;0
+Baerli162;SKS;61;16048;77;69;0;0;70;0
 Baerli162;AUG A3;59;8192;46;42;0;0;39;0
 Baerli162;AKM;43;6039;28;34;0;0;30;0
 Baerli162;MP5K;39;4873;20;26;0;0;26;0
@@ -19,10 +19,10 @@ Baerli162;SCAR-L;22;3158;13;18;0;0;30;0
 Baerli162;M249;21;2277;13;19;0;0;21;0
 Baerli162;Mini 14;21;4862;28;26;0;0;29;0
 Baerli162;DBS;20;1883;7;11;0;0;18;0
+Baerli162;Granate;20;2977;0;22;0;0;25;0
 Baerli162;S12K;20;2078;7;12;0;0;17;0
 Baerli162;Micro UZI;20;2572;25;13;0;0;21;0
 Baerli162;Beryl M762;19;3130;12;15;0;0;25;0
-Baerli162;Granate;19;2890;0;21;0;0;25;0
 Baerli162;Tommy Gun;19;2811;13;20;0;0;19;0
 Baerli162;Dragunov;15;3375;5;13;0;0;20;0
 Baerli162;Groza;15;1842;6;11;0;0;15;0
@@ -55,7 +55,7 @@ Baerli162;vz61Skorpion;0;150;0;0;0;0;2;0
 Lacan123;UMP45;161;18726;71;122;0;0;65;0
 Lacan123;M24;124;23513;89;121;0;0;80;0
 Lacan123;Tommy Gun;124;14977;67;96;0;0;58;0
-Lacan123;M416;106;15881;74;85;0;0;54;0
+Lacan123;M416;107;15980;74;86;0;0;54;0
 Lacan123;AUG A3;86;11723;68;56;0;0;48;0
 Lacan123;VSS;70;12422;53;53;0;0;53;0
 Lacan123;Kar98k;69;13647;52;75;0;0;55;0
@@ -66,7 +66,7 @@ Lacan123;S1897;57;7438;13;48;0;0;31;0
 Lacan123;Dragunov;53;11344;42;46;0;0;48;0
 Lacan123;Sawed-off;39;4040;6;22;0;0;25;0
 Lacan123;S686;37;4163;9;25;0;0;23;0
-Lacan123;MP5K;35;3857;16;26;0;0;22;0
+Lacan123;MP5K;35;3929;16;26;0;0;22;0
 Lacan123;Micro UZI;35;3958;15;25;0;0;23;0
 Lacan123;S12K;32;3482;9;24;0;0;21;0
 Lacan123;Granate;29;4949;0;33;0;0;33;0
@@ -80,7 +80,7 @@ Lacan123;SKS;16;4243;11;15;0;0;23;0
 Lacan123;Beryl M762;15;2084;9;12;0;0;15;0
 Lacan123;SCAR-L;13;1991;6;16;0;0;13;0
 Lacan123;PP-19 Bizon;12;1367;3;6;0;0;12;0
-Lacan123;JS9;10;1045;7;7;0;0;11;0
+Lacan123;JS9;12;1134;7;8;0;0;12;0
 Lacan123;K2;9;977;4;6;0;0;10;0
 Lacan123;Mk14;9;867;3;9;0;0;12;0
 Lacan123;Mosin Nagant;9;1462;4;7;0;0;13;0
@@ -111,19 +111,19 @@ Lacan123;R45;0;123;0;0;0;0;1;0
 Thalanthyr;Dragunov;32;4957;23;23;0;0;31;0
 Thalanthyr;RPD;30;3560;17;21;0;0;27;0
 Thalanthyr;M249;26;2605;7;19;0;0;23;0
-Thalanthyr;M16A4;25;3409;23;16;0;0;22;0
+Thalanthyr;M16A4;25;3432;23;16;0;0;22;0
 Thalanthyr;Kar98k;19;3758;11;15;0;0;24;0
 Thalanthyr;VSS;18;2730;10;10;0;0;21;0
 Thalanthyr;SKS;16;2355;16;8;0;0;19;0
 Thalanthyr;ACE32;13;1814;9;6;0;0;13;0
-Thalanthyr;AUG A3;11;1712;5;7;0;0;13;0
+Thalanthyr;AUG A3;11;1734;5;7;0;0;13;0
 Thalanthyr;MP5K;11;1850;12;15;0;0;14;0
 Thalanthyr;Tommy Gun;11;1425;5;6;0;0;12;0
 Thalanthyr;AKM;9;1589;4;7;0;0;12;0
 Thalanthyr;UMP45;9;1377;9;6;0;0;12;0
 Thalanthyr;FNFal;8;1376;4;6;0;0;12;0
 Thalanthyr;L6;8;953;3;7;0;0;11;0
-Thalanthyr;Granate;7;614;0;6;0;0;11;0
+Thalanthyr;Granate;7;654;0;6;0;0;11;0
 Thalanthyr;M416;7;1638;7;5;0;0;12;0
 Thalanthyr;Micro UZI;7;951;4;8;0;0;9;0
 Thalanthyr;Vector;7;971;2;8;0;0;9;0
@@ -132,8 +132,8 @@ Thalanthyr;M24;5;1805;5;10;0;0;14;0
 Thalanthyr;S1897;5;584;2;5;0;0;6;0
 Thalanthyr;SCAR-L;4;601;3;4;0;0;6;0
 Thalanthyr;Mini 14;3;464;0;1;0;0;5;0
+Thalanthyr;Mk47 Mutant;3;265;1;2;0;0;4;0
 Thalanthyr;Mk12;2;1071;10;1;0;0;12;0
-Thalanthyr;Mk47 Mutant;2;165;1;1;0;0;3;0
 Thalanthyr;S12K;2;162;0;2;0;0;2;0
 Thalanthyr;Armbrust;1;100;0;0;0;0;2;0
 Thalanthyr;G36C;1;118;0;1;0;0;1;0
@@ -152,26 +152,26 @@ Thalanthyr;K2;0;73;0;0;0;0;1;0
 Thalanthyr;Mortar;0;30;0;0;0;0;1;0
 Thalanthyr;Panzerfaust;0;16;0;0;0;0;1;0
 Thalanthyr;Sawed-off;0;212;0;2;0;0;2;0
-real_embo;UMP45;446;57661;196;210;0;0;98;1
-real_embo;VSS;358;64541;229;211;0;0;5;2
+real_embo;UMP45;446;57681;196;210;0;0;98;1
+real_embo;VSS;361;65195;229;216;0;0;10;2
 real_embo;M249;313;45629;206;202;0;0;87;1
 real_embo;MP5K;264;34935;159;137;0;0;38;1
-real_embo;M24;197;38433;168;114;0;0;63;1
+real_embo;M24;198;38529;169;115;0;0;64;1
 real_embo;Kar98k;182;38603;186;136;0;0;63;1
 real_embo;M416;169;25176;91;75;0;0;47;1
 real_embo;AUG A3;166;21977;99;75;0;0;73;0
-real_embo;Granate;116;21712;0;91;0;0;87;0
+real_embo;Granate;116;21823;0;91;0;0;87;0
 real_embo;Mk12;110;24548;109;60;0;0;87;0
 real_embo;Dragunov;103;19542;86;44;0;0;71;0
-real_embo;JS9;91;11451;64;40;0;0;48;0
+real_embo;JS9;91;11583;65;42;0;0;48;0
 real_embo;S12K;86;10055;21;53;0;0;48;0
 real_embo;M16A4;84;14083;62;34;0;0;73;0
 real_embo;AKM;80;11288;44;53;0;0;57;0
 real_embo;Mini 14;79;18698;77;27;0;0;89;0
 real_embo;Tommy Gun;70;9385;34;38;0;0;43;0
-real_embo;RPD;67;9743;46;52;0;0;51;0
+real_embo;RPD;67;9783;46;52;0;0;52;0
 real_embo;SCAR-L;65;7831;30;19;0;0;82;0
-real_embo;ACE32;57;9878;32;33;0;0;41;0
+real_embo;ACE32;57;9972;32;33;0;0;41;0
 real_embo;Mk47 Mutant;57;9340;38;31;0;0;47;0
 real_embo;Vector;57;8592;29;24;0;0;56;0
 real_embo;P92;55;10593;69;7;0;0;79;0
