@@ -11,6 +11,7 @@ und zeigt sie als Webseite an.
 | `.github/workflows/pubg-sync.yml` | Startet das Skript alle 6 Stunden automatisch |
 | `index.html` | Die Auswertung – liest die CSV und rechnet alles im Browser |
 | `pubg_matches.csv` | Der Datenbestand. Entsteht beim ersten Lauf. |
+| `videos.txt` | YouTube-Links zu einzelnen Matches, von Hand gepflegt |
 
 ## Einrichtung
 
@@ -49,3 +50,23 @@ Die PUBG-API unterscheidet Groß- und Kleinschreibung streng.
   einmal auf *Enable workflow* klicken.
 - `index.html` lässt sich nicht per Doppelklick öffnen – Browser blockieren
   dabei das Laden der CSV. Über die Pages-URL funktioniert es.
+
+
+## Videos verknüpfen
+
+Die Links zu den Match-Aufzeichnungen stehen in `videos.txt`, eine Zeile je
+Video: erst der YouTube-Link, dann der Videotitel. Bewusst von Hand statt
+über die YouTube-API — unlisted Videos gibt ein einfacher API-Schlüssel nicht
+heraus, und OAuth wäre für ein paar Links im Monat unverhältnismäßig.
+
+Die Zuordnung zum Match läuft allein über den Titel:
+
+    JJJJMMTT Map #Platz (xK) - spieler1, spieler2
+
+Datum, Map, Platzierung und Besetzung machen rund 97 % der Runden eindeutig.
+Für den Rest hilft die Killzahl des Erstgenannten in Klammern. Passt ein Titel
+auf kein oder auf mehrere Matches, wird **nichts** verknüpft — das Video
+erscheint im Abschnitt „Videos" unter „Nicht zugeordnet" mit dem Grund.
+
+Hinweis: Das Repository und die Seite sind öffentlich. Dort hinterlegte Links
+zu unlisted Videos sind damit für jeden erreichbar, der die Seite aufruft.

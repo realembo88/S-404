@@ -148,6 +148,28 @@
   .dtag{font-family:var(--disp);font-size:11px;letter-spacing:.08em;text-transform:uppercase;
         background:var(--panel2);border:1px solid var(--line);color:var(--gold);padding:3px 9px}
 
+
+  /* Videos */
+  .vgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+  .vcard{display:flex;gap:11px;align-items:center;background:var(--panel);border:1px solid var(--line-soft);
+         border-left:3px solid var(--red);padding:10px 12px;text-decoration:none;color:inherit}
+  .vcard:hover{border-color:var(--line);background:var(--panel2)}
+  .vcard:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+  .vcard.win{border-left-color:var(--gold)}
+  .vplay{font-size:15px;color:var(--red);line-height:1}
+  .vcard.win .vplay{color:var(--gold)}
+  .vmeta{min-width:0}
+  .vtitel{display:block;font-family:var(--disp);font-size:14px;letter-spacing:.09em;text-transform:uppercase}
+  .vsub{display:block;font-size:10px;color:var(--muted);letter-spacing:.05em;margin-top:2px}
+  .voffen{margin-top:10px;border:1px dashed var(--line);padding:10px 12px}
+  .vol{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+  .vorow{display:grid;grid-template-columns:70px 1fr auto;gap:10px;padding:4px 0;font-size:11px;align-items:baseline}
+  .vozeile{color:var(--muted);font-variant-numeric:tabular-nums}
+  .votitel{color:var(--sand-dim);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .vogrund{color:var(--red);font-size:10px;text-align:right}
+  .feedplay{display:inline-block;margin-left:7px;color:var(--red);text-decoration:none;font-size:12px}
+  .feedplay:hover{color:var(--gold)}
+
   /* Formverlauf */
   .fgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
   .fcard{background:var(--panel);border:1px solid var(--line-soft);padding:11px 13px 10px}
@@ -235,6 +257,7 @@
     .tgrid{grid-template-columns:repeat(2,1fr)}
     .roles{grid-template-columns:1fr}
     .fgrid{grid-template-columns:1fr}
+    .vgrid{grid-template-columns:1fr}
     .dgrid{grid-template-columns:repeat(3,1fr)}
     .wtop{grid-template-columns:1fr}
     .tblwrap table{min-width:640px}
@@ -359,6 +382,15 @@
       </tr></thead><tbody></tbody></table></div>
     </div>
 
+
+    <div class="sec" id="vidSec" hidden>
+      <div class="sec-h"><h2>Videos</h2><span class="rule"></span><span class="hint" id="vidCount"></span></div>
+      <div class="vgrid" id="vidList"></div>
+      <div id="vidOffen"></div>
+      <p class="dim" style="font-size:10px;margin:9px 0 0;letter-spacing:.05em">
+        Gepflegt in <code>videos.txt</code> im Repository – eine Zeile je Video, Link und Titel.
+        Die Zuordnung läuft über den Titel; passt er auf kein oder mehr als ein Match, bleibt das Video offen stehen.</p>
+    </div>
     <div class="sec">
       <div class="sec-h"><h2>Letzte Matches</h2><span class="rule"></span><span class="hint" id="feedN"></span></div>
       <div class="feed" id="feed"></div>
@@ -412,7 +444,7 @@
   function normalise(r){
     return {
       id:r.match_id, ts:new Date(r.zeitpunkt), player:r.spieler,
-      mode:(r.modus||'').toLowerCase(), persp:r.perspektive||'TPP', map:mapName(r.map),
+      mode:(r.modus||'').toLowerCase(), persp:r.perspektive||'TPP', map:mapName(r.map), rawMap:(r.map||''),
       place:N(r.platz), field:N(r.teams_im_match)||25,
       kills:N(r.kills), assists:N(r.assists), knocks:N(r.knocks), hs:N(r.kopfschuesse),
       dmg:N(r.schaden), longest:N(r.weitester_kill_m), surv:N(r.ueberlebt_min),
@@ -593,7 +625,7 @@
       return `<div class="row ${win?'win':''}">
         <div class="plc">${win?'🍗':'#'+r.place}<span>${win?'PLATZ 1':'VON '+r.field}</span></div>
         <div>
-          <div class="who">${r.player}<em>${r.mode?r.mode[0].toUpperCase()+r.mode.slice(1):''} ${r.persp} · ${r.map} · ${r.ts.toLocaleDateString('de-DE')}</em></div>
+          <div class="who">${r.player}<em>${r.mode?r.mode[0].toUpperCase()+r.mode.slice(1):''} ${r.persp} · ${r.map} · ${r.ts.toLocaleDateString('de-DE')}</em>${videoKnopf(r.id)}</div>
           <div class="zone"><i style="width:${(share*100).toFixed(1)}%"></i></div>
         </div>
         <div class="nums">
@@ -985,6 +1017,138 @@
   }
 
 
+
+
+  // ------------------------------------------------------------------ Videos
+  // Die Links pflegt ihr von Hand in videos.txt. Bewusst ohne YouTube-API:
+  // unlisted Videos gibt ein einfacher API-Schluessel nicht heraus, und OAuth
+  // waere fuer eine Handvoll Links im Monat unverhaeltnismaessig.
+  let VIDEOS = [], VID_OFFEN = [];
+
+  const MAP_ZU_ROH = {
+    'erangel':['Baltic_Main','Erangel_Main'], 'miramar':['Desert_Main'],
+    'sanhok':['Savage_Main'], 'vikendi':['DihorOtok_Main'], 'taego':['Tiger_Main'],
+    'deston':['Kiki_Main'], 'rondo':['Neon_Main'], 'karakin':['Summerland_Main'],
+    'paramo':['Chimera_Main'], 'haven':['Heaven_Main']
+  };
+
+  // JJJJMMTT Map #Platz (xK) - spieler1, spieler2
+  const TITEL_MUSTER = /^(\d{8})\s+([A-Za-zÄÖÜäöü]+)\s*#\s*(\d{1,3})\s*(?:\(\s*(\d+)\s*K\s*\))?\s*[-–—]\s*(.+)$/;
+
+  function videoId(url){
+    const m = String(url).match(/(?:youtu\.be\/|v=|embed\/|shorts\/)([A-Za-z0-9_-]{11})/);
+    return m ? m[1] : null;
+  }
+
+  function titelLesen(titel){
+    const m = titel.trim().match(TITEL_MUSTER);
+    if(!m) return null;
+    return {
+      datum: m[1],
+      map:   m[2].toLowerCase(),
+      platz: +m[3],
+      kills: m[4] !== undefined ? +m[4] : null,
+      wer:   m[5].split(',').map(x=>x.trim().toLowerCase()).filter(Boolean)
+    };
+  }
+
+  // Kandidaten suchen. Verknuepft wird nur bei genau einem Treffer.
+  function matchSuchen(t){
+    const rohMaps = MAP_ZU_ROH[t.map] || [];
+    const proMatch = {};
+    ROWS.forEach(r=>(proMatch[r.id]=proMatch[r.id]||[]).push(r));
+
+    const treffer = [];
+    Object.entries(proMatch).forEach(([id, zeilen])=>{
+      const r0 = zeilen[0];
+      const d = r0.ts.getFullYear().toString()
+              + String(r0.ts.getMonth()+1).padStart(2,'0')
+              + String(r0.ts.getDate()).padStart(2,'0');
+      if(d !== t.datum) return;
+      if(r0.place !== t.platz) return;
+      if(rohMaps.length && !rohMaps.includes(r0.rawMap)) return;
+
+      const besetzung = zeilen.map(z=>z.player.toLowerCase()).sort();
+      const gesucht = [...t.wer].sort();
+      // Die im Titel genannten muessen dabei gewesen sein
+      if(!gesucht.every(n=>besetzung.includes(n))) return;
+      if(gesucht.length !== besetzung.length) return;
+
+      if(t.kills !== null){
+        const erster = zeilen.find(z=>z.player.toLowerCase()===t.wer[0]);
+        if(erster && erster.kills !== t.kills) return;
+      }
+      treffer.push({id, zeilen, ts:r0.ts, place:r0.place, map:r0.map});
+    });
+    return treffer;
+  }
+
+  function ladeVideos(){
+    return fetch('videos.txt?v='+Date.now(), {cache:'no-store'})
+      .then(r=> r.ok ? r.text() : null)
+      .then(t=>{
+        if(t===null) return;
+        VIDEOS = []; VID_OFFEN = [];
+        t.split(/\r?\n/).forEach((zeile,i)=>{
+          const z = zeile.trim();
+          if(!z || z.startsWith('#')) return;
+          const teile = z.split(/\s+/);
+          const vid = videoId(teile[0]);
+          const titel = z.slice(teile[0].length).trim();
+          if(!vid){ VID_OFFEN.push({zeile:i+1, titel:z, grund:'keine gültige YouTube-Adresse'}); return; }
+          if(!titel){ VID_OFFEN.push({zeile:i+1, titel:z, grund:'kein Titel hinter dem Link'}); return; }
+          const t2 = titelLesen(titel);
+          if(!t2){ VID_OFFEN.push({zeile:i+1, titel, grund:'Titel passt nicht zum Schema'}); return; }
+          const tr = matchSuchen(t2);
+          if(tr.length === 1){
+            VIDEOS.push({vid, titel, match:tr[0], wer:t2.wer});
+          } else {
+            VID_OFFEN.push({zeile:i+1, titel,
+              grund: tr.length ? tr.length+' Matches passen – Killzahl ergänzen macht es eindeutig'
+                               : 'kein passendes Match gefunden'});
+          }
+        });
+        renderVideos();
+        render();                // baut das Einsatzprotokoll mit den Play-Markierungen neu
+      })
+      .catch(err=>{ console.warn('videos.txt konnte nicht verarbeitet werden:', err); });
+  }
+
+
+  function videoKnopf(matchId){
+    const v = VIDEOS.find(x=>x.match.id===matchId);
+    return v ? `<a class="feedplay" href="https://www.youtube.com/watch?v=${v.vid}" target="_blank"
+                   rel="noopener" title="Video ansehen" aria-label="Video zu diesem Match">▶</a>` : '';
+  }
+
+  function renderVideos(){
+    if(!VIDEOS.length && !VID_OFFEN.length){ $('vidSec').hidden = true; return; }
+    $('vidSec').hidden = false;
+    $('vidCount').textContent = VIDEOS.length
+      ? VIDEOS.length + (VIDEOS.length===1?' Video verknüpft':' Videos verknüpft') : '';
+
+    $('vidList').innerHTML = VIDEOS.length ? VIDEOS
+      .slice().sort((a,b)=>b.match.ts-a.match.ts)
+      .map(v=>{
+        const m = v.match, win = m.place===1;
+        const kills = m.zeilen.reduce((a,z)=>a+z.kills,0);
+        return `<a class="vcard${win?' win':''}" href="https://www.youtube.com/watch?v=${v.vid}"
+                   target="_blank" rel="noopener">
+          <span class="vplay" aria-hidden="true">▶</span>
+          <span class="vmeta">
+            <span class="vtitel">${m.map} · ${win?'Platz 1':'Platz '+m.place}</span>
+            <span class="vsub">${m.ts.toLocaleDateString('de-DE',{weekday:'short',day:'2-digit',month:'2-digit'})}
+              · ${v.wer.join(', ')} · ${f(kills)} ${kills===1?'Kill':'Kills'} im Team</span>
+          </span></a>`;
+      }).join('') : '<p class="dim">Noch keine Videos verknüpft.</p>';
+
+    $('vidOffen').innerHTML = VID_OFFEN.length
+      ? `<div class="voffen"><div class="vol">Nicht zugeordnet</div>${VID_OFFEN.map(o=>
+          `<div class="vorow"><span class="vozeile">Zeile ${o.zeile}</span>
+            <span class="votitel">${o.titel.length>70?o.titel.slice(0,70)+'…':o.titel}</span>
+            <span class="vogrund">${o.grund}</span></div>`).join('')}</div>`
+      : '';
+  }
 
   // ------------------------------------------------- Sortierbare Tabellen
   // Liest die gerenderten Zeilen und sortiert sie im DOM. Zahlen werden aus
@@ -1490,7 +1654,7 @@
         if(verarbeite(t, false)){
           const dazu = new Set(ROWS.map(r=>r.id)).size - vorher;
           if(dazu > 0) hinweisNeu(dazu);
-          ladeClan(); ladeWaffen();
+          ladeClan(); ladeWaffen(); ladeVideos(); ladeVideos();
         }
       })
       .catch(()=>{});
@@ -1501,7 +1665,7 @@
     .then(t=>{
       letzterStand = t.length + '|' + t.slice(-400);
       if(!verarbeite(t, true)) return;
-      ladeClan(); ladeWaffen();
+      ladeClan(); ladeWaffen(); ladeVideos();
       setInterval(pruefeAufNeues, PRUEFTAKT);
       // Beim Zurueckwechseln auf den Tab sofort nachsehen
       document.addEventListener('visibilitychange', ()=>{ if(!document.hidden) pruefeAufNeues(); });

@@ -1,0 +1,26 @@
+# Videos zu Matches
+# -----------------------------------------------------------------------
+# Eine Zeile je Video:   <Link>   <Titel>
+# Zwischen Link und Titel mindestens ein Leerzeichen, der Rest der Zeile
+# ist der Titel. Zeilen mit # am Anfang und Leerzeilen werden ignoriert.
+#
+# Der Titel muss diesem Schema folgen, sonst wird nichts verknuepft:
+#
+#   JJJJMMTT Map #Platz (xK) - spieler1, spieler2
+#                      ^^^^^^
+#                      Killzahl des Erstgenannten, optional
+#
+# Beispiele:
+#   https://youtu.be/ABCDEFGHIJK  20261122 Erangel #1 (7K) - lacan123, real_embo
+#   https://youtu.be/KJIHGFEDCBA  20261120 Taego #4 - real_embo
+#
+# Die Map so schreiben, wie sie im Spiel heisst: Erangel, Miramar, Sanhok,
+# Vikendi, Taego, Deston, Rondo, Karakin, Paramo, Haven.
+# Namen hinter dem Bindestrich sind alle Clanmitglieder, die in der Runde
+# im Team waren - Gross- und Kleinschreibung egal.
+#
+# Ohne Killzahl sind rund 97 % der Runden eindeutig. Bleibt eine Zeile im
+# Abschnitt "Videos" als nicht zugeordnet stehen, macht die Killzahl sie
+# in aller Regel eindeutig.
+# -----------------------------------------------------------------------
+
