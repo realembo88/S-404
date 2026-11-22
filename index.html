@@ -229,6 +229,8 @@
   .note b{color:var(--gold);font-weight:500}
 
   @media (max-width:900px){
+    /* Trennstriche landen beim Umbruch sonst allein in einer eigenen Zeile */
+    .bar .sep{display:none}
     .grid{grid-template-columns:repeat(3,1fr)}
     .tgrid{grid-template-columns:repeat(2,1fr)}
     .roles{grid-template-columns:1fr}
@@ -302,12 +304,16 @@
 
     <div class="sec">
       <div class="sec-h"><h2>Rollenvorschlag</h2><span class="rule"></span><span class="hint" id="roleBase"></span></div>
-      <div class="plegend" id="fensterPick"></div>
+      <p class="dim" style="font-size:10px;margin:0 0 9px;letter-spacing:.05em">
+        Folgt dem Zeitraum oben. Modus, Perspektive und Spielerauswahl greifen hier nicht –
+        die Rollen vergleichen immer alle vier miteinander.</p>
       <div class="roles" id="roles"></div>
       <div class="note" id="roleNote"></div>
     </div>
     <div class="sec">
       <div class="sec-h"><h2>Titel des Hauses</h2><span class="rule"></span><span class="hint" id="titleBase"></span></div>
+      <p class="dim" style="font-size:10px;margin:0 0 9px;letter-spacing:.05em">
+        Folgt dem Zeitraum oben. Modus, Perspektive und Spielerauswahl greifen hier nicht.</p>
       <div class="tcount" id="titleCount"></div>
       <div id="titles"></div>
       <p class="dim" style="font-size:10px;margin:12px 0 0;letter-spacing:.05em">
@@ -317,7 +323,7 @@
 
 
     <div class="sec">
-      <div class="sec-h"><h2>Formverlauf</h2><span class="rule"></span><span class="hint">je Woche, gesamter Bestand</span></div>
+      <div class="sec-h"><h2>Formverlauf</h2><span class="rule"></span><span class="hint">je Woche, immer der gesamte Bestand</span></div>
       <div class="plegend" id="formPick"></div>
       <div class="fgrid" id="formGrid"></div>
       <div class="note" id="formNote"></div>
@@ -429,14 +435,23 @@
     return true;
   }
 
+  // Der Zeitraum oben gilt fuer die GANZE Seite - auch fuer Rollen und Titel.
+  // Vorher gab es dafuer einen zweiten Schalter weiter unten, was zwangslaeufig
+  // zu widerspruechlichen Anzeigen fuehrte.
+  // Anker ist das neueste erfasste Match, nicht die Uhrzeit des Aufrufs: sonst
+  // waere "7 Tage" nach einer Spielpause einfach leer.
+  function ankerZeit(){
+    return ROWS.length ? Math.max(...ROWS.map(r=>r.ts.getTime())) : Date.now();
+  }
+
   function filtered(){
-    const now = Date.now();
-    const cut = F.range==='7' ? now-7*864e5 : F.range==='30' ? now-30*864e5 : 0;
+    const tage = +F.range || 0;
+    const cut = tage ? ankerZeit() - tage*864e5 : 0;
     return ROWS.filter(r=>
       (F.mode==='all'   || r.mode===F.mode) &&
       (F.persp==='all'  || r.persp===F.persp) &&
       (F.player==='all' || r.player===F.player) &&
-      (!cut || r.ts.getTime() >= cut));
+      (!cut || r.ts.getTime() > cut));
   }
 
   function agg(list){
@@ -462,15 +477,32 @@
       `<button class="tab${alt?' alt':''}" data-v="${v}" aria-pressed="${F[key]===v}">${l}</button>`).join('');
     $(box).querySelectorAll('button').forEach(b=>b.onclick=()=>{
       F[key]=b.dataset.v; buildChips(); render();
+      // Rollen, Titel und Formverlauf haengen am Zeitraum, nicht an Modus,
+      // Perspektive oder Spielerauswahl.
+      if(key==='range'){ renderRoles(); renderTitles(); renderForm(); }
     });
   }
 
   function buildChips(){
     const players = [...new Set(ROWS.map(r=>r.player))].sort();
     chips('fMode',[['all','Alle Modi'],['solo','Solo'],['duo','Duo'],['squad','Squad']],'mode');
-    chips('fPersp',[['all','TPP+FPP'],['TPP','TPP'],['FPP','FPP']],'persp',true);
+    // Den TPP/FPP-Schalter nur zeigen, wenn FPP ueberhaupt vorkommt. Bei 2 von
+    // 1.283 Zeilen ist er nur Ballast - taucht FPP spaeter auf, kommt er von
+    // selbst zurueck.
+    const fppN = ROWS.filter(r=>r.persp==='FPP').length;
+    const zeigeFpp = fppN >= 10 || fppN/Math.max(1,ROWS.length) >= 0.01;
+    if(zeigeFpp){
+      chips('fPersp',[['all','TPP+FPP'],['TPP','TPP'],['FPP','FPP']],'persp',true);
+      $('fPersp').removeAttribute('hidden');
+      $('fPersp').previousElementSibling?.removeAttribute('hidden');
+    } else {
+      F.persp = 'all';
+      $('fPersp').innerHTML = '';
+      $('fPersp').setAttribute('hidden','');
+      $('fPersp').previousElementSibling?.setAttribute('hidden','');
+    }
     chips('fPlayer',[['all','Clan'],...players.map(p=>[p,p])],'player');
-    chips('fRange',[['all','Gesamt'],['30','30 Tage'],['7','7 Tage']],'range',true);
+    chips('fRange',[['all','Gesamt'],['90','90 Tage'],['30','30 Tage'],['14','14 Tage'],['7','7 Tage']],'range',true);
   }
 
   function render(){
@@ -585,26 +617,18 @@
   // Zeitfenster, auf das sich Rollen und Titel beziehen. Das ist der Grund,
   // warum sich frueher nie etwas bewegt hat: ueber den gesamten Datenbestand
   // gerechnet, verschiebt ein einzelner Abend keinen einzigen Mittelwert mehr.
-  let FENSTER = 30;              // Tage; 0 = gesamter Bestand
-  const FENSTER_LABEL = {14:'14 Tage', 30:'30 Tage', 90:'90 Tage', 0:'Gesamt'};
+  // Kein eigener Schalter mehr - der Zeitraum kommt aus der Leiste oben.
+  const FENSTER_LABEL = {7:'7 Tage', 14:'14 Tage', 30:'30 Tage', 90:'90 Tage', 0:'Gesamt'};
+  const fenster = () => +F.range || 0;
 
   function imFenster(tage, versatz){
     if(!tage) return ROWS.slice();
-    const jetzt = ROWS.length ? Math.max(...ROWS.map(r=>r.ts.getTime())) : Date.now();
-    const bis  = jetzt - (versatz||0)*tage*864e5;
-    const von  = bis - tage*864e5;
+    const bis = ankerZeit() - (versatz||0)*tage*864e5;
+    const von = bis - tage*864e5;
     return ROWS.filter(r=> r.ts.getTime() > von && r.ts.getTime() <= bis);
   }
 
 
-  function renderFensterPick(){
-    $('fensterPick').innerHTML = [14,30,90,0].map(t=>
-      `<button data-f="${t}" aria-pressed="${FENSTER===t}">${FENSTER_LABEL[t]}</button>`).join('') +
-      '<span style="align-self:center">Rollen und Titel beziehen sich auf diesen Zeitraum</span>';
-    $('fensterPick').querySelectorAll('button').forEach(b=>b.onclick=()=>{
-      FENSTER = +b.dataset.f; renderFensterPick(); renderRoles(); renderTitles(); renderForm();
-    });
-  }
 
   // ---------------------------------------------------------- Rollenkatalog
   // Sieben Rollen, vier Plaetze: die Zuordnung sucht die Kombination mit der
@@ -716,6 +740,7 @@
   }
 
   function renderRoles(){
+    const FENSTER = fenster();
     const liste = imFenster(FENSTER, 0);
     const {st, teamMatches} = rollenDaten(liste);
     const minM = FENSTER ? 4 : 8;
@@ -914,6 +939,7 @@
   }
 
   function renderTitles(){
+    const FENSTER = fenster();
     const liste = imFenster(FENSTER, 0);
     const minM = FENSTER ? 3 : 5;
     const vergeben = titelVergabe(liste, minM);
@@ -927,7 +953,7 @@
     // Vorperiode, um Titelwechsel zu markieren
     let vorher = {};
     if(FENSTER){
-      const v = titelVergabe(imFenster(FENSTER,1), minM);
+      const v = titelVergabe(imFenster(fenster(),1), minM);
       if(v) v.forEach(x=>vorher[x.n]=x.traeger);
     }
 
@@ -1016,11 +1042,11 @@
     if(!DETAIL){ box.hidden = true; markiereZeilen(); return; }
 
     const alle = ROWS.filter(r=>r.player===name);
-    const fenster = imFenster(FENSTER,0).filter(r=>r.player===name);
+    const fenster = imFenster(fenster(),0).filter(r=>r.player===name);
     if(!alle.length){ box.hidden = true; return; }
 
     const A = agg(alle), Z = agg(fenster);
-    const titel = (titelVergabe(imFenster(FENSTER,0), FENSTER?3:5)||[]).filter(t=>t.traeger===name);
+    const titel = (titelVergabe(imFenster(fenster(),0), FENSTER?3:5)||[]).filter(t=>t.traeger===name);
     const {st} = rollenDaten(ROWS);          // gesamter Bestand, wie die Kacheln
     const meine = st[name];
 
@@ -1438,7 +1464,7 @@
     $('stamp').textContent = 'Letztes Match: '+newest.toLocaleString('de-DE',{dateStyle:'medium',timeStyle:'short'});
     $('filters').hidden = false; $('content').hidden = false;
     $('msg').hidden = true;
-    if(erstesMal){ buildChips(); renderFensterPick(); }
+    if(erstesMal) buildChips();
     render(); renderRoles(); renderTitles(); renderSessions(); renderHours(); renderForm();
     return true;
   }
