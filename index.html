@@ -110,27 +110,101 @@
   .wbar{height:12px;background:var(--panel2);overflow:hidden;min-width:60px}
   .wbar i{display:block;height:100%;background:linear-gradient(90deg,var(--cyan),#3A8FA8)}
 
+
+
+
+  /* Sortierung und Detailpanel */
+  th.sortable{cursor:pointer;user-select:none}
+  th.sortable:hover{color:var(--sand)}
+  th.sortable:focus-visible{outline:2px solid var(--cyan);outline-offset:-2px}
+  th.sortable::after{content:'';display:inline-block;width:0;height:0;margin-left:5px;vertical-align:middle;
+    border-left:3px solid transparent;border-right:3px solid transparent;border-top:4px solid var(--line);}
+  th.sorted[data-dir="desc"]::after{border-top-color:var(--gold)}
+  th.sorted[data-dir="asc"]::after{border-top:0;border-bottom:4px solid var(--gold)}
+  tr.klickbar{cursor:pointer}
+  tr.klickbar:focus-visible{outline:2px solid var(--cyan);outline-offset:-2px}
+  tr.aktiv td{background:var(--panel2);box-shadow:inset 3px 0 0 var(--gold)}
+
+  .detail{background:var(--panel);border:1px solid var(--line);margin-top:10px;padding:14px 15px 15px}
+  .dhead{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:12px}
+  .dlabel{font-size:9px;letter-spacing:.24em;text-transform:uppercase;color:var(--muted)}
+  .detail h3{font-family:var(--disp);font-size:22px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;margin:1px 0 0}
+  .dclose{background:none;border:1px solid var(--line);color:var(--sand-dim);font-family:var(--mono);
+          font-size:16px;line-height:1;padding:4px 10px;cursor:pointer}
+  .dclose:hover{color:var(--red);border-color:var(--red)}
+  .dclose:focus-visible{outline:2px solid var(--cyan)}
+  .dgrid{display:grid;grid-template-columns:repeat(6,1fr);gap:1px;background:var(--line-soft);border:1px solid var(--line-soft)}
+  .dcell{background:var(--panel2);padding:9px 10px 10px}
+  .dk{font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);
+      white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .dv{font-family:var(--disp);font-size:19px;font-weight:600;margin-top:2px}
+  .dcell.g .dv{color:var(--gold)} .dcell.c .dv{color:var(--cyan)}
+  .drows{margin-top:11px;display:grid;gap:1px;background:var(--line-soft)}
+  .drow{background:var(--panel2);display:flex;justify-content:space-between;gap:12px;padding:7px 10px;font-size:11px}
+  .drow span{color:var(--muted);letter-spacing:.05em}
+  .drow b{font-weight:400;color:var(--sand);text-align:right}
+  .dtitel{margin-top:11px;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+  .dtl{font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-right:3px}
+  .dtag{font-family:var(--disp);font-size:11px;letter-spacing:.08em;text-transform:uppercase;
+        background:var(--panel2);border:1px solid var(--line);color:var(--gold);padding:3px 9px}
+
+  /* Formverlauf */
+  .fgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+  .fcard{background:var(--panel);border:1px solid var(--line-soft);padding:11px 13px 10px}
+  .fhead{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:4px}
+  .fname{font-family:var(--disp);font-size:14px;letter-spacing:.09em;text-transform:uppercase}
+  .fval{font-family:var(--disp);font-size:16px;font-weight:600;color:var(--cyan);font-variant-numeric:tabular-nums}
+  .fval em{font-style:normal;font-family:var(--mono);font-size:10px;margin-left:6px;letter-spacing:.04em}
+  .fval em.up{color:#8FB552} .fval em.down{color:var(--red)}
+  .fsvg{width:100%;height:auto;display:block;overflow:visible}
+  .ffoot{font-size:9px;color:var(--muted);letter-spacing:.07em;margin-top:3px}
+  .ffoot .gold{color:var(--gold)}
+
   /* Rollen */
   .roles{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
   .role{background:var(--panel);border:1px solid var(--line-soft);border-top:3px solid var(--gold);padding:13px 14px 15px}
-  .role.sup{border-top-color:var(--cyan)}
-  .role.anc{border-top-color:var(--sand-dim)}
+  .role.sup{border-top-color:var(--cyan)} .role.anc{border-top-color:var(--sand-dim)}
+  .role.ow{border-top-color:#8FB552} .role.drv{border-top-color:#C98420} .role.qm{border-top-color:#9A8FC4}
+  .rhead{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
   .role .rr{font-family:var(--disp);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
-  .role .rp{font-family:var(--disp);font-size:20px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;margin:1px 0 7px}
+  .role .rp{font-family:var(--disp);font-size:20px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;margin:1px 0 0}
+  .rfit{font-family:var(--mono);font-size:11px;color:var(--cyan);font-variant-numeric:tabular-nums;white-space:nowrap;padding-top:3px}
+  .rtags{display:flex;gap:5px;flex-wrap:wrap;margin:8px 0 9px}
+  .rtag{font-size:9px;letter-spacing:.12em;text-transform:uppercase;padding:2px 7px;border:1px solid var(--line)}
+  .rtag.stay{color:var(--muted)} .rtag.move{color:#15180F;background:var(--gold);border-color:var(--gold)}
+  .rtag.close{color:#15180F;background:var(--cyan);border-color:var(--cyan)}
+  .rtag.n{color:var(--muted)}
   .role .rt{font-size:12px;line-height:1.55;margin-bottom:9px}
-  .role .rt b{color:var(--gold);font-weight:500}
-  .role.sup .rt b{color:var(--cyan)}
-  .role .rj{font-size:11px;color:var(--sand-dim);line-height:1.5;border-top:1px solid var(--line-soft);padding-top:8px}
-  .role .rj em{font-style:normal;color:var(--cyan);font-variant-numeric:tabular-nums}
-  .role .rw{font-size:10px;color:var(--muted);margin-top:7px;line-height:1.45}
+  .role .rtask{color:var(--sand-dim);border-top:1px solid var(--line-soft);padding-top:9px;margin-bottom:0}
+  .rstats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line-soft);margin:0 0 10px}
+  .rstat{background:var(--panel2);padding:7px 8px 8px}
+  .rstat b{display:block;font-family:var(--disp);font-size:15px;font-weight:600;color:var(--cyan);line-height:1.1}
+  .rstat span{font-size:9px;color:var(--muted);letter-spacing:.04em;line-height:1.3;display:block;margin-top:2px}
+  .ralt{font-size:10px;color:var(--muted);margin-top:8px;line-height:1.45}
+  .ralt b{color:var(--sand-dim);font-weight:400}
 
   /* Titel */
-  .titles{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+  .tcount{display:grid;gap:4px;margin-bottom:14px;max-width:420px}
+  .tcrow{display:grid;grid-template-columns:96px 1fr 26px;gap:9px;align-items:center}
+  .tcn{font-family:var(--disp);font-size:12px;letter-spacing:.09em;text-transform:uppercase;
+       overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .tcbar{height:11px;background:var(--panel2);overflow:hidden}
+  .tcbar i{display:block;height:100%;background:var(--gold)}
+  .tcv{font-variant-numeric:tabular-nums;font-size:12px;text-align:right}
+  .tgroup{margin-bottom:14px}
+  .tglabel{font-family:var(--mono);font-size:9px;letter-spacing:.24em;text-transform:uppercase;
+           color:var(--muted);margin-bottom:6px;border-bottom:1px solid var(--line-soft);padding-bottom:4px}
+  .tgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
   .title{background:var(--panel);border:1px solid var(--line-soft);border-left:3px solid var(--gold);padding:11px 13px 12px}
-  .title .tn{font-family:var(--disp);font-size:14px;letter-spacing:.09em;text-transform:uppercase;color:var(--gold)}
-  .title .tw{font-family:var(--disp);font-size:17px;letter-spacing:.08em;text-transform:uppercase;margin:3px 0 1px}
-  .title .tv{font-size:11px;color:var(--cyan);font-variant-numeric:tabular-nums}
-  .title .td{font-size:11px;color:var(--muted);margin-top:5px;line-height:1.45}
+  .title.neu{border-left-color:var(--cyan)}
+  .title .tn{font-family:var(--disp);font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);
+             display:flex;align-items:center;gap:7px}
+  .title.neu .tn{color:var(--cyan)}
+  .tnew{font-family:var(--mono);font-size:8px;letter-spacing:.14em;background:var(--cyan);color:#15180F;padding:1px 5px}
+  .title .tw{font-family:var(--disp);font-size:17px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin:3px 0 1px}
+  .title .tv{font-size:11px;color:var(--sand-dim);font-variant-numeric:tabular-nums}
+  .title .td{font-size:11px;color:var(--muted);margin-top:6px;line-height:1.45}
+  .tprev{font-size:9px;color:var(--muted);margin-top:5px;letter-spacing:.06em}
 
   /* Sessions */
   .sess{background:var(--panel);border-left:3px solid var(--line);padding:10px 13px 11px;margin-bottom:3px;
@@ -156,14 +230,18 @@
 
   @media (max-width:900px){
     .grid{grid-template-columns:repeat(3,1fr)}
-    .titles{grid-template-columns:repeat(2,1fr)}
+    .tgrid{grid-template-columns:repeat(2,1fr)}
     .roles{grid-template-columns:1fr}
+    .fgrid{grid-template-columns:1fr}
+    .dgrid{grid-template-columns:repeat(3,1fr)}
     .wtop{grid-template-columns:1fr}
     .tblwrap table{min-width:640px}
   }
   @media (max-width:560px){
     .grid{grid-template-columns:repeat(2,1fr)}
-    .titles{grid-template-columns:1fr}
+    .tgrid{grid-template-columns:1fr}
+    .rstats{grid-template-columns:1fr}
+    .dgrid{grid-template-columns:repeat(2,1fr)}
     .sess{grid-template-columns:1fr}
     .sess .sn{justify-content:space-between}
     .hr{grid-template-columns:70px 1fr 96px;gap:8px}
@@ -201,11 +279,14 @@
     <div class="grid" id="grid"></div>
 
     <div class="sec">
-      <div class="sec-h"><h2>Rangliste</h2><span class="rule"></span><span class="hint">nach Kills</span></div>
+      <div class="sec-h"><h2>Rangliste</h2><span class="rule"></span><span class="hint">sortierbar · Zeile anklicken</span></div>
       <div class="tblwrap"><table id="board"><thead><tr>
         <th>Spieler</th><th>Matches</th><th>Platz 1</th><th>Top 10</th><th>Kills</th><th>K/D</th>
         <th>Kills/Match</th><th>Ø Schaden</th><th>Kopfschuss %</th><th>Knocks</th><th>Revives</th>
         <th>Weitester Kill</th><th>Ø Platz</th></tr></thead><tbody></tbody></table></div>
+      <p class="dim" style="font-size:10px;margin:8px 0 0;letter-spacing:.05em">
+        Spaltenkopf anklicken sortiert. Zeile anklicken öffnet die Spielerakte.</p>
+      <div class="detail" id="detail" hidden></div>
     </div>
 
     <div class="sec">
@@ -221,16 +302,26 @@
 
     <div class="sec">
       <div class="sec-h"><h2>Rollenvorschlag</h2><span class="rule"></span><span class="hint" id="roleBase"></span></div>
+      <div class="plegend" id="fensterPick"></div>
       <div class="roles" id="roles"></div>
       <div class="note" id="roleNote"></div>
     </div>
     <div class="sec">
-      <div class="sec-h"><h2>Titel des Hauses</h2><span class="rule"></span><span class="hint">gesamter Datenbestand, ab 5 Matches</span></div>
-      <div class="titles" id="titles"></div>
-      <p class="dim" style="font-size:10px;margin:9px 0 0;letter-spacing:.05em">
-        Wird bei jedem Sync neu vergeben. Wer einen Titel loswerden will, muss ihn wegspielen.</p>
+      <div class="sec-h"><h2>Titel des Hauses</h2><span class="rule"></span><span class="hint" id="titleBase"></span></div>
+      <div class="tcount" id="titleCount"></div>
+      <div id="titles"></div>
+      <p class="dim" style="font-size:10px;margin:12px 0 0;letter-spacing:.05em">
+        24 Titel, vergeben über den oben gewählten Zeitraum. Wer einen loswerden will, muss ihn wegspielen –
+        und im kurzen Fenster geht das schneller als über die gesamte Laufbahn.</p>
     </div>
 
+
+    <div class="sec">
+      <div class="sec-h"><h2>Formverlauf</h2><span class="rule"></span><span class="hint">je Woche, gesamter Bestand</span></div>
+      <div class="plegend" id="formPick"></div>
+      <div class="fgrid" id="formGrid"></div>
+      <div class="note" id="formNote"></div>
+    </div>
     <div class="sec">
       <div class="sec-h"><h2>Sessions</h2><span class="rule"></span><span class="hint">Pause über 45 Min. trennt den Abend</span></div>
       <div id="sessions"></div>
@@ -271,8 +362,11 @@
   <div class="msg" id="msg" hidden></div>
 
   <div class="foot">
-    Daten aus der offiziellen PUBG-API, automatisch aktualisiert. K/D ist als Kills geteilt durch Niederlagen gerechnet.
-    Die API hält Matches nur 14 Tage vor – alles Ältere stammt aus früheren Abholungen.
+    Daten aus der offiziellen PUBG-API, automatisch aktualisiert; die Seite lädt alle zwei Minuten selbst nach.
+    K/D ist als Kills geteilt durch Niederlagen gerechnet. Die API hält Matches nur 14 Tage vor – alles Ältere
+    stammt aus früheren Abholungen.<br>
+    Rollen und Titel beziehen sich auf das oben gewählte Zeitfenster, nicht auf den gesamten Bestand: Über hunderte
+    Matches gemittelt bewegt ein einzelner Abend keinen Wert mehr, und genau deshalb stand früher immer dasselbe da.
   </div>
 </div>
 
@@ -316,9 +410,23 @@
       place:N(r.platz), field:N(r.teams_im_match)||25,
       kills:N(r.kills), assists:N(r.assists), knocks:N(r.knocks), hs:N(r.kopfschuesse),
       dmg:N(r.schaden), longest:N(r.weitester_kill_m), surv:N(r.ueberlebt_min),
-      rev:N(r.revives), heals:N(r.heilitems), boosts:N(r.boosts), walk:N(r.zu_fuss_m), ride:N(r.gefahren_m),
+      rev:N(r.revives), heals:N(r.heilitems), boosts:N(r.boosts),
+      wep:N(r.waffen), swim:N(r.geschwommen_m), road:N(r.roadkills),
+      tk:N(r.teamkills), veh:N(r.fahrzeuge_zerstoert), dauer:N(r.dauer_min), walk:N(r.zu_fuss_m), ride:N(r.gefahren_m),
       mates:(r.mitspieler||'').split('|').filter(Boolean)
     };
+  }
+
+
+  // Nicht alles, was die API liefert, ist ein Battle-Royale-Match. Team Deathmatch
+  // laeuft mit Respawn (ein Lauf brachte 17 Kills bei 2.095 Schaden), und Camp Jackal
+  // ist das Trainingsgelaende. Beides wuerde Kills, Schaden und Quoten verzerren.
+  const BR_MODI = ['solo','duo','squad'];
+  function istBattleRoyale(r){
+    if(!(r.place>0) || isNaN(r.ts)) return false;
+    if(!BR_MODI.includes((r.mode||'').toLowerCase())) return false;
+    if(r.map === 'Camp Jackal' || r.map === 'Range_Main') return false;
+    return true;
   }
 
   function filtered(){
@@ -333,11 +441,12 @@
 
   function agg(list){
     const a={m:list.length,w:0,t10:0,k:0,hs:0,as:0,kn:0,dmg:0,surv:0,rev:0,heals:0,
-             walk:0,ride:0,longest:0,best:0,placeSum:0};
+             walk:0,ride:0,longest:0,best:0,placeSum:0,boosts:0,wep:0,veh:0,road:0,tk:0,swim:0};
     list.forEach(r=>{
       if(r.place===1)a.w++; if(r.place<=10&&r.place>0)a.t10++;
       a.k+=r.kills; a.hs+=r.hs; a.as+=r.assists; a.kn+=r.knocks; a.dmg+=r.dmg;
       a.surv+=r.surv; a.rev+=r.rev; a.heals+=r.heals; a.walk+=r.walk; a.ride+=r.ride;
+      a.boosts+=r.boosts; a.wep+=r.wep; a.veh+=r.veh; a.road+=r.road; a.tk+=r.tk; a.swim+=r.swim;
       a.longest=Math.max(a.longest,r.longest); a.best=Math.max(a.best,r.kills);
       a.placeSum+=r.place;
     });
@@ -366,11 +475,23 @@
 
   function render(){
     const L = filtered(), a = agg(L);
-    $('hM').textContent = f(ROWS.length);
+    $('hM').textContent = f(new Set(ROWS.map(r=>r.id)).size);
+
+    // Ein Squad-Sieg zu viert ist EIN Sieg, nicht vier. Absolute Zaehlungen
+    // laufen deshalb ueber die Matches, Quoten ueber die Spieler-Einsaetze.
+    const proId = {};
+    L.forEach(r=>{ if(!proId[r.id] || r.place < proId[r.id]) proId[r.id] = r.place; });
+    const uniq = Object.values(proId);
+    const uM = uniq.length;
+    const uW = uniq.filter(p=>p===1).length;
+    const uT = uniq.filter(p=>p<=10).length;
 
     const tiles=[
-      ['Matches',f(a.m),''],['Platz 1',f(a.w),'g'],['Siegquote',pct(a.winR),'g'],
-      ['Top 10',f(a.t10),''],['Top-10-Quote',pct(a.t10R),''],['Ø Platzierung',f(a.avgPlace,1),''],
+      ['Matches',f(uM),''],
+      ['Spieler-Einsätze',f(a.m),''],
+      ['Platz 1',f(uW),'g'],['Siegquote',pct(uM?uW/uM*100:0),'g'],
+      ['Top 10',f(uT),''],['Top-10-Quote',pct(uM?uT/uM*100:0),''],
+      ['Ø Platzierung',f(uM?uniq.reduce((x,y)=>x+y,0)/uM:0,1),''],
       ['Kills',f(a.k),'c'],['K/D',f(a.kd,2),'c'],['Kills pro Match',f(a.kpm,2),''],
       ['Bestes Match',f(a.best)+'<small>Kills</small>',''],['Kopfschussquote',pct(a.hsR),''],
       ['Weitester Kill',f(a.longest,0)+'<small>m</small>','g'],
@@ -381,7 +502,12 @@
       ['Strecke zu Fuß',f(a.walk/1000,1)+'<small>km</small>',''],
       ['Strecke gefahren',f(a.ride/1000,1)+'<small>km</small>',''],
       ['Kills pro Stunde',f(a.surv?a.k/(a.surv/60):0,1),''],
-      ['Schaden je Kill',f(a.k?a.dmg/a.k:0,0),'']
+      ['Schaden je Kill',f(a.k?a.dmg/a.k:0,0),''],
+      ['Boosts',f(a.boosts),''],
+      ['Waffen aufgesammelt',f(a.wep),''],
+      ['Fahrzeuge zerstört',f(a.veh),''],
+      ['Roadkills',f(a.road),''],
+      ['Teamkills',f(a.tk),'']
     ];
     $('grid').innerHTML = tiles.map(([k,v,c])=>
       `<div class="cell ${c}"><div class="k">${k}</div><div class="v">${v}</div></div>`).join('');
@@ -444,6 +570,10 @@
           <div class="num"><b>${mmss(r.surv)}</b><span>Überlebt</span></div>
         </div></div>`;
     }).join('');
+
+    // Tabellen werden bei jedem Rendern neu aufgebaut - Sortierung und
+    // Klickziele muessen danach erneut gesetzt werden.
+    if(typeof alleSortierbar === 'function'){ alleSortierbar(); verdrahteSpieler(); }
   }
 
 
@@ -451,28 +581,84 @@
   // -------------------------------------------------------- Rollenzuordnung
   // Bewusst NUR individuelle Kennzahlen. Platzierung, Top 10 und Ueberlebenszeit
   // sind im Squad fuer alle Mitspieler identisch und taugen nicht zum Vergleich.
-  const ROLLEN = {
-    entry: {r:'Entry', k:'', t:'Macht den Kampf auf. Geht als Erster um die Ecke, sucht den ersten Knock und nimmt in Kauf, dabei selbst zuerst zu fallen.',
-      a:'Bricht Ecken erst nach gelegter Utility. Fordert Smokes und Stuns aktiv an, statt blind zu pushen. Ruft an, wen er anschlägt, damit die anderen finishen können.'},
-    entry2:{r:'Zweiter Entry', k:'', t:'Klebt am Entry. Betritt den Kampf ein bis zwei Sekunden später und räumt ab, was der Erste angeschlagen hat.',
-      a:'Teilt sich mit dem Entry dieselbe Ecke, nie eine zweite Front. Finisht Angeschlagene, bevor sie wieder hochgeholt werden. Zieht den Entry raus, wenn der fällt.'},
-    support:{r:'Support / Utility', k:'sup', t:'Hält den Laden am Laufen. Trägt Verbrauchsgüter, holt die anderen hoch und bringt das Team in die Zone.',
-      a:'Führt Extra-Heals und Wurfgeschosse mit. Geht als Zweiter oder Dritter rein, deckt die Flanke, legt Rückzugs-Smokes. Fährt und sucht das Fahrzeug.'},
-    anchor:{r:'Anchor', k:'anc', t:'Hält die Position. Geht nicht mit rein, sondern sichert, was hinter dem Team liegt.',
-      a:'Bleibt beim Push zurück und hält den Rückweg offen. Spottet Gegner und ruft Positionen. Behält die Zone im Blick. Hält im Endgame die letzte Ecke.'}
-  };
+  // ============================================================ ROLLEN & TITEL
+  // Zeitfenster, auf das sich Rollen und Titel beziehen. Das ist der Grund,
+  // warum sich frueher nie etwas bewegt hat: ueber den gesamten Datenbestand
+  // gerechnet, verschiebt ein einzelner Abend keinen einzigen Mittelwert mehr.
+  let FENSTER = 30;              // Tage; 0 = gesamter Bestand
+  const FENSTER_LABEL = {14:'14 Tage', 30:'30 Tage', 90:'90 Tage', 0:'Gesamt'};
 
-  function rollenDaten(){
-    // Nur Matches mit mindestens einem Mitspieler aus dem Clan
-    const team = ROWS.filter(r=>r.mates.length>0);
+  function imFenster(tage, versatz){
+    if(!tage) return ROWS.slice();
+    const jetzt = ROWS.length ? Math.max(...ROWS.map(r=>r.ts.getTime())) : Date.now();
+    const bis  = jetzt - (versatz||0)*tage*864e5;
+    const von  = bis - tage*864e5;
+    return ROWS.filter(r=> r.ts.getTime() > von && r.ts.getTime() <= bis);
+  }
+
+
+  function renderFensterPick(){
+    $('fensterPick').innerHTML = [14,30,90,0].map(t=>
+      `<button data-f="${t}" aria-pressed="${FENSTER===t}">${FENSTER_LABEL[t]}</button>`).join('') +
+      '<span style="align-self:center">Rollen und Titel beziehen sich auf diesen Zeitraum</span>';
+    $('fensterPick').querySelectorAll('button').forEach(b=>b.onclick=()=>{
+      FENSTER = +b.dataset.f; renderFensterPick(); renderRoles(); renderTitles(); renderForm();
+    });
+  }
+
+  // ---------------------------------------------------------- Rollenkatalog
+  // Sieben Rollen, vier Plaetze: die Zuordnung sucht die Kombination mit der
+  // besten Gesamtpassung, statt vier feste Plaetze der Reihe nach zu fuellen.
+  const ROLLEN = [
+    {id:'entry', n:'Entry', k:'', kurz:'Macht den Kampf auf',
+     t:'Geht als Erster um die Ecke, sucht den ersten Knock und nimmt in Kauf, dabei selbst zuerst zu fallen.',
+     a:'Bricht Ecken erst nach gelegter Utility. Fordert Smokes und Stuns aktiv an, statt blind zu pushen. Ruft an, wen er anschlägt, damit die anderen finishen können.',
+     w:{share:1.2, knPM:1.0, dmgPM:0.8, zeroR:-0.9}},
+
+    {id:'fragger', n:'Fragger', k:'', kurz:'Räumt ab, was offen ist',
+     t:'Der zweite Mann im Kampf. Kommt ein bis zwei Sekunden nach dem Entry und finisht, was angeschlagen ist.',
+     a:'Teilt sich mit dem Entry dieselbe Ecke, nie eine zweite Front. Finisht Angeschlagene, bevor sie hochgeholt werden. Zieht den Entry raus, wenn der fällt.',
+     w:{kPM:1.2, finish:1.0, dmgPM:0.6, zeroR:-0.6}},
+
+    {id:'support', n:'Support / Utility', k:'sup', kurz:'Hält den Laden am Laufen',
+     t:'Trägt die Verbrauchsgüter, holt die anderen hoch und sorgt dafür, dass das Team kampffähig bleibt.',
+     a:'Führt Extra-Heals und Wurfgeschosse mit. Geht als Zweiter oder Dritter rein, deckt die Flanke, legt Rückzugs-Smokes.',
+     w:{revPM:1.3, utilPM:1.0, asPM:0.6}},
+
+    {id:'sniper', n:'Overwatch / Sniper', k:'ow', kurz:'Deckt aus der Distanz',
+     t:'Sichert den Push von weiter hinten ab, hält Fenster und Grate im Blick und schlägt an, bevor das Team überhaupt in Reichweite ist.',
+     a:'Sucht erhöhte Position statt mitzupushen. Schlägt an und ruft die Richtung. Hält beim Rückzug die Gegner unten.',
+     w:{weit:1.3, hsR:0.8, asPM:0.6, zeroR:-0.3}},
+
+    {id:'driver', n:'Fahrer / Rotation', k:'drv', kurz:'Bringt alle in die Zone',
+     t:'Verantwortlich dafür, dass das Team rechtzeitig und am richtigen Rand in der Zone ankommt.',
+     a:'Sucht und hält das Fahrzeug. Entscheidet, wann rotiert wird, und sagt die Zone an, bevor sie zuläuft.',
+     w:{ridePM:1.4, vehPM:0.5, utilPM:0.3}},
+
+    {id:'anchor', n:'Anchor', k:'anc', kurz:'Hält die Position',
+     t:'Geht nicht mit rein, sondern sichert, was hinter dem Team liegt, und hält im Endgame die letzte Ecke.',
+     a:'Bleibt beim Push zurück und hält den Rückweg offen. Spottet Gegner und ruft Positionen. Behält die Zone im Blick.',
+     w:{survR:1.1, zeroR:0.5, ridePM:-0.4, share:-0.3}},
+
+    {id:'looter', n:'Quartiermeister', k:'qm', kurz:'Versorgt das Team',
+     t:'Lootet breiter als nötig und versorgt die anderen mit Munition, Aufsätzen und Heilzeug.',
+     a:'Nimmt mit, was die anderen brauchen, statt nur sich selbst auszustatten. Meldet, wer was übrig hat.',
+     w:{wepPM:1.3, utilPM:0.7, walkPM:0.4}}
+  ];
+
+  function rollenDaten(liste){
+    const team = liste.filter(r=>r.mates.length>0);
     const proMatch = {};
     team.forEach(r=>(proMatch[r.id]=proMatch[r.id]||[]).push(r));
 
     const st = {};
     team.forEach(r=>{
-      const t = st[r.player] = st[r.player] || {m:0,k:0,dmg:0,kn:0,as:0,rev:0,util:0,ride:0,zero:0,share:0,hs:0};
+      const t = st[r.player] = st[r.player] || {m:0,k:0,dmg:0,kn:0,as:0,rev:0,util:0,ride:0,
+        zero:0,share:0,hs:0,weit:0,wep:0,walk:0,veh:0,surv:0,dauer:0};
       t.m++; t.k+=r.kills; t.dmg+=r.dmg; t.kn+=r.knocks; t.as+=r.assists;
       t.rev+=r.rev; t.util+=r.heals+r.boosts; t.ride+=r.ride; t.hs+=r.hs;
+      t.weit=Math.max(t.weit, r.longest); t.wep+=r.wep; t.walk+=r.walk;
+      t.veh+=r.veh; t.surv+=r.surv; t.dauer+=(r.dauer||30);
       if(r.kills===0) t.zero++;
       const teamDmg = proMatch[r.id].reduce((a,x)=>a+x.dmg,0);
       t.share += teamDmg>0 ? r.dmg/teamDmg : 0;
@@ -480,8 +666,12 @@
 
     Object.values(st).forEach(t=>{
       t.dmgPM=t.dmg/t.m; t.knPM=t.kn/t.m; t.revPM=t.rev/t.m; t.utilPM=t.util/t.m;
-      t.ridePM=t.ride/t.m; t.asPM=t.as/t.m; t.sharePM=t.share/t.m; t.zeroR=t.zero/t.m;
-      t.kPM=t.k/t.m;
+      t.ridePM=t.ride/t.m; t.asPM=t.as/t.m; t.zeroR=t.zero/t.m; t.kPM=t.k/t.m;
+      t.wepPM=t.wep/t.m; t.walkPM=t.walk/t.m; t.vehPM=t.veh/t.m;
+      t.share=t.share/t.m;
+      t.hsR = t.k ? t.hs/t.k : 0;
+      t.finish = t.kn ? t.k/t.kn : 0;          // finisht er selbst, oder lässt er liegen?
+      t.survR = t.dauer ? t.surv/t.dauer : 0;  // Anteil der Matchdauer überlebt
     });
     return {st, teamMatches:Object.keys(proMatch).length};
   }
@@ -494,159 +684,551 @@
     return o;
   }
 
+  // Passung jedes Spielers zu jeder Rolle, als z-gewichtete Summe
+  function passungen(st, namen){
+    const sub={}; namen.forEach(p=>sub[p]=st[p]);
+    const keys = [...new Set(ROLLEN.flatMap(R=>Object.keys(R.w)))];
+    const Z={}; keys.forEach(k=>Z[k]=zScores(sub,k));
+    const P={};
+    namen.forEach(p=>{
+      P[p]={};
+      ROLLEN.forEach(R=>{
+        P[p][R.id] = Object.entries(R.w).reduce((a,[k,g])=>a + g*Z[k][p], 0);
+      });
+    });
+    return P;
+  }
+
+  // Beste Eins-zu-eins-Zuordnung: alle Varianten durchprobieren (max. 7P4 = 840)
+  function besteZuordnung(namen, P){
+    const ids = ROLLEN.map(R=>R.id);
+    let best=null;
+    const rek = (i, frei, zug, summe) => {
+      if(i===namen.length){ if(!best || summe>best.summe) best={zug:zug.slice(), summe}; return; }
+      frei.forEach((rid,j)=>{
+        zug.push([namen[i], rid]);
+        rek(i+1, frei.filter((_,x)=>x!==j), zug, summe + P[namen[i]][rid]);
+        zug.pop();
+      });
+    };
+    rek(0, ids, [], 0);
+    return best ? best.zug : [];
+  }
+
   function renderRoles(){
-    const {st, teamMatches} = rollenDaten();
-    const namen = Object.keys(st).filter(p=>st[p].m>=8);
-    $('roleBase').textContent = teamMatches ? f(teamMatches)+' Teammatches' : '';
+    const liste = imFenster(FENSTER, 0);
+    const {st, teamMatches} = rollenDaten(liste);
+    const minM = FENSTER ? 4 : 8;
+    const namen = Object.keys(st).filter(p=>st[p].m>=minM);
+    $('roleBase').textContent = teamMatches
+      ? f(teamMatches)+' Teammatches · '+FENSTER_LABEL[FENSTER] : FENSTER_LABEL[FENSTER];
 
     if(namen.length < 3){
-      $('roles').innerHTML = '<p class="dim" style="grid-column:1/-1">Noch zu wenig gemeinsame Matches für einen Rollenvorschlag.</p>';
-      $('roleNote').innerHTML = 'Ab acht Teammatches je Spieler wird hier ein Vorschlag berechnet.';
+      $('roles').innerHTML = '<p class="dim" style="grid-column:1/-1">In diesem Zeitraum gibt es zu wenig gemeinsame Matches. Nimm oben ein größeres Fenster.</p>';
+      $('roleNote').innerHTML = `Ab ${minM} Teammatches je Spieler im gewählten Zeitraum wird ein Vorschlag berechnet.`;
       return;
     }
 
-    const sub = {}; namen.forEach(p=>sub[p]=st[p]);
-    const Z = k=>zScores(sub,k);
-    const zShare=Z('sharePM'), zKn=Z('knPM'), zZero=Z('zeroR'), zDmg=Z('dmgPM'),
-          zRev=Z('revPM'), zUtil=Z('utilPM'), zRide=Z('ridePM'), zAs=Z('asPM');
+    const P = passungen(st, namen);
+    const zug = besteZuordnung(namen, P);
 
-    const entryS={}, supS={};
-    namen.forEach(p=>{
-      entryS[p] = 1.2*zShare[p] + 1.0*zKn[p] + 0.8*zDmg[p] - 0.8*zZero[p];
-      supS[p]   = 1.2*zRev[p] + 1.0*zUtil[p] + 0.6*zRide[p] + 0.5*zAs[p];
-    });
-
-    // Zuteilung: staerkster Entry, dann staerkster Support aus dem Rest,
-    // vom Rest der bessere Kaempfer als zweiter Entry, der letzte als Anchor.
-    const frei = [...namen];
-    const nimm = (score, liste) => liste.reduce((a,b)=> score[b]>score[a]?b:a);
-    const entry = nimm(entryS, frei);           frei.splice(frei.indexOf(entry),1);
-    const support = nimm(supS, frei);           frei.splice(frei.indexOf(support),1);
-    let entry2=null, anchor=null;
-    if(frei.length===2){ entry2 = nimm(entryS, frei); frei.splice(frei.indexOf(entry2),1); anchor = frei[0]; }
-    else if(frei.length===1){ anchor = frei[0]; }
-
-    const zuteilung = [[entry,'entry'],[entry2,'entry2'],[support,'support'],[anchor,'anchor']]
-      .filter(([p])=>p);
-
-    const beleg = (p, rolle) => {
-      const t = st[p];
-      const bits = [];
-      if(rolle==='entry'||rolle==='entry2'){
-        bits.push(`<em>${pct(t.sharePM*100)}</em> des Teamschadens`);
-        bits.push(`<em>${f(t.knPM,2)}</em> Knocks pro Match`);
-        bits.push(`<em>${pct(t.zeroR*100)}</em> Runden ohne Kill`);
-      } else if(rolle==='support'){
-        bits.push(`<em>${f(t.revPM,2)}</em> Revives pro Match`);
-        bits.push(`<em>${f(t.utilPM,1)}</em> Heilitems und Boosts pro Match`);
-        bits.push(`<em>${f(t.ridePM/1000,2)} km</em> gefahren pro Match`);
-      } else {
-        bits.push(`<em>${pct(t.sharePM*100)}</em> des Teamschadens`);
-        bits.push(`<em>${f(t.kPM,2)}</em> Kills pro Match`);
-        bits.push(`<em>${pct(t.zeroR*100)}</em> Runden ohne Kill`);
+    // Vorperiode gleicher Länge, um Veränderungen zu erkennen
+    let vorher = {};
+    if(FENSTER){
+      const vl = imFenster(FENSTER, 1);
+      const v = rollenDaten(vl);
+      const vn = Object.keys(v.st).filter(p=>v.st[p].m>=minM);
+      if(vn.length>=3){
+        const vP = passungen(v.st, vn);
+        besteZuordnung(vn, vP).forEach(([p,rid])=>vorher[p]=rid);
       }
-      return bits.join(' · ') + ` <span class="dim">(${f(t.m)} Teammatches)</span>`;
+    }
+
+    const R = id => ROLLEN.find(x=>x.id===id);
+    const belegFelder = {
+      entry:   t=>[[pct(t.share*100),'des Teamschadens'],[f(t.knPM,2),'Knocks pro Match'],[pct(t.zeroR*100),'Runden ohne Kill']],
+      fragger: t=>[[f(t.kPM,2),'Kills pro Match'],[f(t.finish,2),'Kills je eigenem Knock'],[f(t.dmgPM,0),'Ø Schaden']],
+      support: t=>[[f(t.revPM,2),'Revives pro Match'],[f(t.utilPM,1),'Heilitems und Boosts'],[f(t.asPM,2),'Assists pro Match']],
+      sniper:  t=>[[f(t.weit,0)+' m','weitester Treffer'],[pct(t.hsR*100),'Kopfschussquote'],[f(t.asPM,2),'Assists pro Match']],
+      driver:  t=>[[f(t.ridePM/1000,2)+' km','gefahren pro Match'],[f(t.vehPM,2),'Fahrzeuge zerstört'],[f(t.utilPM,1),'Verbrauchsgüter']],
+      anchor:  t=>[[pct(t.survR*100),'der Matchdauer überlebt'],[pct(t.share*100),'des Teamschadens'],[f(t.kPM,2),'Kills pro Match']],
+      looter:  t=>[[f(t.wepPM,1),'Waffen pro Match'],[f(t.utilPM,1),'Heilitems und Boosts'],[f(t.walkPM/1000,2)+' km','zu Fuß']]
     };
 
-    const warnung = (p, rolle) => {
-      if(rolle==='anchor') return 'Diese Rolle ist kein Ergebnis starker Zahlen, sondern die Position mit dem geringsten Druck und den klarsten Aufgaben. Ein guter Startpunkt, kein Urteil.';
-      if(st[p].m < 20) return 'Basis noch dünn – bei mehr Matches kann sich das verschieben.';
-      return '';
-    };
+    $('roles').innerHTML = zug.map(([p,rid])=>{
+      const Ro = R(rid), t = st[p];
+      // Abstand zur zweitbesten Rolle dieses Spielers
+      const sortiert = Object.entries(P[p]).sort((a,b)=>b[1]-a[1]);
+      const zweit = sortiert.find(([id])=>id!==rid);
+      const abstand = zweit ? P[p][rid]-zweit[1] : 9;
+      const knapp = abstand < 0.6;
+      const vor = vorher[p];
+      const wechsel = !FENSTER ? '' :
+        !Object.keys(vorher).length ? '' :
+        vor === rid ? '<span class="rtag stay">unverändert</span>' :
+        vor ? `<span class="rtag move">vorher ${R(vor) ? R(vor).n : vor}</span>`
+            : '<span class="rtag move">neu dabei</span>';
 
-    $('roles').innerHTML = zuteilung.map(([p,rolle])=>{
-      const R = ROLLEN[rolle];
-      const w = warnung(p, rolle);
-      return `<div class="role ${R.k}">
-        <div class="rr">${R.r}</div>
-        <div class="rp">${p}</div>
-        <div class="rt">${R.t}</div>
-        <div class="rt" style="color:var(--sand-dim)">${R.a}</div>
-        <div class="rj">${beleg(p, rolle)}</div>
-        ${w?`<div class="rw">${w}</div>`:''}</div>`;
+      const felder = (belegFelder[rid]||belegFelder.entry)(t)
+        .map(([v,l])=>`<div class="rstat"><b>${v}</b><span>${l}</span></div>`).join('');
+
+      return `<div class="role ${Ro.k}">
+        <div class="rhead">
+          <div><div class="rr">${Ro.n}</div><div class="rp">${p}</div></div>
+          <div class="rfit" title="Abstand zur zweitbesten Rolle">${abstand>=9?'':'+'+f(abstand,2)}</div>
+        </div>
+        <div class="rtags">${wechsel}${knapp?'<span class="rtag close">knapp</span>':''}
+          <span class="rtag n">${f(t.m)} Matches</span></div>
+        <div class="rt">${Ro.t}</div>
+        <div class="rstats">${felder}</div>
+        <div class="rt rtask">${Ro.a}</div>
+        ${zweit?`<div class="ralt">Zweitbeste Passung: <b>${R(zweit[0]).n}</b>${knapp?' – die beiden liegen dicht beieinander, ein Tausch wäre vertretbar.':''}</div>`:''}
+      </div>`;
     }).join('');
 
-    // Vergleich Vollbesetzung gegen kleinere Gruppen
+    // Schaden pro Spieler nach Gruppengroesse
     const proMatchGroesse = {};
-    ROWS.filter(r=>r.mates.length>0).forEach(r=>{
+    liste.filter(r=>r.mates.length>0).forEach(r=>{
       const g = r.mates.length+1;
-      const key = r.id;
-      proMatchGroesse[key] = proMatchGroesse[key] || {g, dmg:0, kills:0};
-      proMatchGroesse[key].dmg += r.dmg; proMatchGroesse[key].kills += r.kills;
+      const b = proMatchGroesse[r.id] = proMatchGroesse[r.id] || {g, dmg:0};
+      b.dmg += r.dmg;
     });
     const gr = {};
     Object.values(proMatchGroesse).forEach(m=>{
-      const b = gr[m.g] = gr[m.g] || {n:0, dmg:0, kills:0};
-      b.n++; b.dmg+=m.dmg; b.kills+=m.kills;
+      const b = gr[m.g] = gr[m.g] || {n:0, dmg:0}; b.n++; b.dmg+=m.dmg;
     });
     const zeilen = Object.entries(gr).sort((a,b)=>a[0]-b[0])
-      .map(([g,b])=>`zu ${['','','zweit','dritt','viert'][g]||g}: <b>${f(b.dmg/b.n/g,0)}</b> Schaden pro Spieler und Match (${f(b.n)} Matches)`);
+      .map(([g,b])=>`zu ${['','','zweit','dritt','viert'][g]||g}: <b>${f(b.dmg/b.n/g,0)}</b> pro Spieler (${f(b.n)} Matches)`);
+
+    const ungenutzt = ROLLEN.filter(Ro=>!zug.some(([,rid])=>rid===Ro.id)).map(Ro=>Ro.n);
 
     $('roleNote').innerHTML =
-      `Berechnet aus Schadensanteil, Knocks, Nullrunden, Revives, Verbrauchsgütern und Fahrstrecke – alles Werte,
-       die jeder Spieler selbst beeinflusst. Platzierung, Top 10 und Überlebenszeit fließen bewusst <b>nicht</b> ein:
-       Im Squad hat jeder Mitspieler denselben Platz, damit lässt sich niemand vergleichen.<br><br>
-       Nach Gruppengröße: ${zeilen.join(' · ')}.<br>
-       Verschiebt sich das Bild, verschiebt sich der Vorschlag – er wird bei jedem Sync neu gerechnet.`;
+      `Sieben Rollen stehen zur Wahl, vier werden vergeben – gesucht wird die Kombination mit der besten
+       Gesamtpassung, nicht vier Plätze der Reihe nach. Grundlage sind nur Werte, die jeder selbst
+       beeinflusst: Schadensanteil, Knocks, Kills, Nullrunden, Revives, Verbrauchsgüter, Fahrstrecke,
+       Trefferdistanz, Kopfschussquote und aufgesammelte Waffen. Platzierung und Top 10 fließen <b>nicht</b>
+       ein – im Squad hat jeder denselben Platz.<br><br>
+       Nicht vergeben in diesem Zeitraum: ${ungenutzt.length?ungenutzt.join(', '):'—'}.<br>
+       Schaden nach Gruppengröße: ${zeilen.join(' · ')}.<br>
+       <b>Wichtig:</b> Die Zahl neben jedem Namen ist der Abstand zur zweitbesten Rolle. Steht dort ein kleiner
+       Wert oder „knapp“, ist die Zuordnung eine Münze auf der Kante – dann entscheidet, wer die Rolle lieber spielt.`;
   }
 
   // ---------------------------------------------------------- Titel des Hauses
-  const MIN_MATCHES = 5;
-
-  function playerStats(){
+  function playerStats(liste){
     const o = {};
-    ROWS.forEach(r=>{
-      const t = o[r.player] = o[r.player] || {m:0,k:0,dmg:0,ride:0,walk:0,heals:0,rev:0,
-        surv:0,hs:0,zero:0,zeroPlace:0,placeSum:0,longest:0,teamMatches:0};
-      t.m++; t.k+=r.kills; t.dmg+=r.dmg; t.ride+=r.ride; t.walk+=r.walk;
-      t.heals+=r.heals; t.rev+=r.rev; t.surv+=r.surv; t.hs+=r.hs;
-      t.placeSum+=r.place; t.longest=Math.max(t.longest,r.longest);
+    const proMatch = {};
+    liste.forEach(r=>(proMatch[r.id]=proMatch[r.id]||[]).push(r));
+    liste.forEach(r=>{
+      const t = o[r.player] = o[r.player] || {m:0,k:0,dmg:0,ride:0,walk:0,swim:0,heals:0,boosts:0,
+        rev:0,surv:0,dauer:0,hs:0,kn:0,as:0,zero:0,zeroPlace:0,placeSum:0,longest:0,teamMatches:0,
+        wep:0,road:0,tk:0,veh:0,best:0,wins:0,top10:0,nacht:0,share:0,soloK:0};
+      t.m++; t.k+=r.kills; t.dmg+=r.dmg; t.ride+=r.ride; t.walk+=r.walk; t.swim+=r.swim;
+      t.heals+=r.heals; t.boosts+=r.boosts; t.rev+=r.rev; t.surv+=r.surv; t.dauer+=(r.dauer||30);
+      t.hs+=r.hs; t.kn+=r.knocks; t.as+=r.assists; t.wep+=r.wep; t.road+=r.road;
+      t.tk+=r.tk; t.veh+=r.veh; t.placeSum+=r.place;
+      t.longest=Math.max(t.longest,r.longest); t.best=Math.max(t.best,r.kills);
+      if(r.place===1) t.wins++;
+      if(r.place<=10) t.top10++;
       if(r.mates.length) t.teamMatches++;
       if(r.kills===0){ t.zero++; t.zeroPlace+=r.place; }
+      const h = r.ts.getHours(); if(h>=0 && h<5) t.nacht++;
+      const teamDmg = proMatch[r.id].reduce((a,x)=>a+x.dmg,0);
+      t.share += teamDmg>0 ? r.dmg/teamDmg : 0;
     });
+    Object.values(o).forEach(t=>{ t.share=t.share/t.m; });
     return o;
   }
 
+  // Jeder Titel ist eine Formel. v() liefert den Wert, hoechster gewinnt;
+  // v() === null heisst "kommt fuer diesen Titel nicht in Frage".
   const TITEL = [
-    {n:'Der Chauffeur', d:'Fährt mehr Meter, als die anderen laufen. Irgendwer muss das Auto ja kaputt machen.',
+    {n:'Der Chauffeur', g:'fahren', d:'Fährt mehr Meter, als die anderen laufen. Irgendwer muss das Auto ja kaputt machen.',
      v:t=>t.ride/t.m, fmt:v=>f(v/1000,2)+' km pro Match'},
-    {n:'Der Wanderer', d:'Kennt jeden Grashalm der Insel persönlich. Fahrzeuge sind was für Angeber.',
+    {n:'Der Wanderer', g:'fahren', d:'Kennt jeden Grashalm der Insel persönlich. Fahrzeuge sind was für Angeber.',
      v:t=>t.walk/t.m, fmt:v=>f(v/1000,2)+' km pro Match'},
-    {n:'Der Sanitäter', d:'Holt die anderen wieder hoch, statt selbst Kills zu machen. Undankbarer Job.',
-     v:t=>t.teamMatches? t.rev/t.teamMatches : 0, fmt:v=>f(v,2)+' Revives pro Teammatch'},
-    {n:'Die wandelnde Apotheke', d:'Verbraucht Verbandszeug, als gäbe es eine Flatrate. Vielleicht mal nicht getroffen werden?',
-     v:t=>t.heals/t.m, fmt:v=>f(v,2)+' Heilitems pro Match'},
-    {n:'Blaue-Zone-Abo', d:'Der höchste Anteil an Matches ganz ohne Kill. Dabeisein ist alles.',
+    {n:'Der Bademeister', g:'fahren', d:'Nimmt konsequent den nassen Weg. Die Brücke wäre auch eine Option gewesen.',
+     v:t=>t.swim>0 ? t.swim/t.m : null, fmt:v=>f(v,0)+' m geschwommen pro Match'},
+    {n:'Der Sanitäter', g:'support', d:'Holt die anderen wieder hoch, statt selbst Kills zu machen. Undankbarer Job.',
+     v:t=>t.teamMatches? t.rev/t.teamMatches : null, fmt:v=>f(v,2)+' Revives pro Teammatch'},
+    {n:'Die wandelnde Apotheke', g:'support', d:'Verbraucht Verbandszeug, als gäbe es eine Flatrate. Vielleicht mal nicht getroffen werden?',
+     v:t=>(t.heals+t.boosts)/t.m, fmt:v=>f(v,2)+' Heilitems und Boosts pro Match'},
+    {n:'Der Quartiermeister', g:'support', d:'Sammelt mehr Waffen ein, als er Hände hat. Irgendwas wird schon passen.',
+     v:t=>t.wep/t.m, fmt:v=>f(v,1)+' Waffen pro Match'},
+    {n:'Der Zuarbeiter', g:'support', d:'Schlägt an, lässt finishen. Die Kill-Statistik sagt dazu leider nichts.',
+     v:t=>t.as/t.m, fmt:v=>f(v,2)+' Assists pro Match'},
+    {n:'Blaue-Zone-Abo', g:'leistung', d:'Der höchste Anteil an Matches ganz ohne Kill. Dabeisein ist alles.',
      v:t=>t.zero/t.m*100, fmt:v=>pct(v)+' der Matches ohne Kill'},
-    {n:'Der Kartenleser', d:'Kommt weit, ohne jemanden zu treffen. Nennt man auch: gut versteckt.',
-     v:t=>t.zero>=3 ? 100-(t.zeroPlace/t.zero) : -1, fmt:v=>'Ø Platz '+f(100-v,1)+' ohne einen Kill'},
-    {n:'Sofa-Camper', d:'Lebt lange, richtet wenig an. Der Busch ist ein sicherer Ort.',
-     v:t=>t.surv? -(t.dmg/t.surv) : -1e9, fmt:v=>f(-v,1)+' Schaden pro Minute'},
-    {n:'Die Abrissbirne', d:'Macht in der kürzesten Zeit den meisten Schaden. Subtilität war noch nie das Ding.',
-     v:t=>t.surv? t.dmg/t.surv : 0, fmt:v=>f(v,1)+' Schaden pro Minute'},
-    {n:'Der Aufräumer', d:'Meiste Kills pro Match. Zahlt dafür meistens mit einer frühen Rückkehr in die Lobby.',
+    {n:'Der Kartenleser', g:'leistung', d:'Kommt weit, ohne jemanden zu treffen. Nennt man auch: gut versteckt.',
+     v:t=>t.zero>=3 ? 100-(t.zeroPlace/t.zero) : null, fmt:v=>'Ø Platz '+f(100-v,1)+' ohne einen Kill'},
+    {n:'Sofa-Camper', g:'leistung', d:'Lebt lange, richtet wenig an. Der Busch ist ein sicherer Ort.',
+     v:t=>t.surv>0 ? -(t.dmg/t.surv) : null, fmt:v=>f(-v,1)+' Schaden pro Minute'},
+    {n:'Die Abrissbirne', g:'leistung', d:'Macht in der kürzesten Zeit den meisten Schaden. Subtilität war noch nie das Ding.',
+     v:t=>t.surv? t.dmg/t.surv : null, fmt:v=>f(v,1)+' Schaden pro Minute'},
+    {n:'Der Aufräumer', g:'leistung', d:'Meiste Kills pro Match. Zahlt dafür meistens mit einer frühen Rückkehr in die Lobby.',
      v:t=>t.k/t.m, fmt:v=>f(v,2)+' Kills pro Match'},
-    {n:'Der Scharfschütze', d:'Der weiteste Treffer im ganzen Clan. Einmal Glück ist auch Können.',
+    {n:'Der Scharfschütze', g:'zielen', d:'Der weiteste Treffer im Zeitraum. Einmal Glück ist auch Können.',
      v:t=>t.longest, fmt:v=>f(v,0)+' m'},
-    {n:'Der Kopfjäger', d:'Zielt konsequent nach oben. Helme sind bei ihm eine Empfehlung, keine Garantie.',
-     v:t=>t.k? t.hs/t.k*100 : 0, fmt:v=>pct(v)+' Kopfschussquote'},
-    {n:'Der Dauergast', d:'Die meisten Matches. Schlafen wird überbewertet.',
-     v:t=>t.m, fmt:v=>f(v)+' Matches'}
+    {n:'Der Kopfjäger', g:'zielen', d:'Zielt konsequent nach oben. Helme sind bei ihm eine Empfehlung, keine Garantie.',
+     v:t=>t.k>=5 ? t.hs/t.k*100 : null, fmt:v=>pct(v)+' Kopfschussquote'},
+    {n:'Der Türsteher', g:'zielen', d:'Schlägt an wie kein Zweiter. Ob daraus ein Kill wird, ist dann Teamsache.',
+     v:t=>t.kn/t.m, fmt:v=>f(v,2)+' Knocks pro Match'},
+    {n:'Der Vollstrecker', g:'zielen', d:'Holt die meisten Kills je eigenem Knock. Über 1 heißt: er finisht auch, was andere angeschlagen haben.',
+     v:t=>t.kn>=5 ? t.k/t.kn : null, fmt:v=>f(v,2)+' Kills je eigenem Knock'},
+    {n:'Der Marathonmann', g:'ausdauer', d:'Überlebt anteilig am längsten. Ob durch Können oder Geduld, verrät die Zahl nicht.',
+     v:t=>t.dauer? t.surv/t.dauer*100 : null, fmt:v=>pct(v)+' der Matchdauer überlebt'},
+    {n:'Der Sprinter', g:'ausdauer', d:'Ist am schnellsten wieder in der Lobby. Der Flugzeugabsprung ist sein Lieblingsmoment.',
+     v:t=>t.m>=5 ? -(t.surv/t.m) : null, fmt:v=>f(-v,1)+' Minuten im Schnitt'},
+    {n:'Die Nachteule', g:'ausdauer', d:'Spielt, wenn andere schlafen. Zwischen Mitternacht und fünf gehört die Insel ihm.',
+     v:t=>t.nacht>0 ? t.nacht/t.m*100 : null, fmt:v=>pct(v)+' der Matches nach Mitternacht'},
+    {n:'Der Dauergast', g:'ausdauer', d:'Die meisten Matches im Zeitraum. Schlafen wird überbewertet.',
+     v:t=>t.m, fmt:v=>f(v)+' Matches'},
+    {n:'Der Rammbock', g:'chaos', d:'Löst Probleme mit der Stoßstange. Munition sparen ist auch eine Taktik.',
+     v:t=>t.road>0 ? t.road : null, fmt:v=>f(v)+' Roadkills'},
+    {n:'Der Schrottplatz', g:'chaos', d:'Hinterlässt mehr Fahrzeugwracks als die Blaue Zone. Fahren kann er trotzdem.',
+     v:t=>t.veh>0 ? t.veh : null, fmt:v=>f(v)+' Fahrzeuge zerstört'},
+    {n:'Friendly Fire', g:'chaos', d:'Trifft gelegentlich die falsche Seite. Kommt vor, soll aber nicht einreißen.',
+     v:t=>t.tk>0 ? t.tk : null, fmt:v=>f(v)+' Teamkills'},
+    {n:'Der Lastenträger', g:'chaos', d:'Trägt den größten Anteil am Teamschaden. Die anderen dürfen sich bedanken.',
+     v:t=>t.teamMatches>=3 ? t.share*100 : null, fmt:v=>pct(v)+' des Teamschadens'}
   ];
 
-  function renderTitles(){
-    const st = playerStats();
-    const eligible = Object.entries(st).filter(([,t])=>t.m>=MIN_MATCHES);
-    if(!eligible.length){ $('titles').innerHTML =
-      '<p class="dim" style="grid-column:1/-1">Noch zu wenig Matches für die Titelvergabe.</p>'; return; }
-    $('titles').innerHTML = TITEL.map(T=>{
+  const TITEL_GRUPPEN = {fahren:'Unterwegs', support:'Für das Team', leistung:'Im Kampf',
+                         zielen:'Am Abzug', ausdauer:'Durchhalten', chaos:'Kollateralschäden'};
+
+  function titelVergabe(liste, minM){
+    const st = playerStats(liste);
+    const eligible = Object.entries(st).filter(([,t])=>t.m>=minM);
+    if(!eligible.length) return null;
+    const out = [];
+    TITEL.forEach(T=>{
       let best=null;
-      eligible.forEach(([p,t])=>{ const v=T.v(t); if(v>-1e8 && v!==-1 && (best===null||v>best.v)) best={p,v}; });
-      if(!best) return '';
-      return `<div class="title"><div class="tn">${T.n}</div>
-        <div class="tw">${best.p}</div><div class="tv">${T.fmt(best.v)}</div>
-        <div class="td">${T.d}</div></div>`;
+      eligible.forEach(([p,t])=>{
+        const v = T.v(t);
+        if(v===null || !isFinite(v)) return;
+        if(best===null || v>best.v) best={p,v};
+      });
+      if(best) out.push({...T, traeger:best.p, wert:best.v});
+    });
+    return out;
+  }
+
+  function renderTitles(){
+    const liste = imFenster(FENSTER, 0);
+    const minM = FENSTER ? 3 : 5;
+    const vergeben = titelVergabe(liste, minM);
+    $('titleBase').textContent = FENSTER_LABEL[FENSTER]+' · ab '+minM+' Matches';
+
+    if(!vergeben || !vergeben.length){
+      $('titles').innerHTML = '<p class="dim" style="grid-column:1/-1">In diesem Zeitraum gibt es zu wenig Matches für die Titelvergabe.</p>';
+      $('titleCount').innerHTML = ''; return;
+    }
+
+    // Vorperiode, um Titelwechsel zu markieren
+    let vorher = {};
+    if(FENSTER){
+      const v = titelVergabe(imFenster(FENSTER,1), minM);
+      if(v) v.forEach(x=>vorher[x.n]=x.traeger);
+    }
+
+    const gruppen = {};
+    vergeben.forEach(T=>(gruppen[T.g]=gruppen[T.g]||[]).push(T));
+
+    $('titles').innerHTML = Object.entries(gruppen).map(([g,list])=>
+      `<div class="tgroup"><div class="tglabel">${TITEL_GRUPPEN[g]||g}</div>
+        <div class="tgrid">${list.map(T=>{
+          const neu = FENSTER && Object.keys(vorher).length && vorher[T.n] && vorher[T.n]!==T.traeger;
+          return `<div class="title${neu?' neu':''}">
+            <div class="tn">${T.n}${neu?'<span class="tnew">neu</span>':''}</div>
+            <div class="tw">${T.traeger}</div>
+            <div class="tv">${T.fmt(T.wert)}</div>
+            <div class="td">${T.d}</div>
+            ${neu?`<div class="tprev">vorher ${vorher[T.n]}</div>`:''}
+          </div>`;
+        }).join('')}</div></div>`).join('');
+
+    // Wer hat wie viele Titel?
+    const zaehler = {};
+    vergeben.forEach(T=>zaehler[T.traeger]=(zaehler[T.traeger]||0)+1);
+    const rang = Object.entries(zaehler).sort((a,b)=>b[1]-a[1]);
+    const max = rang.length ? rang[0][1] : 1;
+    $('titleCount').innerHTML = rang.map(([p,n])=>
+      `<div class="tcrow"><span class="tcn">${p}</span>
+        <span class="tcbar"><i style="width:${(n/max*100).toFixed(0)}%"></i></span>
+        <span class="tcv">${n}</span></div>`).join('');
+  }
+
+
+
+  // ------------------------------------------------- Sortierbare Tabellen
+  // Liest die gerenderten Zeilen und sortiert sie im DOM. Zahlen werden aus
+  // der deutschen Schreibweise zurueckgerechnet, damit "1.234,5" richtig sortiert.
+  const zahlAus = txt => {
+    const m = String(txt).replace(/ /g,' ').match(/-?[\d.]+(,\d+)?/);
+    if(!m) return null;
+    const v = parseFloat(m[0].replace(/\./g,'').replace(',','.'));
+    return isFinite(v) ? v : null;
+  };
+
+  function sortierbar(tabelleId){
+    const tb = $(tabelleId); if(!tb) return;
+    tb.querySelectorAll('thead th').forEach((th,i)=>{
+      if(th.dataset.sortReady) return;
+      th.dataset.sortReady = '1';
+      th.tabIndex = 0; th.classList.add('sortable');
+      const los = ()=>{
+        const body = tb.querySelector('tbody');
+        const zeilen = [...body.querySelectorAll('tr')].filter(r=>r.children.length>1);
+        if(zeilen.length<2) return;
+        const war = th.dataset.dir === 'desc';
+        tb.querySelectorAll('thead th').forEach(x=>{ x.dataset.dir=''; x.classList.remove('sorted'); });
+        th.dataset.dir = war ? 'asc' : 'desc';
+        th.classList.add('sorted');
+        const vz = war ? 1 : -1;
+        zeilen.sort((a,b)=>{
+          const av = zahlAus(a.children[i]?.textContent), bv = zahlAus(b.children[i]?.textContent);
+          if(av===null && bv===null)
+            return vz * String(a.children[i]?.textContent||'').localeCompare(String(b.children[i]?.textContent||''),'de');
+          if(av===null) return 1;
+          if(bv===null) return -1;
+          return vz * (av-bv);
+        });
+        // Summenzeilen bleiben unten
+        const summen = [...body.querySelectorAll('tr.sum')];
+        zeilen.forEach(r=>{ if(!r.classList.contains('sum')) body.appendChild(r); });
+        summen.forEach(r=>body.appendChild(r));
+      };
+      th.addEventListener('click', los);
+      th.addEventListener('keydown', e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); los(); }});
+    });
+  }
+
+  function alleSortierbar(){
+    ['board','lineups','maps','wTable'].forEach(sortierbar);
+  }
+
+  // ---------------------------------------------------- Spieler-Detailpanel
+  let DETAIL = null;
+
+  function spielerDetail(name){
+    DETAIL = (DETAIL===name) ? null : name;
+    const box = $('detail');
+    if(!DETAIL){ box.hidden = true; markiereZeilen(); return; }
+
+    const alle = ROWS.filter(r=>r.player===name);
+    const fenster = imFenster(FENSTER,0).filter(r=>r.player===name);
+    if(!alle.length){ box.hidden = true; return; }
+
+    const A = agg(alle), Z = agg(fenster);
+    const titel = (titelVergabe(imFenster(FENSTER,0), FENSTER?3:5)||[]).filter(t=>t.traeger===name);
+    const {st} = rollenDaten(ROWS);          // gesamter Bestand, wie die Kacheln
+    const meine = st[name];
+
+    // Lieblings-Mitspieler: mit wem laeuft es am besten?
+    const paare = {};
+    alle.filter(r=>r.mates.length).forEach(r=>r.mates.forEach(m=>{
+      const q = paare[m] = paare[m] || {n:0,t10:0,ps:0};
+      q.n++; if(r.place<=10) q.t10++; q.ps+=r.place;
+    }));
+    const partner = Object.entries(paare).filter(([,q])=>q.n>=5)
+      .map(([m,q])=>({m,...q,q:q.t10/q.n*100,avg:q.ps/q.n}))
+      .sort((a,b)=>b.q-a.q);
+
+    // Lieblingsmap
+    const maps = {};
+    alle.forEach(r=>{ const q=maps[r.map]=maps[r.map]||{n:0,t10:0}; q.n++; if(r.place<=10) q.t10++; });
+    const mapListe = Object.entries(maps).filter(([,q])=>q.n>=8)
+      .map(([m,q])=>({m,...q,q:q.t10/q.n*100})).sort((a,b)=>b.q-a.q);
+    const topMap = (mapListe.length>=2 && mapListe[0].q-mapListe[mapListe.length-1].q>=8) ? mapListe[0] : null;
+
+    const kachel = (k,v,c)=>`<div class="dcell ${c||''}"><div class="dk">${k}</div><div class="dv">${v}</div></div>`;
+
+    box.hidden = false;
+    box.innerHTML = `
+      <div class="dhead">
+        <div><div class="dlabel">Spielerakte</div><h3>${name}</h3></div>
+        <button class="dclose" aria-label="Schließen">×</button>
+      </div>
+      <div class="dgrid">
+        ${kachel('Matches gesamt', f(A.m))}
+        ${kachel('Im Zeitraum', f(Z.m),'c')}
+        ${kachel('Kills', f(A.k))}
+        ${kachel('K/D', f(A.kd,2),'c')}
+        ${kachel('Ø Schaden', f(A.adr,1))}
+        ${kachel('Siege', f(A.w),'g')}
+        ${kachel('Top-10-Quote', pct(A.t10R))}
+        ${kachel('Kopfschuss', pct(A.hsR))}
+        ${kachel('Bestes Match', f(A.best)+' Kills','g')}
+        ${kachel('Weitester Kill', f(A.longest,0)+' m')}
+        ${kachel('Revives', f(A.rev))}
+        ${kachel('Ø Überlebt', mmss(A.avgSurv))}
+      </div>
+      <div class="drows">
+        ${meine?`<div class="drow"><span>Schadensanteil im Team</span><b>${pct(meine.share*100)}</b></div>`:''}
+        ${meine?`<div class="drow"><span>Runden ohne Kill</span><b>${pct(meine.zeroR*100)}</b></div>`:''}
+        ${topMap?`<div class="drow"><span>Beste Map</span><b>${topMap.m} · ${pct(topMap.q)} Top 10 aus ${f(topMap.n)} Matches</b></div>`:''}
+        ${paarZeile(partner)}
+      </div>
+      ${titel.length?`<div class="dtitel"><span class="dtl">Titel im Zeitraum</span>
+        ${titel.map(t=>`<span class="dtag">${t.n}</span>`).join('')}</div>`
+        :'<div class="dtitel"><span class="dtl">Titel im Zeitraum</span><span class="dim">keiner – im größeren Fenster nachsehen</span></div>'}
+    `;
+    box.querySelector('.dclose').onclick = ()=>{ DETAIL=null; box.hidden=true; markiereZeilen(); };
+    markiereZeilen();
+    if(typeof box.scrollIntoView === 'function'){
+      try{ box.scrollIntoView({behavior:'smooth', block:'nearest'}); }catch(e){}
+    }
+  }
+
+
+  // Paarungen nur dann als stark/schwach bezeichnen, wenn der Abstand das hergibt.
+  // Bei zwei, drei Prozentpunkten ist das Rauschen, kein Befund.
+  function paarZeile(partner){
+    if(!partner.length) return '';
+    const o = partner[0], u = partner[partner.length-1];
+    const liste = partner.map(x=>`${x.m} ${pct(x.q)}`).join(' · ');
+    if(partner.length<2 || (o.q-u.q) < 5)
+      return `<div class="drow"><span>Mit wem zusammen</span><b>${liste}<br>
+        <span class="dim" style="font-size:10px">Top-10-Quote; die Unterschiede sind zu klein für eine Aussage</span></b></div>`;
+    return `<div class="drow"><span>Beste Paarung</span><b>${o.m} · ${pct(o.q)} Top 10 aus ${f(o.n)} Matches</b></div>
+            <div class="drow"><span>Schwächste Paarung</span><b>${u.m} · ${pct(u.q)} Top 10 aus ${f(u.n)} Matches</b></div>`;
+  }
+
+  function markiereZeilen(){
+    document.querySelectorAll('#board tbody tr').forEach(tr=>{
+      const n = tr.children[0]?.textContent.trim();
+      tr.classList.toggle('aktiv', !!DETAIL && n===DETAIL);
+    });
+  }
+
+  function verdrahteSpieler(){
+    document.querySelectorAll('#board tbody tr').forEach(tr=>{
+      if(tr.classList.contains('sum') || tr.dataset.klick) return;
+      tr.dataset.klick='1'; tr.classList.add('klickbar');
+      tr.tabIndex = 0;
+      const n = tr.children[0]?.textContent.trim();
+      const los = ()=>spielerDetail(n);
+      tr.addEventListener('click', los);
+      tr.addEventListener('keydown', e=>{ if(e.key==='Enter'){ e.preventDefault(); los(); }});
+    });
+    markiereZeilen();
+  }
+
+  // ------------------------------------------------------------ Formverlauf
+  // Kleinserien: vier kleine Diagramme statt vier Linien in einem. Bei dieser
+  // Groesse sind uebereinanderliegende Linien nicht lesbar, nebeneinander
+  // liegende Formen schon - die y-Achse ist fuer alle vier gleich skaliert.
+  let FORM_METRIK = 'dmg';
+  const FORM_METRIKEN = {
+    dmg:   {n:'Ø Schaden pro Match',  v:a=>a.m? a.dmg/a.m : 0,  fmt:v=>f(v,0)},
+    kills: {n:'Kills pro Match',      v:a=>a.m? a.k/a.m : 0,    fmt:v=>f(v,2)},
+    kd:    {n:'K/D',                  v:a=>(a.m-a.w)? a.k/(a.m-a.w) : a.k, fmt:v=>f(v,2)},
+    share: {n:'Anteil am Teamschaden', v:a=>a.tm? a.share/a.tm*100 : 0, fmt:v=>pct(v)}
+  };
+
+  function wochenSchluessel(d){
+    const t = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+    const tag = (t.getUTCDay()+6)%7;              // Montag = 0
+    t.setUTCDate(t.getUTCDate()-tag);
+    return t.toISOString().slice(0,10);
+  }
+
+  function formReihen(){
+    const proSpieler = {};
+    const proMatch = {};
+    ROWS.forEach(r=>(proMatch[r.id]=proMatch[r.id]||[]).push(r));
+    ROWS.forEach(r=>{
+      const w = wochenSchluessel(r.ts);
+      const s = proSpieler[r.player] = proSpieler[r.player] || {};
+      const a = s[w] = s[w] || {m:0,k:0,dmg:0,w:0,ps:0,share:0,tm:0};
+      a.m++; a.k+=r.kills; a.dmg+=r.dmg; a.ps+=r.place; if(r.place===1) a.w++;
+      if(r.mates.length){
+        const td = (proMatch[r.id]||[]).reduce((x,y)=>x+y.dmg,0);
+        if(td>0){ a.share += r.dmg/td; a.tm++; }
+      }
+    });
+    const alleWochen = [...new Set(Object.values(proSpieler)
+      .flatMap(s=>Object.keys(s)))].sort();
+    return {proSpieler, alleWochen};
+  }
+
+  function renderForm(){
+    const {proSpieler, alleWochen} = formReihen();
+    const M = FORM_METRIKEN[FORM_METRIK];
+    const namen = Object.keys(proSpieler).sort();
+
+    $('formPick').innerHTML = Object.entries(FORM_METRIKEN).map(([k,v])=>
+      `<button data-m="${k}" aria-pressed="${FORM_METRIK===k}">${v.n}</button>`).join('');
+    $('formPick').querySelectorAll('button').forEach(b=>b.onclick=()=>{
+      FORM_METRIK = b.dataset.m; renderForm();
+    });
+
+    if(alleWochen.length < 3 || !namen.length){
+      $('formGrid').innerHTML = '<p class="dim">Für einen Verlauf braucht es mindestens drei Wochen mit Matches.</p>';
+      $('formNote').textContent = ''; return;
+    }
+
+    // Gemeinsame Skala ueber alle vier, sonst sind die Formen nicht vergleichbar
+    const werte = [];
+    namen.forEach(p=>alleWochen.forEach(w=>{
+      const a = proSpieler[p][w];
+      if(a && a.m>=2) werte.push(M.v(a));
+    }));
+    if(!werte.length){ $('formGrid').innerHTML='<p class="dim">Zu wenig Matches pro Woche.</p>'; return; }
+    const lo = Math.min(...werte), hi = Math.max(...werte);
+    const spanne = (hi-lo) || 1;
+
+    // Clan-Mittel je Woche als Bezugslinie
+    const mittel = {};
+    alleWochen.forEach(w=>{
+      const vs = namen.map(p=>proSpieler[p][w]).filter(a=>a&&a.m>=2).map(M.v);
+      if(vs.length) mittel[w] = vs.reduce((a,b)=>a+b,0)/vs.length;
+    });
+
+    const W=300, H=78, PL=4, PR=4, PT=8, PB=14;
+    const x = i => PL + (alleWochen.length<2?0:i*(W-PL-PR)/(alleWochen.length-1));
+    const y = v => { const n=(v-lo)/spanne; return PT + (1-n)*(H-PT-PB); };
+
+    $('formGrid').innerHTML = namen.map(p=>{
+      const pts = alleWochen.map((w,i)=>{
+        const a = proSpieler[p][w];
+        return (a && a.m>=2) ? {i, w, v:M.v(a), m:a.m} : null;
+      }).filter(Boolean);
+      if(pts.length<2) return `<div class="fcard"><div class="fname">${p}</div>
+        <div class="dim" style="font-size:10px;padding:18px 0">zu wenig Wochen mit Matches</div></div>`;
+
+      const d = pts.map((q,j)=>(j?'L':'M')+x(q.i).toFixed(1)+' '+y(q.v).toFixed(1)).join(' ');
+      const mpts = alleWochen.map((w,i)=>mittel[w]!==undefined?{i,v:mittel[w]}:null).filter(Boolean);
+      const md = mpts.map((q,j)=>(j?'L':'M')+x(q.i).toFixed(1)+' '+y(q.v).toFixed(1)).join(' ');
+
+      const letzte = pts[pts.length-1], erste = pts[0];
+      const delta = letzte.v - erste.v;
+      const besser = delta > 0;
+      const punkte = pts.map(q=>
+        `<circle cx="${x(q.i).toFixed(1)}" cy="${y(q.v).toFixed(1)}" r="${q===letzte?3.5:2.2}"
+           fill="var(--cyan)" stroke="var(--panel)" stroke-width="2"><title>Woche ab ${new Date(q.w).toLocaleDateString('de-DE')}: ${M.fmt(q.v)} (${q.m} Matches)</title></circle>`).join('');
+
+      return `<div class="fcard">
+        <div class="fhead"><span class="fname">${p}</span>
+          <span class="fval">${M.fmt(letzte.v)}
+            <em class="${besser?'up':'down'}">${besser?'▲':'▼'} ${M.fmt(Math.abs(delta))}</em></span></div>
+        <svg viewBox="0 0 ${W} ${H}" class="fsvg" role="img"
+             aria-label="${p}: ${M.n} je Woche, zuletzt ${M.fmt(letzte.v)}">
+          <path d="${md}" fill="none" stroke="var(--gold)" stroke-width="2"
+                stroke-dasharray="3 3" opacity=".55"/>
+          <path d="${d}" fill="none" stroke="var(--cyan)" stroke-width="2"
+                stroke-linejoin="round" stroke-linecap="round"/>
+          ${punkte}
+        </svg>
+        <div class="ffoot">${pts.length} Wochen · <span class="gold">— — Clan-Mittel</span></div>
+      </div>`;
     }).join('');
+
+    $('formNote').innerHTML =
+      `Durchgezogen der Spieler, gestrichelt das Clan-Mittel derselben Woche. Alle vier Bilder haben
+       dieselbe Skala, die Höhen sind also direkt vergleichbar. Wochen mit weniger als zwei Matches
+       bleiben leer – ein einzelnes Match sagt über eine Woche nichts.
+       Der Pfeil vergleicht die erste erfasste Woche mit der letzten.`;
   }
 
   // ------------------------------------------------------------------ Sessions
@@ -851,13 +1433,13 @@
       if(erstesMal) fail('Die CSV ist noch leer','Sobald der erste Sync gelaufen ist, erscheinen hier die Auswertungen.');
       return false;
     }
-    ROWS = raw.map(normalise).filter(r=>r.place>0 && !isNaN(r.ts));
+    ROWS = raw.map(normalise).filter(istBattleRoyale);
     const newest = ROWS.reduce((a,b)=>a.ts>b.ts?a:b).ts;
     $('stamp').textContent = 'Letztes Match: '+newest.toLocaleString('de-DE',{dateStyle:'medium',timeStyle:'short'});
     $('filters').hidden = false; $('content').hidden = false;
     $('msg').hidden = true;
-    if(erstesMal) buildChips();
-    render(); renderRoles(); renderTitles(); renderSessions(); renderHours();
+    if(erstesMal){ buildChips(); renderFensterPick(); }
+    render(); renderRoles(); renderTitles(); renderSessions(); renderHours(); renderForm();
     return true;
   }
 
