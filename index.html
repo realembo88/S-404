@@ -149,6 +149,33 @@
         background:var(--panel2);border:1px solid var(--line);color:var(--gold);padding:3px 9px}
 
 
+
+  /* Video eintragen */
+  .feedadd{background:none;border:1px solid var(--line);color:var(--muted);font-family:var(--mono);
+           font-size:11px;line-height:1;padding:2px 7px;margin-left:7px;cursor:pointer;vertical-align:middle}
+  .feedadd:hover{color:var(--gold);border-color:var(--gold)}
+  .feedadd:focus-visible{outline:2px solid var(--cyan);outline-offset:1px}
+  .vadd{grid-column:1/-1;background:var(--panel2);border:1px solid var(--line);padding:11px 12px 12px;
+        margin-top:9px;text-transform:none;letter-spacing:normal}
+  .vadd *{text-transform:none}
+  .vadd .vaL,.vadd .vaBtn{text-transform:uppercase}
+  .vaL{display:block;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:5px}
+  .vaRow{display:flex;gap:7px;flex-wrap:wrap}
+  .vaRow input{flex:1;min-width:190px;background:var(--bg);border:1px solid var(--line);color:var(--sand);
+               font-family:var(--mono);font-size:12px;padding:7px 9px}
+  .vaRow input:focus{outline:none;border-color:var(--cyan)}
+  .vaRow input.bad{border-color:var(--red)}
+  .vaBtn{font-family:var(--disp);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+         background:var(--gold);border:none;color:#15180F;padding:7px 15px;cursor:pointer;white-space:nowrap}
+  .vaBtn:disabled{background:var(--line);color:var(--muted);cursor:not-allowed}
+  .vaBtn:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+  .vaOut{display:block;background:var(--bg);border:1px solid var(--line-soft);padding:8px 9px;margin-top:8px;
+         font-family:var(--mono);font-size:11px;color:var(--cyan);word-break:break-all;line-height:1.5}
+  .vaFoot{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:7px;font-size:10px}
+  .vaHint{color:var(--muted);letter-spacing:.04em}
+  .vaOpen{color:var(--gold);text-decoration:none;letter-spacing:.06em;white-space:nowrap}
+  .vaOpen:hover{text-decoration:underline}
+
   /* Videos */
   .vgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
   .vcard{display:flex;gap:11px;align-items:center;background:var(--panel);border:1px solid var(--line-soft);
@@ -625,7 +652,7 @@
       return `<div class="row ${win?'win':''}">
         <div class="plc">${win?'🍗':'#'+r.place}<span>${win?'PLATZ 1':'VON '+r.field}</span></div>
         <div>
-          <div class="who">${r.player}<em>${r.mode?r.mode[0].toUpperCase()+r.mode.slice(1):''} ${r.persp} · ${r.map} · ${r.ts.toLocaleDateString('de-DE')}</em>${videoKnopf(r.id)}</div>
+          <div class="who">${r.player}<em>${r.mode?r.mode[0].toUpperCase()+r.mode.slice(1):''} ${r.persp} · ${r.map} · ${r.ts.toLocaleDateString('de-DE')}</em>${videoKnopf(r.id, r.player)}</div>
           <div class="zone"><i style="width:${(share*100).toFixed(1)}%"></i></div>
         </div>
         <div class="nums">
@@ -638,6 +665,9 @@
     // Tabellen werden bei jedem Rendern neu aufgebaut - Sortierung und
     // Klickziele muessen danach erneut gesetzt werden.
     if(typeof alleSortierbar === 'function'){ alleSortierbar(); verdrahteSpieler(); }
+    document.querySelectorAll('#feed .feedadd').forEach(b=>{
+      b.onclick = e => { e.stopPropagation(); videoDialog(b.dataset.mid, b.dataset.sp, b); };
+    });
   }
 
 
@@ -1115,10 +1145,95 @@
   }
 
 
-  function videoKnopf(matchId){
+  const REPO_EDIT = 'https://github.com/realembo88/S-404/edit/main/videos.txt';
+
+  // Baut die fertige videos.txt-Zeile aus den Matchdaten. Die Killzahl des
+  // zuerst genannten Spielers ist immer dabei - damit ist jede Zeile
+  // eindeutig und landet garantiert nicht unter "Nicht zugeordnet".
+  function videoZeile(matchId, ichZuerst, url){
+    const zeilen = ROWS.filter(r=>r.id===matchId);
+    if(!zeilen.length) return '';
+    const r0 = zeilen[0];
+    const d = r0.ts.getFullYear().toString()
+            + String(r0.ts.getMonth()+1).padStart(2,'0')
+            + String(r0.ts.getDate()).padStart(2,'0');
+    const andere = zeilen.map(z=>z.player).filter(n=>n!==ichZuerst)
+                         .sort((a,b)=>a.localeCompare(b,'de'));
+    const wer = [ichZuerst, ...andere].map(n=>n.toLowerCase());
+    const meine = zeilen.find(z=>z.player===ichZuerst);
+    const k = meine ? meine.kills : 0;
+    return `${url || '<LINK>'}  ${d} ${r0.map} #${r0.place} (${k}K) - ${wer.join(', ')}`;
+  }
+
+  function videoDialogSchliessen(){
+    document.querySelectorAll('.vadd').forEach(x=>x.remove());
+  }
+
+  function videoDialog(matchId, spieler, ankerEl){
+    const ziel = ankerEl.closest('.row') || ankerEl.parentElement;
+    const schonOffen = ziel.querySelector('.vadd');
+    videoDialogSchliessen();
+    if(schonOffen) return;
+
+    const box = document.createElement('div');
+    box.className = 'vadd';
+    box.innerHTML = `
+      <label class="vaL" for="vaUrl">YouTube-Link einfügen</label>
+      <div class="vaRow">
+        <input id="vaUrl" type="url" placeholder="https://youtu.be/..." autocomplete="off" spellcheck="false">
+        <button class="vaBtn" data-do="copy" disabled>Zeile kopieren</button>
+      </div>
+      <code class="vaOut"></code>
+      <div class="vaFoot">
+        <span class="vaHint">Zeile kopieren, dann unten einfügen und speichern.</span>
+        <a class="vaOpen" href="${REPO_EDIT}" target="_blank" rel="noopener">videos.txt öffnen ↗</a>
+      </div>`;
+    ziel.appendChild(box);
+
+    const inp = box.querySelector('#vaUrl');
+    const out = box.querySelector('.vaOut');
+    const btn = box.querySelector('.vaBtn');
+    const hint = box.querySelector('.vaHint');
+
+    const neu = () => {
+      const url = inp.value.trim();
+      const id = videoId(url);
+      const gueltig = !!id;
+      out.textContent = videoZeile(matchId, spieler, gueltig ? url : '');
+      btn.disabled = !gueltig;
+      inp.classList.toggle('bad', url.length>0 && !gueltig);
+      hint.textContent = url.length && !gueltig
+        ? 'Das sieht nicht nach einer YouTube-Adresse aus.'
+        : 'Zeile kopieren, dann unten einfügen und speichern.';
+    };
+    inp.addEventListener('input', neu);
+    neu();
+
+    btn.addEventListener('click', async ()=>{
+      const text = out.textContent;
+      let ok = false;
+      try { await navigator.clipboard.writeText(text); ok = true; } catch(e){}
+      if(!ok){
+        // Ohne Zwischenablage-Rechte: Text markieren, dann reicht Strg+C
+        const r = document.createRange(); r.selectNodeContents(out);
+        const sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(r);
+        hint.textContent = 'Markiert – mit Strg+C kopieren.';
+      } else {
+        btn.textContent = 'Kopiert ✓';
+        hint.textContent = 'Jetzt videos.txt öffnen, ans Ende einfügen, Commit.';
+        setTimeout(()=>{ btn.textContent = 'Zeile kopieren'; }, 2500);
+      }
+    });
+
+    inp.focus();
+  }
+
+  function videoKnopf(matchId, spieler){
     const v = VIDEOS.find(x=>x.match.id===matchId);
-    return v ? `<a class="feedplay" href="https://www.youtube.com/watch?v=${v.vid}" target="_blank"
-                   rel="noopener" title="Video ansehen" aria-label="Video zu diesem Match">▶</a>` : '';
+    if(v) return `<a class="feedplay" href="https://www.youtube.com/watch?v=${v.vid}" target="_blank"
+                   rel="noopener" title="Video ansehen" aria-label="Video zu diesem Match">▶</a>`;
+    return `<button class="feedadd" data-mid="${matchId}" data-sp="${spieler}"
+              title="Video zu diesem Match eintragen" aria-label="Video eintragen">+</button>`;
   }
 
   function renderVideos(){
