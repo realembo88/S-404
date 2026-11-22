@@ -1,0 +1,96 @@
+name: Video eintragen
+
+# Ein Issue mit einer Videozeile wird in videos.txt uebernommen und
+# anschliessend geschlossen.
+#
+# Wichtig: In einem oeffentlichen Repository kann jeder ein Issue anlegen.
+# Deshalb laeuft der Job nur fuer Leute mit Schreibrecht, und das Skript
+# baut die Zeile aus geprueften Bestandteilen neu zusammen, statt den
+# Issue-Text zu uebernehmen.
+
+on:
+  issues:
+    types: [opened, reopened]
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: video-eintragen
+  cancel-in-progress: false
+
+jobs:
+  eintragen:
+    if: >-
+      contains(github.event.issue.labels.*.name, 'video') &&
+      contains(fromJSON('["OWNER","MEMBER","COLLABORATOR"]'), github.event.issue.author_association)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Repository auschecken
+        uses: actions/checkout@v4
+
+      - name: Python einrichten
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Issue-Text in eine Datei schreiben
+        env:
+          BODY: ${{ github.event.issue.body }}
+        run: printf '%s' "$BODY" > /tmp/issue.txt
+
+      - name: Zeile pruefen und eintragen
+        id: eintrag
+        run: python3 scripts/video_aus_issue.py /tmp/issue.txt
+
+      - name: Aenderung committen
+        if: steps.eintrag.outputs.status == 'ok'
+        run: |
+          if [ -z "$(git status --porcelain videos.txt)" ]; then
+            echo "Nichts veraendert."
+            exit 0
+          fi
+          git config user.name  "PUBG Sync Bot"
+          git config user.email "actions@github.com"
+          git add videos.txt
+          git commit -m "Video aus #${{ github.event.issue.number }}"
+          git pull --rebase --autostash origin "${GITHUB_REF_NAME}" || true
+          git push
+
+      - name: Issue beantworten und schliessen
+        env:
+          GH_TOKEN: ${{ github.token }}
+          NR: ${{ github.event.issue.number }}
+          STATUS: ${{ steps.eintrag.outputs.status }}
+          MELDUNG: ${{ steps.eintrag.outputs.meldung }}
+        run: |
+          if [ "$STATUS" = "ok" ]; then
+            printf '%s\n\nDie Seite zeigt das Video nach dem naechsten Aufbau an.\n' "$MELDUNG" \
+              | gh issue comment "$NR" --body-file -
+            gh issue close "$NR"
+          else
+            printf '%s\n\nIch habe nichts eingetragen. Korrigiere die Zeile und oeffne das Issue neu.\n' "$MELDUNG" \
+              | gh issue comment "$NR" --body-file -
+            gh issue close "$NR" --reason "not planned"
+          fi
+
+  abgelehnt:
+    # Laeuft nur, wenn jemand ohne Schreibrecht ein Video-Issue anlegt.
+    if: >-
+      contains(github.event.issue.labels.*.name, 'video') &&
+      !contains(fromJSON('["OWNER","MEMBER","COLLABORATOR"]'), github.event.issue.author_association)
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - name: Hinweis hinterlassen
+        env:
+          GH_TOKEN: ${{ github.token }}
+          NR: ${{ github.event.issue.number }}
+          REPO: ${{ github.repository }}
+        run: |
+          gh issue comment "$NR" --repo "$REPO" --body \
+            "Videos koennen nur Mitglieder des Clans eintragen, die Schreibrecht auf dieses Repository haben."
+          gh issue close "$NR" --repo "$REPO" --reason "not planned"

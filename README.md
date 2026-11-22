@@ -11,7 +11,9 @@ und zeigt sie als Webseite an.
 | `.github/workflows/pubg-sync.yml` | Startet das Skript alle 6 Stunden automatisch |
 | `index.html` | Die Auswertung – liest die CSV und rechnet alles im Browser |
 | `pubg_matches.csv` | Der Datenbestand. Entsteht beim ersten Lauf. |
-| `videos.txt` | YouTube-Links zu einzelnen Matches, von Hand gepflegt |
+| `videos.txt` | YouTube-Links zu einzelnen Matches |
+| `.github/workflows/video-eintragen.yml` | Trägt Videos aus einem Issue in `videos.txt` ein |
+| `scripts/video_aus_issue.py` | Prüft die Zeile aus dem Issue und schreibt sie |
 
 ## Einrichtung
 
@@ -59,6 +61,19 @@ Video: erst der YouTube-Link, dann der Videotitel. Bewusst von Hand statt
 über die YouTube-API — unlisted Videos gibt ein einfacher API-Schlüssel nicht
 heraus, und OAuth wäre für ein paar Links im Monat unverhältnismäßig.
 
+### Der bequeme Weg
+
+Auf der Seite im Einsatzprotokoll beim gewünschten Match auf **+** klicken,
+YouTube-Link einfügen, **Speichern** drücken. Es öffnet sich ein
+vorausgefülltes GitHub-Issue; nach dem Absenden trägt eine Action die Zeile
+ein, schließt das Issue und kommentiert das Ergebnis. Nach dem nächsten
+Seitenaufbau ist das Video verknüpft.
+
+Daneben steht **von Hand** — das kopiert die fertige Zeile und öffnet
+`videos.txt` im Editor, falls man lieber selbst committet.
+
+### Das Format
+
 Die Zuordnung zum Match läuft allein über den Titel:
 
     JJJJMMTT Map #Platz (xK) - spieler1, spieler2
@@ -70,3 +85,21 @@ erscheint im Abschnitt „Videos" unter „Nicht zugeordnet" mit dem Grund.
 
 Hinweis: Das Repository und die Seite sind öffentlich. Dort hinterlegte Links
 zu unlisted Videos sind damit für jeden erreichbar, der die Seite aufruft.
+
+### Warum kein direktes Speichern aus der Seite
+
+GitHub Pages liefert nur Dateien aus, dahinter läuft kein Server. Schreiben
+könnte die Seite nur mit einem Token im Quelltext — und der wäre öffentlich
+lesbar. Der Umweg über ein Issue hält das Schreibrecht bei GitHub.
+
+### Sicherheit
+
+In einem öffentlichen Repository kann jeder ein Issue anlegen. Deshalb:
+
+- Die Action läuft nur für `OWNER`, `MEMBER` und `COLLABORATOR`. Wer kein
+  Schreibrecht hat, bekommt einen Hinweis und das Issue wird geschlossen.
+- `scripts/video_aus_issue.py` übernimmt den Issue-Text **nicht**, sondern
+  baut die Zeile aus geprüften Bestandteilen neu zusammen: Video-ID, Datum,
+  bekannte Map, Platz 1–100, plausible Spielernamen. Alles andere fällt weg.
+- Bereits eingetragene Video-IDs werden abgelehnt.
+- Die Seite maskiert jeden Text aus `videos.txt`, bevor er angezeigt wird.

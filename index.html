@@ -176,6 +176,12 @@
   .vaOpen{color:var(--gold);text-decoration:none;letter-spacing:.06em;white-space:nowrap}
   .vaOpen:hover{text-decoration:underline}
 
+
+  .vaLinks{display:flex;gap:14px;flex-wrap:wrap}
+  .vaSave[aria-disabled="true"]{color:var(--muted);pointer-events:none}
+  .vaAlt{color:var(--muted)}
+  .vaAlt:hover{color:var(--sand-dim)}
+
   /* Videos */
   .vgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
   .vcard{display:flex;gap:11px;align-items:center;background:var(--panel);border:1px solid var(--line-soft);
@@ -1053,6 +1059,14 @@
   // Die Links pflegt ihr von Hand in videos.txt. Bewusst ohne YouTube-API:
   // unlisted Videos gibt ein einfacher API-Schluessel nicht heraus, und OAuth
   // waere fuer eine Handvoll Links im Monat unverhaeltnismaessig.
+
+  // Alles, was aus videos.txt kommt, ist Fremdtext und wird maskiert, bevor
+  // es in innerHTML landet. Sonst wuerde eine Zeile wie
+  //   https://youtu.be/x  <img src=q onerror=...>
+  // auf der Seite ausgefuehrt.
+  const esc = v => String(v==null?'':v).replace(/[&<>"']/g,
+    c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
   let VIDEOS = [], VID_OFFEN = [];
 
   const MAP_ZU_ROH = {
@@ -1067,7 +1081,8 @@
 
   function videoId(url){
     const m = String(url).match(/(?:youtu\.be\/|v=|embed\/|shorts\/)([A-Za-z0-9_-]{11})/);
-    return m ? m[1] : null;
+    // Nur die 11 Zeichen der ID weitergeben - sie landet in einem href
+    return m && /^[A-Za-z0-9_-]{11}$/.test(m[1]) ? m[1] : null;
   }
 
   function titelLesen(titel){
@@ -1146,6 +1161,23 @@
 
 
   const REPO_EDIT = 'https://github.com/realembo88/S-404/edit/main/videos.txt';
+  const REPO_ISSUE = 'https://github.com/realembo88/S-404/issues/new';
+
+  function issueLink(zeile){
+    const body = [
+      'Diese Zeile soll in videos.txt eingetragen werden.',
+      'Alles ausserhalb des Codeblocks wird ignoriert.',
+      '',
+      '```',
+      zeile,
+      '```'
+    ].join('\n');
+    return REPO_ISSUE
+      + '?labels=' + encodeURIComponent('video')
+      + '&title='  + encodeURIComponent('Video eintragen')
+      + '&body='   + encodeURIComponent(body);
+  }
+
 
   // Baut die fertige videos.txt-Zeile aus den Matchdaten. Die Killzahl des
   // zuerst genannten Spielers ist immer dabei - damit ist jede Zeile
@@ -1185,26 +1217,34 @@
       </div>
       <code class="vaOut"></code>
       <div class="vaFoot">
-        <span class="vaHint">Zeile kopieren, dann unten einfügen und speichern.</span>
-        <a class="vaOpen" href="${REPO_EDIT}" target="_blank" rel="noopener">videos.txt öffnen ↗</a>
+        <span class="vaHint">Link einfügen, dann speichern – den Rest erledigt GitHub.</span>
+        <span class="vaLinks">
+          <a class="vaOpen vaSave" href="#" target="_blank" rel="noopener">Speichern ↗</a>
+          <a class="vaOpen vaAlt" href="${REPO_EDIT}" target="_blank" rel="noopener">von Hand ↗</a>
+        </span>
       </div>`;
     ziel.appendChild(box);
 
-    const inp = box.querySelector('#vaUrl');
-    const out = box.querySelector('.vaOut');
-    const btn = box.querySelector('.vaBtn');
+    const inp  = box.querySelector('#vaUrl');
+    const out  = box.querySelector('.vaOut');
+    const btn  = box.querySelector('.vaBtn');
     const hint = box.querySelector('.vaHint');
+    const save = box.querySelector('.vaSave');
 
     const neu = () => {
       const url = inp.value.trim();
       const id = videoId(url);
       const gueltig = !!id;
-      out.textContent = videoZeile(matchId, spieler, gueltig ? url : '');
+      const zeile = videoZeile(matchId, spieler, gueltig ? url : '');
+      out.textContent = zeile;
       btn.disabled = !gueltig;
+      save.setAttribute('aria-disabled', String(!gueltig));
+      if(gueltig){ save.href = issueLink(zeile); }
+      else { save.removeAttribute('href'); }
       inp.classList.toggle('bad', url.length>0 && !gueltig);
       hint.textContent = url.length && !gueltig
         ? 'Das sieht nicht nach einer YouTube-Adresse aus.'
-        : 'Zeile kopieren, dann unten einfügen und speichern.';
+        : 'Link einfügen, dann speichern – den Rest erledigt GitHub.';
     };
     inp.addEventListener('input', neu);
     neu();
@@ -1220,7 +1260,7 @@
         hint.textContent = 'Markiert – mit Strg+C kopieren.';
       } else {
         btn.textContent = 'Kopiert ✓';
-        hint.textContent = 'Jetzt videos.txt öffnen, ans Ende einfügen, Commit.';
+        hint.textContent = 'Kopiert. Du kannst stattdessen auch einfach auf Speichern klicken.';
         setTimeout(()=>{ btn.textContent = 'Zeile kopieren'; }, 2500);
       }
     });
@@ -1251,17 +1291,17 @@
                    target="_blank" rel="noopener">
           <span class="vplay" aria-hidden="true">▶</span>
           <span class="vmeta">
-            <span class="vtitel">${m.map} · ${win?'Platz 1':'Platz '+m.place}</span>
+            <span class="vtitel">${esc(m.map)} · ${win?'Platz 1':'Platz '+m.place}</span>
             <span class="vsub">${m.ts.toLocaleDateString('de-DE',{weekday:'short',day:'2-digit',month:'2-digit'})}
-              · ${v.wer.join(', ')} · ${f(kills)} ${kills===1?'Kill':'Kills'} im Team</span>
+              · ${esc(v.wer.join(', '))} · ${f(kills)} ${kills===1?'Kill':'Kills'} im Team</span>
           </span></a>`;
       }).join('') : '<p class="dim">Noch keine Videos verknüpft.</p>';
 
     $('vidOffen').innerHTML = VID_OFFEN.length
       ? `<div class="voffen"><div class="vol">Nicht zugeordnet</div>${VID_OFFEN.map(o=>
           `<div class="vorow"><span class="vozeile">Zeile ${o.zeile}</span>
-            <span class="votitel">${o.titel.length>70?o.titel.slice(0,70)+'…':o.titel}</span>
-            <span class="vogrund">${o.grund}</span></div>`).join('')}</div>`
+            <span class="votitel">${esc(o.titel.length>70?o.titel.slice(0,70)+'…':o.titel)}</span>
+            <span class="vogrund">${esc(o.grund)}</span></div>`).join('')}</div>`
       : '';
   }
 
